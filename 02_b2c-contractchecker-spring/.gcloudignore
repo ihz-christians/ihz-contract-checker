@@ -1,0 +1,13 @@
+.gcloudignore
+.git
+.gitignore
+.dockerignore
+target/
+.mvn/
+mvnw
+mvnw.cmd
+.env
+.DS_Store
+.idea/
+.vscode/
+*.log

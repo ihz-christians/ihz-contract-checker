@@ -24,7 +24,17 @@ echo "======================================================================"
 echo "    IHZ B2C Platform - Workload Identity Federation (WIF) Setup"
 echo "======================================================================"
 
-# If GITHUB_REPO is empty, prompt the user
+# Auto-detect GitHub Repository from local Git configuration (XP Dynamisierung)
+DETECTED_REPO=$(git config --get remote.origin.url 2>/dev/null || true)
+if [ -n "$DETECTED_REPO" ]; then
+    # Strip potential prefix (https://github.com/ or git@github.com:) and suffix (.git)
+    GITHUB_REPO=$(echo "$DETECTED_REPO" | sed -E 's/.*github\.com[\/:]//' | sed 's/\.git$//')
+    info "Automatisch erkanntes GitHub-Repository: $GITHUB_REPO"
+else
+    GITHUB_REPO=""
+fi
+
+# If auto-detection failed, prompt the user
 if [ -z "$GITHUB_REPO" ]; then
     read -p "Bitte gib dein GitHub-Repository im Format 'owner/repository' ein (z.B. ihrezuhauseberatung/b2c-module): " GITHUB_REPO
 fi
@@ -58,10 +68,12 @@ if gcloud iam workload-identity-pools providers describe "$PROVIDER_NAME" \
     --location="global" &>/dev/null; then
     success "Workload Identity Provider '$PROVIDER_NAME' existiert bereits."
 else
+    # Corrected attribute-mapping and attribute-condition following GCP requirements
     gcloud iam workload-identity-pools providers create-oidc "$PROVIDER_NAME" \
         --workload-identity-pool="$POOL_NAME" \
         --location="global" \
         --attribute-mapping="google.subject=assertion.subject,attribute.actor=assertion.actor,attribute.repository=assertion.repository" \
+        --attribute-condition="assertion.repository != ''" \
         --issuer-uri="https://token.actions.githubusercontent.com" \
         --display-name="GitHub Provider"
     success "Workload Identity Provider '$PROVIDER_NAME' erfolgreich erstellt."

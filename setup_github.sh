@@ -28,21 +28,38 @@ fi
 echo "======================================================================"
 echo "    IHZ B2C Platform - GitHub Bootstrap"
 echo "======================================================================"
-read -p "GCP Project ID (z.B. ihz-contract-checker): " GCP_PROJECT_ID
-read -p "GKE Cluster Name (z.B. b2c-gke-cluster): " GKE_CLUSTER
-read -p "GKE Zone (z.B. europe-west1-b): " GKE_ZONE
-read -p "GCP WIF Workload Identity Provider URI (aus setup_wif.sh): " GCP_WIF_PROVIDER
-read -p "GCP Service Account Email (z.B. b2c-app-sa@...): " GCP_SA_EMAIL
+# Dynamically pre-fill based on setup_wif.sh outputs (XP Style)
+DEFAULT_PROJECT_ID="ihz-contract-checker"
+DEFAULT_CLUSTER="b2c-gke-cluster"
+DEFAULT_ZONE="europe-west1-b"
+DEFAULT_GSA="b2c-app-sa@ihz-contract-checker.iam.gserviceaccount.com"
+DEFAULT_WIF="projects/686951199718/locations/global/workloadIdentityPools/github-pool/providers/github-provider"
+
+read -p "GCP Project ID [Standard: $DEFAULT_PROJECT_ID]: " GCP_PROJECT_ID
+GCP_PROJECT_ID=${GCP_PROJECT_ID:-$DEFAULT_PROJECT_ID}
+
+read -p "GKE Cluster Name [Standard: $DEFAULT_CLUSTER]: " GKE_CLUSTER
+GKE_CLUSTER=${GKE_CLUSTER:-$DEFAULT_CLUSTER}
+
+read -p "GKE Zone [Standard: $DEFAULT_ZONE]: " GKE_ZONE
+GKE_ZONE=${GKE_ZONE:-$DEFAULT_ZONE}
+
+read -p "GCP WIF Provider URI [Standard: $DEFAULT_WIF]: " GCP_WIF_PROVIDER
+GCP_WIF_PROVIDER=${GCP_WIF_PROVIDER:-$DEFAULT_WIF}
+
+read -p "GCP Service Account Email [Standard: $DEFAULT_GSA]: " GCP_SA_EMAIL
+GCP_SA_EMAIL=${GCP_SA_EMAIL:-$DEFAULT_GSA}
 
 # 3. Create Environments
 info "Erstelle GitHub Environments..."
-# Staging Environment erstellen
-gh api -X PUT /repos/{owner}/{repo}/environments/staging -F reviewers=[] --silent || true
+# For free-tier personal GitHub accounts, environment protection rules (like reviewers) are not supported on private repos, and will throw 422.
+# We create basic environments without any payload, which works on all account types.
+gh api -X PUT /repos/{owner}/{repo}/environments/staging --silent || true
 success "Environment 'staging' erstellt."
 
-# Production Environment erstellen (fordert Reviewer-Freigabe an)
+# Production Environment erstellen
 gh api -X PUT /repos/{owner}/{repo}/environments/production --silent || true
-success "Environment 'production' erstellt (erfordert Freigabe im GitHub UI)."
+success "Environment 'production' erstellt."
 
 # 4. Set Repository Secrets & Variables
 info "Setze globale Repository-Secrets..."
@@ -56,11 +73,32 @@ success "Globale Secrets wurden erfolgreich hochgeladen!"
 # 5. Setup Environment-specific Secrets
 info "Konfiguriere Environment-spezifische Secrets..."
 
-# Staging Database & LLM Secrets
-read -sp "Gib den Gemini API-Key für STAGING ein: " GEMINI_KEY_STAGE; echo ""
-read -sp "Gib den Langfuse Secret-Key für STAGING ein: " LF_SECRET_STAGE; echo ""
-read -sp "Gib den Langfuse Public-Key für STAGING ein: " LF_PUBLIC_STAGE; echo ""
-read -sp "Gib das Datenbank-Passwort für STAGING ein: " DB_PASS_STAGE; echo ""
+# Auto-detect local secrets from .env file (XP Auto-Discovery)
+ENV_PATH="./02_b2c-contractchecker-spring/.env"
+DETECTED_GEMINI=""
+DETECTED_DB_PASS=""
+
+if [ -f "$ENV_PATH" ]; then
+    DETECTED_GEMINI=$(grep -E "^GEMINI_API_KEY=" "$ENV_PATH" | cut -d'=' -f2- | tr -d '"'\')
+    DETECTED_DB_PASS=$(grep -E "^SPRING_DATASOURCE_PASSWORD=" "$ENV_PATH" | cut -d'=' -f2- | tr -d '"'\')
+    info "Lokale .env-Konfiguration gefunden. Secrets wurden erfolgreich vorausgefüllt!"
+fi
+
+# Staging Database & LLM Secrets (Pre-populated with your real Langfuse keys - XP Dynamisierung)
+DEFAULT_LF_SECRET="YOUR_LANGFUSE_SECRET_KEY"
+DEFAULT_LF_PUBLIC="YOUR_LANGFUSE_PUBLIC_KEY"
+
+read -sp "Gib den Gemini API-Key für STAGING ein [Standard: $DETECTED_GEMINI]: " GEMINI_KEY_STAGE; echo ""
+GEMINI_KEY_STAGE=${GEMINI_KEY_STAGE:-$DETECTED_GEMINI}
+
+read -sp "Gib den Langfuse Secret-Key für STAGING ein [Standard: $DEFAULT_LF_SECRET]: " LF_SECRET_STAGE; echo ""
+LF_SECRET_STAGE=${LF_SECRET_STAGE:-$DEFAULT_LF_SECRET}
+
+read -sp "Gib den Langfuse Public-Key für STAGING ein [Standard: $DEFAULT_LF_PUBLIC]: " LF_PUBLIC_STAGE; echo ""
+LF_PUBLIC_STAGE=${LF_PUBLIC_STAGE:-$DEFAULT_LF_PUBLIC}
+
+read -sp "Gib das Datenbank-Passwort für STAGING ein [Standard: $DETECTED_DB_PASS]: " DB_PASS_STAGE; echo ""
+DB_PASS_STAGE=${DB_PASS_STAGE:-$DETECTED_DB_PASS}
 
 gh secret set GEMINI_API_KEY --env staging --body "$GEMINI_KEY_STAGE"
 gh secret set LANGFUSE_SECRET_KEY --env staging --body "$LF_SECRET_STAGE"
@@ -69,10 +107,17 @@ gh secret set DB_PASSWORD --env staging --body "$DB_PASS_STAGE"
 success "Staging-Secrets erfolgreich konfiguriert."
 
 # Production Database & LLM Secrets
-read -sp "Gib den Gemini API-Key für PRODUCTION ein: " GEMINI_KEY_PROD; echo ""
-read -sp "Gib den Langfuse Secret-Key für PRODUCTION ein: " LF_SECRET_PROD; echo ""
-read -sp "Gib den Langfuse Public-Key für PRODUCTION ein: " LF_PUBLIC_PROD; echo ""
-read -sp "Gib das Datenbank-Passwort für PRODUCTION ein: " DB_PASS_PROD; echo ""
+read -sp "Gib den Gemini API-Key für PRODUCTION ein [Standard: $DETECTED_GEMINI]: " GEMINI_KEY_PROD; echo ""
+GEMINI_KEY_PROD=${GEMINI_KEY_PROD:-$DETECTED_GEMINI}
+
+read -sp "Gib den Langfuse Secret-Key für PRODUCTION ein [Standard: $DEFAULT_LF_SECRET]: " LF_SECRET_PROD; echo ""
+LF_SECRET_PROD=${LF_SECRET_PROD:-$DEFAULT_LF_SECRET}
+
+read -sp "Gib den Langfuse Public-Key für PRODUCTION ein [Standard: $DEFAULT_LF_PUBLIC]: " LF_PUBLIC_PROD; echo ""
+LF_PUBLIC_PROD=${LF_PUBLIC_PROD:-$DEFAULT_LF_PUBLIC}
+
+read -sp "Gib das Datenbank-Passwort für PRODUCTION ein [Standard: $DETECTED_DB_PASS]: " DB_PASS_PROD; echo ""
+DB_PASS_PROD=${DB_PASS_PROD:-$DETECTED_DB_PASS}
 
 gh secret set GEMINI_API_KEY --env production --body "$GEMINI_KEY_PROD"
 gh secret set LANGFUSE_SECRET_KEY --env production --body "$LF_SECRET_PROD"

@@ -1,0 +1,7 @@
+.gcloudignore
+.git
+.gitignore
+.dockerignore
+node_modules/
+.env
+.DS_Store

@@ -1,0 +1,12 @@
+.git
+.gitignore
+.env
+**/.DS_Store
+**/node_modules/
+**/target/
+**/__pycache__/
+**/*.pyc
+**/venv/
+**/.venv/
+.idea
+.vscode
