@@ -20,41 +20,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # MinIO - Local S3 Compatible Object Storage (Only for Dev)
-  minio:
-    image: minio/minio:latest
-    container_name: cc_minio
-    restart: always
-    environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin123
-    ports:
-      - "9000:9000" # API Port (Hier kommunizieren Java und Python)
-      - "9001:9001" # Web UI Console Port
-    volumes:
-      - cc_minio_data:/data
-    command: server /data --console-address ":9001"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-  # Automatischer Setup-Container: Legt den Bucket "b2c-contracts" direkt beim Start an
-  minio-setup:
-    image: minio/mc:latest
-    container_name: cc_minio_setup
-    depends_on:
-      minio:
-        condition: service_healthy
-    entrypoint: >
-      /bin/sh -c "
-      /usr/bin/mc config host add myminio http://minio:9000 minioadmin minioadmin123;
-      /usr/bin/mc mb myminio/b2c-contracts --ignore-existing;
-      /usr/bin/mc anonymous set private myminio/b2c-contracts;
-      exit 0;
-      "
-
   # Python FastAPI AI Gateway (Dockerized)
   aigateway:
     build:
@@ -66,16 +31,12 @@ services:
       - "8000:8000"
     environment:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - AWS_ACCESS_KEY_ID=minioadmin
-      - AWS_SECRET_ACCESS_KEY=minioadmin123
-      - S3_ENDPOINT_URL=http://minio:9000
-    depends_on:
-      minio:
-        condition: service_healthy
+      # GCS Production environment variables (overridden by docker-compose.dev.yml locally)
+      - AWS_ACCESS_KEY_ID=${GCP_STORAGE_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${GCP_STORAGE_SECRET_ACCESS_KEY}
+      - S3_ENDPOINT_URL=https://storage.googleapis.com
 
 volumes:
   cc_spring_pg_data:
-    driver: local
-  cc_minio_data:
     driver: local
 
