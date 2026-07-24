@@ -9,4 +9,5 @@
 **/venv/
 **/.venv/
 .idea
-.vscode
+.vscode 
+01_kundenbereich-b2c/
