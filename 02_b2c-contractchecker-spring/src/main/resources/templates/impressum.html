@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IhreZuhauseBeratung - Impressum</title>
+    
+    <!-- Premium Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Link to the identical design system CSS variables from React -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: ["class"],
+            theme: {
+                extend: {
+                    colors: {
+                        border: "hsl(var(--border))",
+                        input: "hsl(var(--input))",
+                        ring: "hsl(var(--ring))",
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                        primary: {
+                          DEFAULT: "hsl(var(--primary))",
+                          foreground: "hsl(var(--primary-foreground))",
+                          hover: "hsl(var(--primary-hover))",
+                        },
+                        secondary: {
+                          DEFAULT: "hsl(var(--secondary))",
+                          foreground: "hsl(var(--secondary-foreground))",
+                        },
+                        muted: {
+                          DEFAULT: "hsl(var(--muted))",
+                          foreground: "hsl(var(--muted-foreground))",
+                        },
+                        accent: {
+                          DEFAULT: "hsl(var(--accent))",
+                          foreground: "hsl(var(--accent-foreground))",
+                          primary: "hsl(var(--accent-primary))",
+                          secondary: "hsl(var(--accent-secondary))",
+                        },
+                        card: {
+                          DEFAULT: "hsl(var(--card))",
+                          foreground: "hsl(var(--card-foreground))",
+                          hover: "hsl(var(--card-hover))",
+                        }
+                    },
+                    boxShadow: {
+                        card: "var(--shadow-md)",
+                        "card-hover": "var(--shadow-xl)",
+                    },
+                    borderRadius: {
+                        xl: "var(--radius-xl)",
+                        "2xl": "var(--radius-2xl)",
+                        "3xl": "var(--radius-3xl)",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            font-family: 'Inter', sans-serif !important;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground antialiased flex flex-col min-h-screen">
+
+    <!-- Navigation Header -->
+    <nav class="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between gap-fluid-sm">
+                
+                <!-- Logo -->
+                <a href="/" class="flex items-center gap-2.5 group shrink-0">
+                    <img src="/images/white-logo.png" alt="IhreZuhauseBeratung Logo" class="w-10 h-10 transition-transform group-hover:scale-105" onerror="this.src='/images/logo.png'; this.onerror=null;">
+                    <span class="text-xl font-bold bg-gradient-to-r from-primary to-accent-primary bg-clip-text text-transparent">
+                        IhreZuhauseBeratung
+                    </span>
+                </a>
+
+                <!-- Back button -->
+                <div class="flex items-center gap-3">
+                    <a href="/" class="text-muted-foreground hover:text-foreground text-sm font-bold flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                        <span>Zur Startseite</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content Area -->
+    <main class="flex-1 py-16 px-4 max-w-4xl mx-auto w-full">
+        <div class="bg-card rounded-3xl p-8 md:p-12 border border-border shadow-card space-y-8">
+            
+            <div class="border-b border-border pb-6">
+                <h1 class="text-3xl md:text-4xl font-black tracking-tight text-foreground">Impressum</h1>
+                <p class="text-muted-foreground text-sm mt-2">Gesetzliche Anbieterkennzeichnung nach § 5 TMG</p>
+            </div>
+
+            <!-- Company details -->
+            <section class="space-y-4">
+                <h2 class="text-lg font-bold text-foreground">Dienstanbieter</h2>
+                <div class="text-sm text-muted-foreground leading-relaxed space-y-1">
+                    <p class="font-bold text-foreground text-base">IhreZuhauseBeratung GmbH</p>
+                    <p>Murrstraße 12</p>
+                    <p>90429 Nürnberg</p>
+                    <p>Deutschland</p>
+                </div>
+            </section>
+
+            <!-- Vertretungsberechtigte -->
+            <section class="space-y-4">
+                <h2 class="text-lg font-bold text-foreground">Vertreten durch</h2>
+                <div class="text-sm text-muted-foreground leading-relaxed space-y-1">
+                    <p>Geschäftsführer: Christian Schrainer</p>
+                </div>
+            </section>
+
+            <!-- Kontakt -->
+            <section class="space-y-4">
+                <h2 class="text-lg font-bold text-foreground">Kontaktmöglichkeiten</h2>
+                <div class="text-sm text-muted-foreground leading-relaxed space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="font-semibold text-foreground">Telefon:</span>
+                        <span>+49 (0) 30 1234567-0</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-semibold text-foreground">E-Mail:</span>
+                        <a href="mailto:info@ihrezuhauseberatung.de" class="text-primary hover:underline font-medium">info@ihrezuhauseberatung.de</a>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-semibold text-foreground">Internet:</span>
+                        <a href="https://www.ihrezuhauseberatung.de" target="_blank" class="text-primary hover:underline font-medium">www.ihrezuhauseberatung.de</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Registereintrag -->
+            <section class="space-y-4">
+                <h2 class="text-lg font-bold text-foreground">Registereintrag</h2>
+                <div class="text-sm text-muted-foreground leading-relaxed space-y-1">
+                    <p>Eintragung im Handelsregister.</p>
+                    <p><span class="font-semibold text-foreground">Registergericht:</span> Amtsgericht Nürnberg</p>
+                    <p><span class="font-semibold text-foreground">Registernummer:</span> HRB 44780</p>
+                </div>
+            </section>
+
+            <!-- Umsatzsteuer-ID -->
+            <section class="space-y-4">
+                <h2 class="text-lg font-bold text-foreground">Umsatzsteuer-Identifikationsnummer</h2>
+                <p class="text-sm text-muted-foreground leading-relaxed">
+                    Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br>
+                    <span class="font-mono text-foreground font-semibold">[Wird nachgereicht]</span>
+                </p>
+            </section>
+
+            <!-- Wirtschafts-ID -->
+            <section class="space-y-4">
+                <h2 class="text-lg font-bold text-foreground">Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+                <div class="text-sm text-muted-foreground leading-relaxed space-y-1">
+                    <p>Christian Schrainer</p>
+                    <p>Murrstraße 12</p>
+                    <p>90429 Nürnberg</p>
+                </div>
+            </section>
+
+            <!-- Streitschlichtung -->
+            <section class="space-y-4 border-t border-border pt-6">
+                <h2 class="text-lg font-bold text-foreground">EU-Streitschlichtung</h2>
+                <p class="text-sm text-muted-foreground leading-relaxed">
+                    Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: 
+                    <a href="https://ec.europa.eu/consumers/odr" target="_blank" class="text-primary hover:underline font-medium ml-1">https://ec.europa.eu/consumers/odr</a>.<br>
+                    Unsere E-Mail-Adresse finden Sie oben im Impressum.
+                </p>
+            </section>
+
+            <!-- Verbraucherstreitbeilegung -->
+            <section class="space-y-4">
+                <h2 class="text-lg font-bold text-foreground">Verbraucherstreitbeilegung/Universalschlichtungsstelle</h2>
+                <p class="text-sm text-muted-foreground leading-relaxed">
+                    Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-card border-t border-border">
+        <div class="mx-auto max-w-7xl px-4 py-8">
+            <p class="text-center text-muted-foreground text-xs">
+                © <span th:text="${#calendars.year(#calendars.createNow())}">2026</span> IhreZuhauseBeratung GmbH. Alle Rechte vorbehalten.
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

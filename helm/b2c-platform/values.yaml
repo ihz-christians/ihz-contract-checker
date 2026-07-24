@@ -1,0 +1,158 @@
+global:
+  environment: staging
+  domain: staging.ihrezuhauseberatung.de
+  projectId: your-gcp-project-id
+
+frontend:
+  replicaCount: 2
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 75
+  image:
+    repository: europe-west1-docker.pkg.dev/your-gcp-project-id/b2c-repo/frontend
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 80
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+backend:
+  replicaCount: 2
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+  image:
+    repository: europe-west1-docker.pkg.dev/your-gcp-project-id/b2c-repo/backend
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8080
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+  env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: "prod"
+    - name: GCP_PROJECT_ID
+      value: "your-gcp-project-id"
+
+aigateway:
+  replicaCount: 2
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8
+    targetCPUUtilizationPercentage: 75
+  image:
+    repository: europe-west1-docker.pkg.dev/your-gcp-project-id/b2c-repo/aigateway
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8000
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+
+opscontrol:
+  replicaCount: 2
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 3
+    targetCPUUtilizationPercentage: 75
+  image:
+    repository: europe-west1-docker.pkg.dev/your-gcp-project-id/b2c-repo/opscontrol
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 80
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 150m
+      memory: 128Mi
+
+ingress:
+  enabled: true
+  className: "nginx" # or gce for Google Cloud Load Balancer
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # kubernetes.io/ingress.class: "gce" # if using Google Cloud L7 Load Balancer
+  hosts:
+    - host: staging.ihrezuhauseberatung.de
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: frontend
+              port:
+                number: 80
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: backend
+              port:
+                number: 8080
+        - path: /ai
+          pathType: Prefix
+          backend:
+            service:
+              name: aigateway
+              port:
+                number: 8000
+    # The Ops Control Center is exposed on a fixed universal subdomain
+    # It acts as the central hub for observing both staging and production (requires Google Cloud IAP)
+    - host: ops.ihrezuhauseberatung.de
+      paths:
+        - path: /api/admin
+          pathType: Prefix
+          backend:
+            service:
+              name: backend
+              port:
+                number: 8080
+        - path: /api/v1
+          pathType: Prefix
+          backend:
+            service:
+              name: aigateway
+              port:
+                number: 8000
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: opscontrol
+              port:
+                number: 80
+  tls:
+    - secretName: b2c-platform-tls
+      hosts:
+        - staging.ihrezuhauseberatung.de
+        - ops.ihrezuhauseberatung.de

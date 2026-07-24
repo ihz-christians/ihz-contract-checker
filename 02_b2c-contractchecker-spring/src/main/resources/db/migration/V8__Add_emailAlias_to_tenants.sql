@@ -1,0 +1,1 @@
+ALTER TABLE tenants ADD COLUMN email_alias VARCHAR(255) UNIQUE;

@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IhreZuhauseBeratung - Vertragsanalyse</title>
+    
+    <!-- Link to exact CSS variables -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script>
+        tailwind.config = {
+            darkMode: ["class"],
+            theme: {
+                extend: {
+                    colors: {
+                        border: "hsl(var(--border))",
+                        input: "hsl(var(--input))",
+                        ring: "hsl(var(--ring))",
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                        primary: {
+                          DEFAULT: "hsl(var(--primary))",
+                          foreground: "hsl(var(--primary-foreground))",
+                          hover: "hsl(var(--primary-hover))",
+                        },
+                        secondary: {
+                          DEFAULT: "hsl(var(--secondary))",
+                          foreground: "hsl(var(--secondary-foreground))",
+                        },
+                        muted: {
+                          DEFAULT: "hsl(var(--muted))",
+                          foreground: "hsl(var(--muted-foreground))",
+                        },
+                        accent: {
+                          DEFAULT: "hsl(var(--accent))",
+                          foreground: "hsl(var(--accent-foreground))",
+                          primary: "hsl(var(--accent-primary))",
+                          secondary: "hsl(var(--accent-secondary))",
+                        },
+                        card: {
+                          DEFAULT: "hsl(var(--card))",
+                          foreground: "hsl(var(--card-foreground))",
+                          hover: "hsl(var(--card-hover))",
+                        },
+                        destructive: {
+                          DEFAULT: "hsl(var(--destructive))",
+                          foreground: "hsl(var(--destructive-foreground))",
+                        }
+                    },
+                    boxShadow: {
+                        card: "var(--shadow-md)",
+                        "card-hover": "var(--shadow-xl)",
+                    },
+                    borderRadius: {
+                        xl: "var(--radius-xl)",
+                        "2xl": "var(--radius-2xl)",
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background min-h-screen font-sans flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-primary text-primary-foreground shadow-card border-b border-primary-hover">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3 text-2xl font-extrabold tracking-tight hover:opacity-95 transition-opacity group">
+                <div class="h-8 w-8 bg-white rounded-full flex items-center justify-center transition-transform group-hover:scale-105">
+                    <img src="/images/white-logo.png" alt="Logo" class="h-6 w-6 object-contain" onerror="this.src='/images/logo.png';">
+                </div>
+                IhreZuhauseBeratung
+            </a>
+            
+            <div class="flex items-center gap-4">
+                <a href="/profil" class="text-white/80 hover:text-white px-2 py-2 text-xs font-semibold transition-colors">
+                    Mein Profil
+                </a>
+                <a href="/dashboard" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-colors">
+                    ← Zurück zum Dashboard
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[1500px] mx-auto px-4 py-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start flex-1">
+        
+        <!-- ================= LEFT COLUMN: simulated PDF / OCR VISUALIZER (5 columns) ================= -->
+        <div class="lg:col-span-5 h-[calc(100vh-8rem)] bg-slate-900 rounded-2xl shadow-card overflow-hidden border border-border flex flex-col sticky top-6">
+            
+            <!-- PDF Toolbar -->
+            <div class="flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800 text-slate-300 shrink-0">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">📄</span>
+                    <div>
+                        <span class="font-bold text-sm text-slate-200 block" th:text="${contract.filename}">Scan_Vodafone_Vertrag.pdf</span>
+                        <span class="text-xs text-slate-500">Verschlüsselt gespeichert</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legends / Category Filter -->
+            <div class="bg-slate-800/50 border-b border-slate-800 px-4 py-2 shrink-0 flex items-center justify-between text-[11px]">
+                <div class="flex gap-4">
+                    <span class="flex items-center gap-1.5 text-orange-400 font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-orange-400 block"></span> Kostenfallen
+                    </span>
+                    <span class="flex items-center gap-1.5 text-blue-400 font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-blue-400 block"></span> Fristen
+                    </span>
+                </div>
+                <span class="text-slate-500">Seite 1 von 1</span>
+            </div>
+
+            <!-- PDF Page Area -->
+            <div class="flex-1 overflow-auto p-6 relative flex justify-center items-start custom-scrollbar bg-slate-950/30">
+
+                <!-- A4 Simulated Blatt -->
+                <div class="bg-white shadow-xl w-full max-w-[550px] min-h-[750px] relative p-10 font-sans text-slate-800 text-xs leading-relaxed border border-slate-200">
+                    <div class="border-b-2 border-slate-800 pb-3 mb-6">
+                        <h1 class="text-base font-extrabold uppercase tracking-widest text-slate-900" th:text="${contract.filename}">Dokumentname</h1>
+                        <p class="text-[10px] text-slate-500">In einfachen Worten zusammengefasst</p>
+                    </div>
+
+                    <!-- Die geniale, laienhafte KI Zusammenfassung -->
+                    <div class="mb-8">
+                        <h2 class="text-xl font-bold text-slate-900 mb-4 leading-tight">Kurz & Knapp: Worum geht es hier?</h2>
+                        <p class="text-sm text-slate-700 leading-loose" th:text="${analysis.overview.summaryB1}">
+                            KI Zusammenfassung lädt...
+                        </p>
+                    </div>
+
+                    <!-- NEU: Echte, validierte Verbraucherberatung durch die KI -->
+                    <div class="mb-8 grid grid-cols-1 gap-4">
+                        <div th:if="${analysis.overview.targetAudienceGood != null}" class="bg-emerald-50 rounded-xl p-4 border border-emerald-100 flex gap-3">
+                            <span class="text-xl shrink-0 mt-0.5">🎯</span>
+                            <div>
+                                <h4 class="text-xs font-bold text-emerald-800 uppercase tracking-widest mb-1">Perfekt geeignet für...</h4>
+                                <p class="text-sm text-emerald-700 leading-relaxed" th:text="${analysis.overview.targetAudienceGood}"></p>
+                            </div>
+                        </div>
+
+                        <div th:if="${analysis.overview.targetAudienceBad != null}" class="bg-orange-50 rounded-xl p-4 border border-orange-100 flex gap-3">
+                            <span class="text-xl shrink-0 mt-0.5">⚠️</span>
+                            <div>
+                                <h4 class="text-xs font-bold text-orange-800 uppercase tracking-widest mb-1">Nicht zu empfehlen für...</h4>
+                                <p class="text-sm text-orange-700 leading-relaxed" th:text="${analysis.overview.targetAudienceBad}"></p>
+                            </div>
+                        </div>
+
+                        <!-- NEU: Warnung vor Telefonie-Fallen (Ausland, Sondernummern, Minutentakt) -->
+                        <div th:if="${analysis.overview.telephonyRisks != null}" class="bg-red-50 rounded-xl p-4 border border-red-100 flex gap-3">
+                            <span class="text-xl shrink-0 mt-0.5">💸</span>
+                            <div>
+                                <h4 class="text-xs font-bold text-red-800 uppercase tracking-widest mb-1">Achtung: Teure Telefon-Gebühren!</h4>
+                                <p class="text-sm text-red-700 leading-relaxed font-semibold" th:text="${analysis.overview.telephonyRisks}"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Die saubere Vertrags-Identitätskarte -->
+                    <div class="mb-8 border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                        <div class="bg-slate-50 border-b border-slate-200 px-4 py-3">
+                            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-widest flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/></svg>
+                                Vertrags-Identitätskarte
+                            </h3>
+                        </div>
+                        <div class="p-4 grid grid-cols-2 gap-y-6 gap-x-4 bg-white">
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Anbieter / Provider</p>
+                                <p class="text-sm font-bold text-slate-900" th:text="${analysis.overview.provider}">Vodafone</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Vertragsart</p>
+                                <p class="text-sm font-bold text-slate-900" th:text="${analysis.overview.contractType}">Internet</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Mindestlaufzeit</p>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                                    <p class="text-sm font-semibold text-slate-700" th:text="${analysis.overview.contractDuration.months} + ' Monate'">24 Monate</p>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Kündigungsfrist</p>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-2 h-2 rounded-full" th:classappend="${analysis.overview.contractDuration.cancellationPeriod > 1 ? 'bg-red-500 animate-pulse' : 'bg-emerald-500'}"></span>
+                                    <p class="text-sm font-semibold text-slate-700" th:text="${analysis.overview.contractDuration.cancellationPeriod} + ' Monat(e) vor Ablauf'">1 Monat</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Info Fußleiste: Widerruf & Hotline -->
+                        <div class="bg-slate-50 border-t border-slate-200 px-4 py-3 flex flex-col gap-2">
+                            <div th:if="${analysis.overview.revocationAdvice != null}" class="flex items-start gap-2 text-xs text-slate-600">
+                                <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                <span th:text="${analysis.overview.revocationAdvice}">14 Tage Widerrufsrecht nach Abschluss.</span>
+                            </div>
+                            <div th:if="${analysis.overview.contactHotline != null}" class="flex items-start gap-2 text-xs text-slate-600">
+                                <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                                <span class="font-medium" th:text="${analysis.overview.contactHotline}">Hotline: 0800 1234567</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-200 pt-6 mt-6 hidden" style="display: none;">
+                        <details class="group">
+                            <summary class="font-bold text-slate-500 text-[10px] uppercase tracking-wider mb-2 cursor-pointer hover:text-slate-800 transition-colors flex items-center">
+                                <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                                Originalen, ausgelesenen Rohtext einblenden (Für Experten)
+                            </summary>
+                            
+                            <!-- Der eklige OCR Rohtext wird jetzt kompakt und versteckbar gerendert -->
+                            <div class="whitespace-pre-wrap font-mono text-[11px] leading-relaxed text-slate-600 mt-4 bg-white p-5 rounded-md border border-slate-200 h-96 overflow-y-auto shadow-inner">
+                                <span th:text="${analysis.metadata.extractedRawText}"></span>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= RIGHT COLUMN: DETAILED REPORT & CHATBOT (7 columns) ================= -->
+        <div class="lg:col-span-7 space-y-6 flex flex-col">
+
+            <!-- Quick Header Warnung -->
+            <div class="bg-orange-50/50 border-l-4 border-orange-500 border-t border-r border-b border-orange-200 rounded-2xl p-5 flex gap-4 items-start shadow-sm" th:if="${analysis.overview.costs.hidden != null && !analysis.overview.costs.hidden.isEmpty()}">
+                <span class="text-3xl">⚠️</span>
+                <div class="w-full">
+                    <h3 class="font-extrabold text-slate-900 text-base mb-1">Achtung: Kostenfallen gefunden!</h3>
+                    <ul class="text-slate-600 text-sm mb-4 leading-relaxed list-disc list-inside ml-4">
+                        <li th:each="hidden : ${analysis.overview.costs.hidden}" th:text="${hidden}">Preiserhöhung</li>
+                    </ul>
+                    
+                    <!-- Die 4 Chatbot-Deep-Dive Buttons, perfekt inszeniert in der Warnbox -->
+                    <div class="mt-4 pt-4 border-t border-orange-200/60">
+                        <p class="text-xs font-bold text-orange-800 uppercase tracking-widest mb-3">Lassen Sie sich dazu von der KI beraten:</p>
+                        <div class="flex flex-wrap gap-2">
+                            <button type="button"
+                                    onclick="appendUserMessage('Kannst du mir vorrechnen, wie hoch die realen Kosten in den ersten 12 Monaten verglichen mit dem zweiten Vertragsjahr sind?')"
+                                    hx-post="/chatbot/query"
+                                    hx-target="#chat-loading"
+                                    hx-swap="beforebegin"
+                                    hx-indicator="#chat-loading"
+                                    hx-on::after-request="document.getElementById('chat-messages').scrollTo({top: document.getElementById('chat-messages').scrollHeight, behavior: 'smooth'});"
+                                    th:hx-vals="'{&quot;question&quot;: &quot;Kannst du mir vorrechnen, wie hoch die realen Kosten in den ersten 12 Monaten verglichen mit dem zweiten Vertragsjahr sind?&quot;, &quot;contractId&quot;: &quot;' + ${contract.id} + '&quot;, &quot;contractType&quot;: &quot;' + ${contract.contractType} + '&quot;}'"
+                                    class="text-[11px] bg-white hover:bg-orange-100 text-orange-900 border border-orange-200 hover:border-orange-300 px-3 py-1.5 rounded-full font-semibold transition-all shadow-sm flex items-center gap-1.5">
+                                💸 1. vs 2. Jahr vergleichen
+                            </button>
+                            
+                            <button type="button"
+                                    onclick="appendUserMessage('Ich habe den Vertrag an der Haustür abgeschlossen. Wie genau kann ich jetzt den Widerruf einlegen und welche Frist habe ich?')"
+                                    hx-post="/chatbot/query"
+                                    hx-target="#chat-loading"
+                                    hx-swap="beforebegin"
+                                    hx-indicator="#chat-loading"
+                                    hx-on::after-request="document.getElementById('chat-messages').scrollTo({top: document.getElementById('chat-messages').scrollHeight, behavior: 'smooth'});"
+                                    th:hx-vals="'{&quot;question&quot;: &quot;Ich habe den Vertrag an der Haustür abgeschlossen. Wie genau kann ich jetzt den Widerruf einlegen und welche Frist habe ich?&quot;, &quot;contractId&quot;: &quot;' + ${contract.id} + '&quot;, &quot;contractType&quot;: &quot;' + ${contract.contractType} + '&quot;}'"
+                                    class="text-[11px] bg-white hover:bg-orange-100 text-orange-900 border border-orange-200 hover:border-orange-300 px-3 py-1.5 rounded-full font-semibold transition-all shadow-sm flex items-center gap-1.5">
+                                🚪 Haustürgeschäft widerrufen?
+                            </button>
+
+                            <button type="button"
+                                    onclick="appendUserMessage('Welche der aufgelisteten TV- oder Hardware-Zusatzoptionen brauche ich als Normalnutzer eigentlich gar nicht und wie werde ich sie los?')"
+                                    hx-post="/chatbot/query"
+                                    hx-target="#chat-loading"
+                                    hx-swap="beforebegin"
+                                    hx-indicator="#chat-loading"
+                                    hx-on::after-request="document.getElementById('chat-messages').scrollTo({top: document.getElementById('chat-messages').scrollHeight, behavior: 'smooth'});"
+                                    th:hx-vals="'{&quot;question&quot;: &quot;Welche der aufgelisteten TV- oder Hardware-Zusatzoptionen brauche ich als Normalnutzer eigentlich gar nicht und wie werde ich sie los?&quot;, &quot;contractId&quot;: &quot;' + ${contract.id} + '&quot;, &quot;contractType&quot;: &quot;' + ${contract.contractType} + '&quot;}'"
+                                    class="text-[11px] bg-white hover:bg-orange-100 text-orange-900 border border-orange-200 hover:border-orange-300 px-3 py-1.5 rounded-full font-semibold transition-all shadow-sm flex items-center gap-1.5">
+                                📺 Unnötige Optionen kündigen
+                            </button>
+
+                            <button type="button"
+                                    onclick="appendUserMessage('Abgesehen von der monatlichen Grundgebühr: Erkläre mir genau, in welche Kostenfallen (z.B. Telefonminuten) ich hier tappen könnte!')"
+                                    hx-post="/chatbot/query"
+                                    hx-target="#chat-loading"
+                                    hx-swap="beforebegin"
+                                    hx-indicator="#chat-loading"
+                                    hx-on::after-request="document.getElementById('chat-messages').scrollTo({top: document.getElementById('chat-messages').scrollHeight, behavior: 'smooth'});"
+                                    th:hx-vals="'{&quot;question&quot;: &quot;Abgesehen von der monatlichen Grundgebühr: Erkläre mir genau, in welche Kostenfallen (z.B. Telefonminuten) ich hier tappen könnte!&quot;, &quot;contractId&quot;: &quot;' + ${contract.id} + '&quot;, &quot;contractType&quot;: &quot;' + ${contract.contractType} + '&quot;}'"
+                                    class="text-[11px] bg-white hover:bg-orange-100 text-orange-900 border border-orange-200 hover:border-orange-300 px-3 py-1.5 rounded-full font-semibold transition-all shadow-sm flex items-center gap-1.5">
+                                🕵️ Versteckte Kosten erklären
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Overview Metrics -->
+            <div class="bg-card rounded-2xl shadow-card border border-border p-6 space-y-6">
+                <div class="flex items-center justify-between border-b border-border pb-4">
+                    <div>
+                        <h2 class="text-2xl font-extrabold text-card-foreground" th:text="${analysis.overview.title}">Vertragsanalyse</h2>
+                        <p class="text-muted-foreground text-xs mt-1" th:text="'Kategorie: ' + ${contract.contractType}">Kategorie</p>
+                    </div>
+                    
+                    <div th:if="${analysis.overview.riskAmpel.color == '🔴'}" class="flex items-center gap-3 bg-red-50 border border-red-200/80 px-4 py-2.5 rounded-xl shadow-sm shrink-0">
+                        <span class="relative flex h-3 w-3 shrink-0">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
+                        </span>
+                        <div>
+                            <span class="text-red-800 font-extrabold text-[10px] tracking-wider uppercase block">RISIKO-AMPEL</span>
+                            <span class="text-red-700 font-bold text-[11px]" th:text="${analysis.overview.riskAmpel.description}">Sehr hohes Risiko</span>
+                        </div>
+                    </div>
+                    <div th:if="${analysis.overview.riskAmpel.color == '🟡'}" class="flex items-center gap-3 bg-amber-50 border border-amber-200/80 px-4 py-2.5 rounded-xl shadow-sm shrink-0">
+                        <span class="relative flex h-3 w-3 shrink-0">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+                        </span>
+                        <div>
+                            <span class="text-amber-800 font-extrabold text-[10px] tracking-wider uppercase block">RISIKO-AMPEL</span>
+                            <span class="text-amber-700 font-bold text-[11px]" th:text="${analysis.overview.riskAmpel.description}">Erhöhtes Risiko</span>
+                        </div>
+                    </div>
+                    <div th:if="${analysis.overview.riskAmpel.color != '🔴' && analysis.overview.riskAmpel.color != '🟡'}" class="flex items-center gap-3 bg-emerald-50 border border-emerald-200/80 px-4 py-2.5 rounded-xl shadow-sm shrink-0">
+                        <span class="relative flex h-3 w-3 shrink-0">
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-600"></span>
+                        </span>
+                        <div>
+                            <span class="text-emerald-800 font-extrabold text-[10px] tracking-wider uppercase block">RISIKO-AMPEL</span>
+                            <span class="text-emerald-700 font-bold text-[11px]" th:text="${analysis.overview.riskAmpel.description}">Geringes Risiko</span>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- Comparison Section (If comparisonResult exists) -->
+                <div th:if="${analysis.overview.get('comparisonResult') != null}" class="bg-indigo-50 border-l-4 border-indigo-500 rounded-r-xl p-5 mb-8 shadow-sm">
+                    <div class="flex items-start gap-4">
+                        <span class="text-3xl mt-1">⚖️</span>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-indigo-900 text-sm mb-2">Vertragsvergleich (Alt vs. Neu)</h3>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="text-[11px] font-bold text-indigo-800 uppercase tracking-wider mb-1">Unterschiede</h4>
+                                    <p class="text-indigo-900 text-xs leading-relaxed bg-white/50 p-3 rounded-lg border border-indigo-100" th:text="${analysis.overview.get('comparisonResult').get('differences')}">
+                                        Unterschiede...
+                                    </p>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <h4 class="text-[11px] font-bold text-indigo-800 uppercase tracking-wider mb-1">KI Empfehlung</h4>
+                                        <p class="text-indigo-900 font-semibold text-sm" th:text="${analysis.overview.get('comparisonResult').get('recommendation')}">
+                                            Empfehlung...
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-[11px] font-bold text-indigo-800 uppercase tracking-wider mb-1">Begründung</h4>
+                                        <p class="text-indigo-900 text-xs leading-relaxed" th:text="${analysis.overview.get('comparisonResult').get('explanation')}">
+                                            Begründung...
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Die NEUE Kostenübersicht (Sauber kategorisiert) -->
+                <div>
+                    <!-- Fallback Warnung wenn Scan unlesbar -->
+                    <div th:if="${analysis.overview.isUnreadableScan}" class="bg-orange-50 border-l-4 border-orange-500 rounded-r-xl p-5 mb-8 flex gap-4 items-start shadow-sm">
+                        <span class="text-3xl mt-1">📸</span>
+                        <div>
+                            <h3 class="font-bold text-orange-900 text-sm mb-1">Ihr Dokument ist ein Bild-Scan</h3>
+                            <p class="text-orange-800 text-xs leading-relaxed">
+                                Unsere Maschine konnte keinen auswertbaren Text finden, da es sich scheinbar um ein eingescanntes Bild handelt. Laden Sie bitte eine native PDF-Datei hoch oder fordern Sie ein Original-PDF bei Ihrem Anbieter an.
+                            </p>
+                        </div>
+                    </div>
+
+                    <h3 class="font-bold text-card-foreground text-xs uppercase tracking-wider mb-4 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        Detaillierte Kostenaufstellung
+                    </h3>
+
+                    <!-- TCO Banner (Das Wichtigste!) -->
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-5 text-white shadow-md relative overflow-hidden group">
+                            <div class="absolute right-0 top-0 opacity-10 transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform duration-500">
+                                <svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.31-8.86c-1.77-.45-2.34-.94-2.34-1.67 0-.84.79-1.43 2.1-1.43 1.38 0 1.9.66 1.94 1.64h1.71c-.05-1.34-.87-2.57-2.49-2.97V5H10.9v1.69c-1.51.32-2.72 1.3-2.72 2.81 0 1.79 1.49 2.69 3.66 3.21 1.95.46 2.34 1.15 2.34 1.87 0 .53-.39 1.64-2.25 1.64-1.74 0-2.1-.96-2.17-1.92H8.01c.12 1.98 1.48 2.85 2.89 3.2V19h2.33v-1.7c1.71-.36 2.84-1.43 2.84-2.99 0-1.89-1.39-2.82-3.76-3.17z"/></svg>
+                            </div>
+                            <div class="relative z-10">
+                                <p class="text-[10px] text-slate-400 uppercase tracking-widest mb-1">Gesamtkosten (TCO)</p>
+                                <p class="text-xs text-slate-300 mb-3">Gesamtsumme inkl. allem</p>
+                                <span class="text-3xl font-black" th:text="${analysis.overview.calculatedTco} + ' €'">0,00 €</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-card rounded-xl p-5 border border-border shadow-sm relative overflow-hidden group">
+                            <div class="absolute right-0 top-0 opacity-5 text-primary transform translate-x-4 -translate-y-4 group-hover:scale-110 transition-transform duration-500">
+                                <svg class="w-24 h-24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            </div>
+                            <div class="relative z-10">
+                                <p class="text-[10px] text-primary uppercase font-bold tracking-widest mb-1 flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-primary/20 flex items-center justify-center"><span class="h-1 w-1 bg-primary rounded-full"></span></span> Realer Monatspreis</p>
+                                <p class="text-xs text-muted-foreground mb-3" th:text="'Schnitt auf ' + ${analysis.overview.contractDuration.months} + ' Monate'">Schnitt auf 24 Monate</p>
+                                <span class="text-3xl font-black text-primary" th:text="${analysis.overview.effectiveMonthly} + ' €'">0,00 €</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NEUE PHASE TIMELINE -->
+                    <!-- Zahlungsrealität (Payment Reality Killer-Feature) -->
+                    <div th:if="${analysis.overview.costs.containsKey('paymentReality') && analysis.overview.costs.paymentReality != null && analysis.overview.costs.paymentReality.freeMonths > 0}" class="bg-emerald-50 border border-emerald-200 rounded-2xl p-5 mb-8 shadow-sm">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                                <span class="text-emerald-700 text-lg">💡</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-emerald-900 mb-1">Deine echte Zahlungsrealität</h4>
+                                <p class="text-sm text-emerald-800 mb-2">Dank Startguthaben und Einmal-Rabatten zahlst du anfangs gar nichts:</p>
+                                <ul class="text-sm text-emerald-700 space-y-1 mt-2">
+                                    <li class="flex items-center gap-2">
+                                        <span class="font-extrabold text-emerald-900" th:text="${analysis.overview.costs.paymentReality.freeMonths} + ' Monate'">3 Monate</span>
+                                        <span>komplett kostenlos</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="font-extrabold text-emerald-900" th:text="'Ab Monat ' + ${analysis.overview.costs.paymentReality.firstPaymentMonth}">Ab Monat 4</span>
+                                        <span>erste Abbuchung vom Konto</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-8" th:if="${analysis.overview.costs.phases != null && !analysis.overview.costs.phases.isEmpty()}">
+                        <h4 class="font-bold text-xs uppercase tracking-wider text-card-foreground mb-4">Echter Cashflow (Timeline)</h4>
+                        
+                        <div class="relative border-l-2 border-primary/20 ml-3 space-y-6">
+                            <div th:each="phase : ${analysis.overview.costs.phases}" class="relative pl-6">
+                                <!-- Node Marker -->
+                                <div class="absolute -left-[9px] top-1 h-4 w-4 rounded-full bg-background border-2 border-primary shadow-sm flex items-center justify-center">
+                                    <div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+                                </div>
+                                
+                                <div class="bg-card border shadow-sm rounded-xl p-4 flex justify-between items-center group transition-colors"
+                                     th:classappend="${phase.price == 0.0 ? 'border-emerald-300 bg-emerald-50/30' : 'border-border hover:border-primary/50'}">
+                                    <div>
+                                        <p class="font-bold text-sm text-card-foreground" th:text="${phase.label}">Monat 1-6</p>
+                                        <p th:if="${phase.price > 0}" class="text-xs text-muted-foreground mt-0.5">Tatsächliche monatliche Belastung</p>
+                                        <p th:if="${phase.price == 0.0}" class="text-xs font-semibold text-emerald-600 mt-0.5">Komplett verrechnet mit Guthaben</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="font-black text-lg" 
+                                           th:classappend="${phase.price == 0.0 ? 'text-emerald-600' : 'text-primary'}"
+                                           th:text="${#numbers.formatDecimal(phase.price, 1, 2)} + ' €'">19,99 €</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Tarife -->
+                        <div th:if="${analysis.overview.mainTariffs != null && !analysis.overview.mainTariffs.isEmpty()}" class="border border-border rounded-xl overflow-hidden">
+                            <div class="bg-secondary/50 px-4 py-2 border-b border-border flex items-center gap-2">
+                                <span class="text-primary text-sm">📡</span>
+                                <h4 class="font-bold text-xs uppercase tracking-wider text-card-foreground">Haupttarife & Grundgebühren</h4>
+                            </div>
+                            <div class="divide-y divide-border">
+                                <div th:each="comp : ${analysis.overview.mainTariffs}" class="px-4 py-3 flex justify-between items-start text-sm">
+                                    <div class="pr-4">
+                                        <p class="font-bold text-card-foreground" th:text="${comp.name}">Tarifname</p>
+                                        <p th:if="${comp.oneTimeCharge > 0}" class="text-[10px] text-muted-foreground mt-0.5" th:text="'Einmalig: ' + ${comp.oneTimeCharge} + ' €'">Einmalig: 39.99 €</p>
+                                    </div>
+                                    <div class="text-right whitespace-nowrap">
+                                        <th:block th:each="price : ${comp.prices}">
+                                            <p class="font-semibold text-card-foreground">
+                                                <span th:text="${price.amount} + ' €'">19.99 €</span>
+                                                <span class="text-[10px] font-normal text-muted-foreground ml-1" th:text="'(Monate ' + ${price.startMonth} + '-' + ${price.endMonth} + ')'">(M. 1-6)</span>
+                                            </p>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hardware -->
+                        <div th:if="${analysis.overview.hardware != null && !analysis.overview.hardware.isEmpty()}" class="border border-border rounded-xl overflow-hidden">
+                            <div class="bg-secondary/50 px-4 py-2 border-b border-border flex items-center gap-2">
+                                <span class="text-primary text-sm">🔌</span>
+                                <h4 class="font-bold text-xs uppercase tracking-wider text-card-foreground">Hardware & Geräte</h4>
+                            </div>
+                            <div class="divide-y divide-border">
+                                <div th:each="comp : ${analysis.overview.hardware}" class="px-4 py-3 flex justify-between items-start text-sm">
+                                    <div class="pr-4">
+                                        <p class="font-bold text-card-foreground" th:text="${comp.name}">Router</p>
+                                        <p th:if="${comp.oneTimeCharge > 0}" class="text-[10px] text-muted-foreground mt-0.5" th:text="'Einmalig: ' + ${comp.oneTimeCharge} + ' €'">Einmalig: 9.99 €</p>
+                                    </div>
+                                    <div class="text-right whitespace-nowrap">
+                                        <p th:if="${comp.prices == null || comp.prices.isEmpty()}" class="text-xs text-muted-foreground italic">Inklusive / Keine Miete</p>
+                                        <th:block th:each="price : ${comp.prices}">
+                                            <p th:if="${price.amount > 0}" class="font-semibold text-card-foreground">
+                                                <span th:text="${price.amount} + ' €'">4.99 €</span>
+                                                <span class="text-[10px] font-normal text-muted-foreground ml-1" th:text="'(Miete M. ' + ${price.startMonth} + '-' + ${price.endMonth} + ')'">(Miete)</span>
+                                            </p>
+                                            <p th:if="${price.amount == 0}" class="text-xs text-muted-foreground italic">Inklusive</p>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Zusatzoptionen (Nur anzeigen wenn sie Geld kosten) -->
+                        <div th:if="${analysis.overview.addOns != null && !analysis.overview.addOns.isEmpty()}" class="border border-border rounded-xl overflow-hidden">
+                            <div class="bg-secondary/50 px-4 py-2 border-b border-border flex items-center gap-2">
+                                <span class="text-primary text-sm">📺</span>
+                                <h4 class="font-bold text-xs uppercase tracking-wider text-card-foreground">Zusatzoptionen (TV, Security, etc.)</h4>
+                            </div>
+                            <div class="divide-y divide-border">
+                                <div th:each="comp : ${analysis.overview.addOns}" class="px-4 py-3 flex justify-between items-start text-sm" th:classappend="${(comp.prices == null || comp.prices.isEmpty() || comp.prices[0].amount == 0) && comp.oneTimeCharge == 0 ? 'opacity-50' : ''}">
+                                    <div class="pr-4">
+                                        <p class="font-bold text-card-foreground" th:text="${comp.name}">TV Paket</p>
+                                        <p th:if="${comp.oneTimeCharge > 0}" class="text-[10px] text-muted-foreground mt-0.5" th:text="'Einmalig: ' + ${comp.oneTimeCharge} + ' €'">Einmalig: 0.00 €</p>
+                                    </div>
+                                    <div class="text-right whitespace-nowrap">
+                                        <p th:if="${comp.prices == null || comp.prices.isEmpty() && comp.oneTimeCharge == 0}" class="text-[10px] text-muted-foreground italic mt-0.5">Kostenlos</p>
+                                        <th:block th:each="price : ${comp.prices}">
+                                            <p th:if="${price.amount > 0}" class="font-semibold text-card-foreground">
+                                                <span th:text="${price.amount} + ' €'">14.99 €</span>
+                                                <span class="text-[10px] font-normal text-muted-foreground ml-1" th:text="'(Monate ' + ${price.startMonth} + '-' + ${price.endMonth} + ')'">(M. 1-24)</span>
+                                            </p>
+                                            <p th:if="${price.amount == 0}" class="text-[10px] text-muted-foreground italic mt-0.5">Kostenlos</p>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                                                <!-- Rabatte & Gutschriften -->
+                                                <div th:if="${analysis.overview.discounts != null && !analysis.overview.discounts.isEmpty()}" class="border border-primary/20 rounded-xl overflow-hidden bg-primary/5">
+                                                    <div class="bg-primary/10 px-4 py-2 border-b border-primary/20 flex items-center gap-2">
+                                                        <span class="text-primary text-sm">🎁</span>
+                                                        <h4 class="font-bold text-xs uppercase tracking-wider text-primary">Gutschriften & Rabatte</h4>
+                                                    </div>
+                                                    <div class="divide-y divide-primary/10">
+                                                        <div th:each="comp : ${analysis.overview.discounts}" class="px-4 py-3 flex justify-between items-start text-sm">
+                                                            <div class="pr-4">
+                                                                <p class="font-bold text-primary" th:text="${comp.name}">Startguthaben</p>
+                                                                <p th:if="${comp.oneTimeCharge < 0}" class="text-[10px] text-primary/80 font-semibold mt-0.5" th:text="'Einmal-Gutschrift: ' + ${comp.oneTimeCharge} + ' €'">Einmalig: -50.00 €</p>
+                                                            </div>
+                                                            <div class="text-right whitespace-nowrap">
+                                                                <th:block th:each="price : ${comp.prices}">
+                                                                    <p th:if="${price.amount < 0}" class="font-semibold text-primary">
+                                                                        <span th:text="${price.amount} + ' €'">-5.00 €</span>
+                                                                        <span class="text-[10px] font-normal text-primary/60 ml-1" th:text="'(Monate ' + ${price.startMonth} + '-' + ${price.endMonth} + ')'">(M. 1-24)</span>
+                                                                    </p>
+                                                                </th:block>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- KI Services Toolbar -->
+                                                <div class="bg-white rounded-2xl shadow-card border border-border p-4 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+                                                    <div class="flex items-center gap-3">
+                                                        <div class="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20 shrink-0">
+                                                            <span class="text-xl">🤖</span>
+                                                        </div>
+                                                        <div>
+                                                            <h3 class="font-extrabold text-slate-900 text-sm">Automatisierte KI-Services</h3>
+                                                            <p class="text-[11px] text-slate-500">Mit 1 Klick rechtssichere Schreiben erstellen lassen</p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="flex flex-wrap xl:justify-end gap-2">
+                                                        <!-- NEW EXPORT BUTTON -->
+                                                        <form th:action="@{/contract/{id}/export(id=${contract.id})}" method="post" class="flex-1 min-w-[150px]">
+                                                            <button type="submit" 
+                                                                    class="w-full bg-slate-800 hover:bg-slate-900 text-white border border-slate-700 px-3 py-2 rounded-xl text-xs font-bold transition-colors shadow-sm flex items-center gap-1.5 justify-center whitespace-nowrap">
+                                                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                                                Export als E-Mail
+                                                            </button>
+                                                        </form>
+
+                                                        <button type="button"
+                                                                onclick="appendUserMessage('Ich möchte den Vertrag herunterstufen. Welche Möglichkeiten gibt es? Bitte hilf mir bei der Formulierung.')"
+                                                                hx-post="/chatbot/query"
+                                                                hx-target="#chat-loading"
+                                                                hx-swap="beforebegin"
+                                                                hx-indicator="#chat-loading"
+                                                                hx-on::after-request="document.getElementById('chat-messages').scrollTo({top: document.getElementById('chat-messages').scrollHeight, behavior: 'smooth'});"
+                                                                th:hx-vals="'{&quot;question&quot;: &quot;Ich möchte den Vertrag herunterstufen. Welche Möglichkeiten gibt es? Bitte hilf mir bei der Formulierung.&quot;, &quot;contractId&quot;: &quot;' + ${contract.id} + '&quot;, &quot;contractType&quot;: &quot;' + ${contract.contractType} + '&quot;}'"
+                                                                class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-3 py-2 rounded-xl text-xs font-bold transition-colors shadow-sm flex items-center gap-1.5 flex-1 justify-center whitespace-nowrap">
+                                                            📉 Runterstufen
+                                                        </button>
+                                                        
+                                                        <button type="button"
+                                                                onclick="appendUserMessage('Bitte erstelle mir ein Kündigungsschreiben für diesen Vertrag.')"
+                                                                hx-post="/chatbot/query"
+                                                                hx-target="#chat-loading"
+                                                                hx-swap="beforebegin"
+                                                                hx-indicator="#chat-loading"
+                                                                hx-on::after-request="document.getElementById('chat-messages').scrollTo({top: document.getElementById('chat-messages').scrollHeight, behavior: 'smooth'});"
+                                                                th:hx-vals="'{&quot;question&quot;: &quot;Bitte erstelle mir ein Kündigungsschreiben für diesen Vertrag unter Berücksichtigung der Kündigungsfrist.&quot;, &quot;contractId&quot;: &quot;' + ${contract.id} + '&quot;, &quot;contractType&quot;: &quot;' + ${contract.contractType} + '&quot;}'"
+                                                                class="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 px-3 py-2 rounded-xl text-xs font-bold transition-colors shadow-sm flex items-center gap-1.5 flex-1 justify-center whitespace-nowrap">
+                                                            ❌ Kündigung
+                                                        </button>
+                                                        
+                                                        <button type="button"
+                                                                onclick="appendUserMessage('Kann ich den Vertrag noch widerrufen? Erstelle ein Widerrufsschreiben.')"
+                                                                hx-post="/chatbot/query"
+                                                                hx-target="#chat-loading"
+                                                                hx-swap="beforebegin"
+                                                                hx-indicator="#chat-loading"
+                                                                hx-on::after-request="document.getElementById('chat-messages').scrollTo({top: document.getElementById('chat-messages').scrollHeight, behavior: 'smooth'});"
+                                                                th:hx-vals="'{&quot;question&quot;: &quot;Kann ich diesen Vertrag aufgrund der Fristen noch widerrufen? Bitte erstelle mir ein Widerrufsschreiben.&quot;, &quot;contractId&quot;: &quot;' + ${contract.id} + '&quot;, &quot;contractType&quot;: &quot;' + ${contract.contractType} + '&quot;}'"
+                                                                class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-2 rounded-xl text-xs font-bold transition-colors shadow-sm flex items-center gap-1.5 flex-1 justify-center whitespace-nowrap">
+                                                            ↩️ Widerruf
+                                                        </button>
+                                                    </div>
+                                                </div>
+                    </div>
+                </div>
+
+            <!-- Aktionen / Nächste Schritte -->
+            <div class="bg-blue-50/50 border-l-4 border-blue-500 border-t border-r border-b border-blue-200 rounded-2xl p-5 flex gap-4 items-start shadow-sm mb-6">
+                <span class="text-3xl mt-1">💡</span>
+                <div class="w-full">
+                    <h3 class="font-extrabold text-slate-900 text-base mb-1">Empfohlene Aktionen & Kontakt</h3>
+                    <p class="text-slate-600 text-sm mb-4">Hier finden Sie die wichtigsten nächsten Schritte, um Ihre Rechte durchzusetzen oder den Vertrag anzupassen.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Action 1: Provider kontaktieren -->
+                        <div class="bg-white rounded-xl p-4 border border-blue-100 shadow-sm flex flex-col h-full">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-lg">📞</span>
+                                <h4 class="font-bold text-slate-800 text-sm" th:text="${analysis.overview.provider != null ? analysis.overview.provider + ' kontaktieren' : 'Anbieter kontaktieren'}">Anbieter kontaktieren</h4>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-4 flex-grow">
+                                Nehmen Sie Kontakt auf, um den Vertrag herunterzustufen, Optionen zu kündigen oder offene Fragen zu klären.
+                            </p>
+                            <div class="space-y-2 mt-auto">
+                                <a th:if="${analysis.overview.contactHotline != null && !analysis.overview.contactHotline.isEmpty()}" 
+                                   th:href="'tel:' + ${analysis.overview.contactHotline.replaceAll('[^0-9+]', '')}" 
+                                   class="text-xs bg-blue-100 hover:bg-blue-200 text-blue-900 font-semibold px-3 py-2 rounded-lg block text-center transition-colors">
+                                    Anrufen: <span th:text="${analysis.overview.contactHotline}"></span>
+                                </a>
+                                <button type="button"
+                                        th:attr="onclick=|appendUserMessage('Schreibe mir eine E-Mail an ${analysis.overview.provider != null ? analysis.overview.provider : 'den Anbieter'}, um meinen Vertrag herunterzustufen oder nicht benötigte Optionen zu kündigen.')|"
+                                        hx-post="/chatbot/query"
+                                        hx-target="#chat-loading"
+                                        hx-swap="beforebegin"
+                                        hx-indicator="#chat-loading"
+                                        hx-on::after-request="document.getElementById('chat-messages').scrollTo({top: document.getElementById('chat-messages').scrollHeight, behavior: 'smooth'});"
+                                        th:hx-vals="'{&quot;question&quot;: &quot;Schreibe mir eine E-Mail an ' + (${analysis.overview.provider != null ? analysis.overview.provider : 'den Anbieter'}) + ', um meinen Vertrag herunterzustufen oder nicht benötigte Optionen zu kündigen.&quot;, &quot;contractId&quot;: &quot;' + ${contract.id} + '&quot;, &quot;contractType&quot;: &quot;' + ${contract.contractType} + '&quot;}'"
+                                        class="w-full text-xs bg-white border border-blue-200 hover:bg-blue-50 text-blue-800 font-semibold px-3 py-2 rounded-lg text-center transition-colors flex items-center justify-center gap-1.5">
+                                    ✉️ E-Mail Vorlage generieren
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Action 2: Verbraucherschutz -->
+                        <div class="bg-white rounded-xl p-4 border border-blue-100 shadow-sm flex flex-col h-full">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-lg">⚖️</span>
+                                <h4 class="font-bold text-slate-800 text-sm">Verbraucherschutz einschalten</h4>
+                            </div>
+                            <p class="text-xs text-slate-600 mb-4 flex-grow">
+                                Bei hartnäckigen Problemen, unzulässigen Klauseln oder rechtlichen Zweifeln (z.B. versteckte Kosten) hilft die Verbraucherzentrale.
+                            </p>
+                            <div class="space-y-2 mt-auto">
+                                <a href="https://www.verbraucherzentrale.de/beratung" target="_blank" class="text-xs bg-blue-100 hover:bg-blue-200 text-blue-900 font-semibold px-3 py-2 rounded-lg block text-center transition-colors">
+                                    🌐 Zur Online-Beratung
+                                </a>
+                                <button type="button"
+                                        onclick="appendUserMessage('Schreibe mir eine Beschwerde-E-Mail an den Verbraucherschutz bezüglich unklarer Vertragskonditionen bei meinem Anbieter.')"
+                                        hx-post="/chatbot/query"
+                                        hx-target="#chat-loading"
+                                        hx-swap="beforebegin"
+                                        hx-indicator="#chat-loading"
+                                        hx-on::after-request="document.getElementById('chat-messages').scrollTo({top: document.getElementById('chat-messages').scrollHeight, behavior: 'smooth'});"
+                                        th:hx-vals="'{&quot;question&quot;: &quot;Schreibe mir eine formelle Beschwerde-E-Mail an den Verbraucherschutz bezüglich versteckter Kosten und unklarer Vertragskonditionen bei meinem Anbieter.&quot;, &quot;contractId&quot;: &quot;' + ${contract.id} + '&quot;, &quot;contractType&quot;: &quot;' + ${contract.contractType} + '&quot;}'"
+                                        class="w-full text-xs bg-white border border-blue-200 hover:bg-blue-50 text-blue-800 font-semibold px-3 py-2 rounded-lg text-center transition-colors flex items-center justify-center gap-1.5">
+                                    ✉️ Beschwerde formulieren
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <!-- Scanned Raw Data Box -->
+                <div class="border-t border-border pt-6 mb-6 hidden" style="display: none;">
+                    <details class="group">
+                        <summary class="font-bold text-muted-foreground text-[10px] uppercase tracking-wider mb-4 cursor-pointer hover:text-primary transition-colors flex items-center">
+                            <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+                            KI-Transparenz & Datenstruktur (Rohtext vs. JSON-Referenz)
+                        </summary>
+                        
+                        <div class="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <!-- Rohtext (OCR) -->
+                            <div class="flex flex-col">
+                                <div class="bg-secondary/50 px-4 py-2 rounded-t-xl border border-border border-b-0 text-[10px] font-bold text-foreground flex justify-between items-center">
+                                    <span>📄 Rohtext (PDF Extraktion)</span>
+                                    <span class="text-muted-foreground font-normal">Ungestrukturierte Basisdaten</span>
+                                </div>
+                                <div class="bg-card rounded-b-xl p-4 overflow-x-auto shadow-inner text-[10px] font-mono whitespace-pre-wrap leading-relaxed border border-border h-96 overflow-y-auto text-muted-foreground">
+                                    <th:block th:text="${analysis.metadata.extractedRawText}"></th:block>
+                                </div>
+                            </div>
+
+                            <!-- KI JSON Reference -->
+                            <div class="flex flex-col">
+                                <div class="bg-secondary/50 px-4 py-2 rounded-t-xl border border-border border-b-0 text-[10px] font-bold text-primary flex justify-between items-center">
+                                    <span>🧠 Strukturierte KI-Referenz (JSON)</span>
+                                    <span class="text-muted-foreground font-normal">Der Kontext für den Chatbot</span>
+                                </div>
+                                <pre id="ai-json-viewer" class="bg-slate-900 rounded-b-xl p-4 overflow-x-auto shadow-inner text-[10px] font-mono whitespace-pre-wrap leading-relaxed border border-slate-800 h-96 overflow-y-auto text-green-400"></pre>
+                                
+                                <script th:inline="javascript">
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        /*<![CDATA[*/
+                                        var analysisData = /*[[${analysis}]]*/ {};
+                                        // Wir entfernen den langen, störenden Rohtext aus dem JSON-View, da er links separat steht
+                                        if (analysisData && analysisData.metadata) {
+                                            analysisData.metadata.extractedRawText = "[... Rohtext links sichtbar ...]";
+                                        }
+                                        document.getElementById('ai-json-viewer').textContent = JSON.stringify(analysisData, null, 2);
+                                        /*]]>*/
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- BGB Legal Check -->
+                <div class="border-t border-border pt-6">
+                    <h3 class="font-bold text-card-foreground text-xs uppercase tracking-wider mb-4">Rechtlicher Klausel-Check</h3>
+
+                    <div th:if="${analysis.legalCheck.mandatoryElementsBGB == null || analysis.legalCheck.mandatoryElementsBGB.isEmpty()}" class="p-4 bg-primary/10 rounded-xl border border-primary/20">
+                        <span class="text-primary font-bold text-xs flex items-center gap-2">
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                            Klasse! Dieser Vertrag enthält keine standardisierten, illegalen Verlängerungsklauseln (BGB Konform).
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div th:each="check : ${analysis.legalCheck.mandatoryElementsBGB}" class="flex justify-between items-center p-3 bg-red-50 rounded-xl border border-red-200 text-xs gap-3 shadow-sm">
+                            <div>
+                                <span class="font-bold text-red-700 block" th:text="${check.check}">Verstoß</span>
+                                <span class="text-red-500 font-medium text-[10px] mt-1 block" th:text="${check.paragraph}">§355 BGB</span>
+                                <span class="text-muted-foreground mt-1 text-[10px] block leading-tight" th:text="${check.explanation}">Erklärung...</span>
+                            </div>
+
+                            <!-- Premium Dynamic Vector Status Badges -->
+                            <div class="flex-shrink-0">
+                                <span class="h-8 w-8 text-white bg-red-600 rounded-full flex items-center justify-center shadow-md animate-pulse">
+                                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.546 3z"/></svg>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Chatbot Box (Thymeleaf + HTMX) -->
+            <div class="bg-card rounded-2xl shadow-card border border-border overflow-hidden flex flex-col h-[700px]">
+
+                <!-- Chat Header -->
+                <div class="bg-secondary border-b border-border p-5 flex items-center justify-between shrink-0">
+                    <div class="flex items-center gap-3">
+                        <div class="h-10 w-10 bg-accent-primary rounded-full flex items-center justify-center">
+                            <svg class="h-5 w-5 text-white" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8V4H8"/><rect height="12" rx="2" width="16" x="4" y="8"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm text-card-foreground">RAG Vertragsexperte</h3>
+                            <p class="text-muted-foreground text-[10px]">Versteht Ihren Vertrag lückenlos</p>
+                        </div>
+                    </div>
+                    <span class="bg-primary/10 text-primary text-[10px] px-2.5 py-1 rounded-full font-bold uppercase tracking-wider border border-primary/20">Online</span>
+                </div>
+
+                <!-- Messages Area -->
+                <div id="chat-messages" class="flex-1 overflow-y-auto p-5 custom-scrollbar bg-background flex flex-col">
+
+                    <!-- Welcome message -->
+                    <div class="flex justify-start mb-4">
+                        <div class="bg-secondary text-secondary-foreground rounded-2xl rounded-tl-none px-4 py-3 max-w-[85%] border border-border shadow-sm text-sm leading-relaxed">
+                            <div class="font-semibold text-xs text-primary mb-1">Vertrags-Experte</div>
+                            Hallo! 👋 Ich habe Ihren Vertrag analysiert und kenne alle Details.
+                            Fragen Sie mich nach den <strong>versteckten Kosten</strong>, wie Sie am besten <strong>kündigen</strong> oder ob es gute <strong>Spar-Alternativen</strong> gibt!
+                        </div>
+                    </div>
+
+                    <!-- HTMX Loading Indicator (Typing Bubble) -->
+                    <div id="chat-loading" class="htmx-indicator flex justify-start mb-4 mt-auto">
+                        <div class="bg-secondary text-secondary-foreground rounded-2xl rounded-tl-none px-4 py-3 max-w-[85%] border border-border shadow-sm text-sm flex items-center gap-1.5">
+                            <div class="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce"></div>
+                            <div class="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                            <div class="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Area (HTMX-Powered, resets input on request completed) -->
+                <div class="p-4 bg-background border-t border-border shrink-0">
+                    <form hx-post="/chatbot/query"
+                          onsubmit="appendUserMessage(this.question.value)"
+                          hx-target="#chat-loading"
+                          hx-swap="beforebegin"
+                          hx-indicator="#chat-loading"
+                          hx-on::after-request="this.reset(); document.getElementById('chat-messages').scrollTo({top: document.getElementById('chat-messages').scrollHeight, behavior: 'smooth'});"
+                          class="flex gap-2">
+                        <input type="hidden" name="contractId" th:value="${contract.id}">
+                        <input type="hidden" name="contractType" th:value="${contract.contractType}">
+                        <input type="text"
+                               name="question"
+                               placeholder="Frag mich etwas Einfaches zum Vertrag..."
+                               required
+                               class="flex-1 px-4 py-3 border border-input rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-sm shadow-sm bg-background placeholder-muted-foreground text-foreground">
+                        <button type="submit"
+                                class="bg-primary hover:bg-primary-hover text-primary-foreground font-bold px-6 rounded-xl text-sm shadow-sm transition-colors flex items-center justify-center">
+                            Senden
+                        </button>
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 text-sm mt-auto">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>&copy; <span th:text="${#calendars.year(#calendars.createNow())}">2026</span> IhreZuhauseBeratung GmbH. Alle Rechte vorbehalten.</p>
+            <div class="flex gap-4">
+                <a href="/impressum" class="hover:text-white transition-colors">Impressum</a>
+                <a href="/datenschutz" class="hover:text-white transition-colors">Datenschutz</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function appendUserMessage(question) {
+            const chatMessages = document.getElementById('chat-messages');
+            const loadingIndicator = document.getElementById('chat-loading');
+            
+            // Create user message HTML
+            const userMsgHtml = `
+               <div class="flex justify-end mb-4 animate-fade-in user-message-optimistic">
+                 <div class="bg-primary text-primary-foreground rounded-2xl rounded-tr-none px-4 py-3 max-w-[85%] shadow-md text-sm font-semibold">
+                   ${question.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")}
+                 </div>
+               </div>
+            `;
+            
+            // Insert right before the loading indicator
+            loadingIndicator.insertAdjacentHTML('beforebegin', userMsgHtml);
+            
+            // Scroll to bottom
+            chatMessages.scrollTo({top: chatMessages.scrollHeight, behavior: 'smooth'});
+        }
+    </script>
+</body>
+
+</html>

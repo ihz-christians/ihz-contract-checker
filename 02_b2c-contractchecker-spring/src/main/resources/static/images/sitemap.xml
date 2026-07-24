@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml"
+>
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://ihrezuhauseberatung.de/</loc>
+    <xhtml:link
+            rel="alternate"
+            hreflang="de"
+            href="https://ihrezuhauseberatung.de/"
+        />
+    <xhtml:link
+            rel="alternate"
+            hreflang="en"
+            href="https://ihrezuhauseberatung.de/en/"
+        />
+    <xhtml:link
+            rel="alternate"
+            hreflang="x-default"
+            href="https://ihrezuhauseberatung.de/"
+        />
+    <lastmod>2024-12-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- About Page -->
+  <url>
+    <loc>https://ihrezuhauseberatung.de/about</loc>
+    <xhtml:link
+            rel="alternate"
+            hreflang="de"
+            href="https://ihrezuhauseberatung.de/about"
+        />
+    <xhtml:link
+            rel="alternate"
+            hreflang="en"
+            href="https://ihrezuhauseberatung.de/en/about"
+        />
+    <xhtml:link
+            rel="alternate"
+            hreflang="x-default"
+            href="https://ihrezuhauseberatung.de/about"
+        />
+    <lastmod>2024-12-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Contact Page -->
+  <url>
+    <loc>https://ihrezuhauseberatung.de/kontakt</loc>
+    <xhtml:link
+            rel="alternate"
+            hreflang="de"
+            href="https://ihrezuhauseberatung.de/kontakt"
+        />
+    <xhtml:link
+            rel="alternate"
+            hreflang="en"
+            href="https://ihrezuhauseberatung.de/en/kontakt"
+        />
+    <xhtml:link
+            rel="alternate"
+            hreflang="x-default"
+            href="https://ihrezuhauseberatung.de/kontakt"
+        />
+    <lastmod>2024-12-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Impressum (Legal Notice) -->
+  <url>
+    <loc>https://ihrezuhauseberatung.de/impressum</loc>
+    <xhtml:link
+            rel="alternate"
+            hreflang="de"
+            href="https://ihrezuhauseberatung.de/impressum"
+        />
+    <xhtml:link
+            rel="alternate"
+            hreflang="en"
+            href="https://ihrezuhauseberatung.de/en/impressum"
+        />
+    <xhtml:link
+            rel="alternate"
+            hreflang="x-default"
+            href="https://ihrezuhauseberatung.de/impressum"
+        />
+    <lastmod>2024-12-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Datenschutz (Privacy Policy) -->
+  <url>
+    <loc>https://ihrezuhauseberatung.de/datenschutz</loc>
+    <xhtml:link
+            rel="alternate"
+            hreflang="de"
+            href="https://ihrezuhauseberatung.de/datenschutz"
+        />
+    <xhtml:link
+            rel="alternate"
+            hreflang="en"
+            href="https://ihrezuhauseberatung.de/en/datenschutz"
+        />
+    <xhtml:link
+            rel="alternate"
+            hreflang="x-default"
+            href="https://ihrezuhauseberatung.de/datenschutz"
+        />
+    <lastmod>2024-12-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>

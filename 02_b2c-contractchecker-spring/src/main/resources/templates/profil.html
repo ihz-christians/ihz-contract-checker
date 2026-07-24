@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IhreZuhauseBeratung - Mein Profil & KI-Kontext</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: ["class"],
+            theme: {
+                extend: {
+                    colors: {
+                        border: "hsl(var(--border))",
+                        input: "hsl(var(--input))",
+                        ring: "hsl(var(--ring))",
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                        primary: {
+                          DEFAULT: "hsl(var(--primary))",
+                          foreground: "hsl(var(--primary-foreground))",
+                          hover: "hsl(var(--primary-hover))",
+                        },
+                        secondary: {
+                          DEFAULT: "hsl(var(--secondary))",
+                          foreground: "hsl(var(--secondary-foreground))",
+                        },
+                        muted: {
+                          DEFAULT: "hsl(var(--muted))",
+                          foreground: "hsl(var(--muted-foreground))",
+                        },
+                        accent: {
+                          DEFAULT: "hsl(var(--accent))",
+                          foreground: "hsl(var(--accent-foreground))",
+                          primary: "hsl(var(--accent-primary))",
+                          secondary: "hsl(var(--accent-secondary))",
+                        },
+                        card: {
+                          DEFAULT: "hsl(var(--card))",
+                          foreground: "hsl(var(--card-foreground))",
+                          hover: "hsl(var(--card-hover))",
+                        },
+                        destructive: {
+                          DEFAULT: "hsl(var(--destructive))",
+                          foreground: "hsl(var(--destructive-foreground))",
+                        }
+                    },
+                    boxShadow: {
+                        card: "var(--shadow-md)",
+                        "card-hover": "var(--shadow-xl)",
+                    },
+                    borderRadius: {
+                        xl: "var(--radius-xl)",
+                        "2xl": "var(--radius-2xl)",
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background min-h-screen font-sans flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-primary text-primary-foreground shadow-card border-b border-primary-hover">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3 text-2xl font-extrabold tracking-tight hover:opacity-95 transition-opacity group">
+                <div class="h-8 w-8 bg-white rounded-full flex items-center justify-center transition-transform group-hover:scale-105">
+                    <img src="/images/white-logo.png" alt="Logo" class="h-6 w-6 object-contain" onerror="this.src='/images/logo.png';">
+                </div>
+                IhreZuhauseBeratung
+            </a>
+            
+            <div class="flex items-center gap-6">
+                <a href="/dashboard" class="text-primary-foreground/80 hover:text-white text-sm font-semibold transition-colors">
+                    Dashboard
+                </a>
+                <span class="text-white text-sm font-bold bg-primary-hover px-3 py-1.5 rounded-lg hidden sm:inline" th:text="${userEmail}">kunde@example.com</span>
+                <form action="/logout" method="POST" class="inline">
+                    <button type="submit" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-colors">
+                        Abmelden
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <form action="/profil/save" method="POST" class="contents">
+            <!-- Left: Profile Data -->
+            <div class="space-y-6">
+                <div class="bg-card rounded-2xl shadow-card border border-border p-6 hover:shadow-card-hover transition-shadow">
+                    
+                    <div th:if="${param.success}" class="mb-6 bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-xl p-4 flex gap-3 text-sm font-bold">
+                        <span>✅</span>
+                        Profil & KI-Kontext wurden erfolgreich gespeichert!
+                    </div>
+
+                    <div class="flex items-center gap-3 mb-6 border-b border-border pb-4">
+                        <span class="text-2xl">👤</span>
+                        <div>
+                            <h2 class="text-xl font-bold text-card-foreground">Persönliche Daten</h2>
+                            <p class="text-muted-foreground text-xs mt-1">Ihre Kontaktdaten für Anschreiben (Kündigungen, Widerruf).</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-card-foreground/80">Vorname</label>
+                                <input type="text" name="firstName" th:value="${user != null ? user.firstName : ''}" placeholder="Max" class="w-full px-3 py-2.5 border border-input rounded-xl bg-background text-sm focus:ring-1 focus:ring-primary focus:border-primary shadow-sm" required>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-card-foreground/80">Nachname</label>
+                                <input type="text" name="lastName" th:value="${user != null ? user.lastName : ''}" placeholder="Mustermann" class="w-full px-3 py-2.5 border border-input rounded-xl bg-background text-sm focus:ring-1 focus:ring-primary focus:border-primary shadow-sm" required>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="space-y-1.5 md:col-span-2">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-card-foreground/80">Straße</label>
+                                <input type="text" name="street" th:value="${user != null ? user.street : ''}" placeholder="Musterstraße" class="w-full px-3 py-2.5 border border-input rounded-xl bg-background text-sm focus:ring-1 focus:ring-primary focus:border-primary shadow-sm">
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-card-foreground/80">Hausnummer</label>
+                                <input type="text" name="houseNumber" th:value="${user != null ? user.houseNumber : ''}" placeholder="12a" class="w-full px-3 py-2.5 border border-input rounded-xl bg-background text-sm focus:ring-1 focus:ring-primary focus:border-primary shadow-sm">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-card-foreground/80">PLZ</label>
+                                <input type="text" name="zipCode" th:value="${user != null ? user.zipCode : ''}" placeholder="12345" class="w-full px-3 py-2.5 border border-input rounded-xl bg-background text-sm focus:ring-1 focus:ring-primary focus:border-primary shadow-sm">
+                            </div>
+                            <div class="space-y-1.5 md:col-span-2">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-card-foreground/80">Ort</label>
+                                <input type="text" name="city" th:value="${user != null ? user.city : ''}" placeholder="Musterstadt" class="w-full px-3 py-2.5 border border-input rounded-xl bg-background text-sm focus:ring-1 focus:ring-primary focus:border-primary shadow-sm">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground font-bold py-3 px-4 rounded-xl text-sm shadow-sm transition-colors mt-2">
+                            Alles Speichern (Profil & KI)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: AI Context Builder -->
+            <div class="space-y-6">
+                <div class="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl shadow-card border border-blue-100 p-6">
+                    <div class="flex items-center gap-3 mb-4 border-b border-blue-200 pb-4">
+                        <span class="text-2xl">🧠</span>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900">KI-Kontext (Lebenssituation)</h2>
+                            <p class="text-slate-600 text-xs mt-1">Wählen Sie Eigenschaften für eine perfekte Analyse.</p>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="tags" id="hiddenTags" th:value="${user != null && user.aiContextTags != null ? #strings.listJoin(user.aiContextTags, ',') : ''}">
+
+                    <div class="flex flex-wrap gap-2 mb-6" id="context-buttons">
+                        <button type="button" onclick="toggleTag(this, 'Alleinlebend (Single)')" class="tag-btn bg-white border border-blue-200 text-slate-700 hover:bg-blue-100 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm transition-colors">🧍 Single</button>
+                        <button type="button" onclick="toggleTag(this, 'Paar (ohne Kinder)')" class="tag-btn bg-white border border-blue-200 text-slate-700 hover:bg-blue-100 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm transition-colors">👫 Paar</button>
+                        <button type="button" onclick="toggleTag(this, 'Familie mit Kindern')" class="tag-btn bg-white border border-blue-200 text-slate-700 hover:bg-blue-100 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm transition-colors">👨‍👩‍👧‍👦 Familie</button>
+                        <button type="button" onclick="toggleTag(this, 'Student / Azubi')" class="tag-btn bg-white border border-blue-200 text-slate-700 hover:bg-blue-100 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm transition-colors">🎓 Student/Azubi</button>
+                        <button type="button" onclick="toggleTag(this, 'Berufstätig (Vollzeit)')" class="tag-btn bg-white border border-blue-200 text-slate-700 hover:bg-blue-100 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm transition-colors">💼 Vollzeit Berufstätig</button>
+                        <button type="button" onclick="toggleTag(this, 'Rentner')" class="tag-btn bg-white border border-blue-200 text-slate-700 hover:bg-blue-100 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm transition-colors">🧓 Rentner</button>
+                        <button type="button" onclick="toggleTag(this, 'Vielnutzer (Internet/Daten)')" class="tag-btn bg-white border border-blue-200 text-slate-700 hover:bg-blue-100 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm transition-colors">🚀 Vielnutzer (Internet)</button>
+                        <button type="button" onclick="toggleTag(this, 'Hoher Strom-/Gasverbrauch')" class="tag-btn bg-white border border-blue-200 text-slate-700 hover:bg-blue-100 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm transition-colors">⚡ Hoher Energieverbrauch</button>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-700">Persönlicher System-Prompt für die KI</label>
+                        <textarea id="ai-prompt-box" name="customPrompt" rows="5" th:text="${user != null ? user.aiCustomPrompt : ''}" class="w-full px-4 py-3 border border-blue-200 rounded-xl bg-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-inner font-mono text-slate-600 resize-none" placeholder="Klicken Sie oben auf Eigenschaften oder schreiben Sie eigene Details..."></textarea>
+                        <p class="text-[10px] text-slate-500">Diese Informationen nutzt der Chatbot automatisch im Hintergrund für maßgeschneiderte Antworten (z.B. "Ist dieser Vertrag als Familie zu teuer?").</p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <footer class="bg-background border-t border-border mt-auto">
+        <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground font-medium">
+            <p>&copy; <span th:text="${#calendars.year(#calendars.createNow())}">2026</span> IhreZuhauseBeratung GmbH. Alle Rechte vorbehalten.</p>
+            <div class="flex gap-4">
+                <a href="/impressum" class="hover:text-foreground transition-colors">Impressum</a>
+                <a href="/datenschutz" class="hover:text-foreground transition-colors">Datenschutz</a>
+            </div>
+        </div>
+    </footer>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const initialTagsStr = /*[[${user != null && user.aiContextTags != null ? #strings.listJoin(user.aiContextTags, ',') : ''}]]*/ '';
+        const selectedTags = new Set(initialTagsStr ? initialTagsStr.split(',') : []);
+        /*]]>*/
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const buttons = document.querySelectorAll('.tag-btn');
+            buttons.forEach(btn => {
+                const tagValue = btn.textContent.replace(/^[\p{Emoji}\s]+/u, '').trim();
+                // Map the displayed text back to the real tag if needed, but let's just use raw matching for now
+                // Actually the button onclick uses 'Alleinlebend (Single)' etc.
+                const matchVal = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+                if (selectedTags.has(matchVal)) {
+                    btn.classList.remove('bg-white', 'text-slate-700', 'border-blue-200');
+                    btn.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+                }
+            });
+            updateHiddenInput();
+        });
+
+        function toggleTag(btn, tagValue) {
+            if (selectedTags.has(tagValue)) {
+                selectedTags.delete(tagValue);
+                btn.classList.remove('bg-blue-600', 'text-white', 'border-blue-600');
+                btn.classList.add('bg-white', 'text-slate-700', 'border-blue-200');
+            } else {
+                selectedTags.add(tagValue);
+                btn.classList.remove('bg-white', 'text-slate-700', 'border-blue-200');
+                btn.classList.add('bg-blue-600', 'text-white', 'border-blue-600');
+            }
+            updateHiddenInput();
+            generatePrompt();
+        }
+
+        function updateHiddenInput() {
+            document.getElementById('hiddenTags').value = Array.from(selectedTags).join(',');
+        }
+
+        function generatePrompt() {
+            const promptBox = document.getElementById('ai-prompt-box');
+            if (selectedTags.size === 0) {
+                promptBox.value = "";
+                return;
+            }
+
+            const tagsArray = Array.from(selectedTags);
+            let promptText = "Bitte analysiere diesen Vertrag und beachte meinen Kontext:\n\n";
+            promptText += "- Ich bin " + tagsArray.join(", ") + ".\n\n";
+            promptText += "Stimme Kündigungsempfehlungen, alternative Tarife oder Warnungen vor Kostenfallen exakt auf dieses Profil ab.";
+
+            promptBox.value = promptText;
+        }
+    </script>
+</body>
+</html>

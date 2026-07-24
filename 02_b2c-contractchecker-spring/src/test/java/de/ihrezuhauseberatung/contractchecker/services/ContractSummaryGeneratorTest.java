@@ -1,0 +1,219 @@
+package de.ihrezuhauseberatung.contractchecker.services;
+
+import de.ihrezuhauseberatung.contractchecker.models.domain.TcoResult;
+import de.ihrezuhauseberatung.contractchecker.models.domain.TcoResult.PaymentReality;
+import de.ihrezuhauseberatung.contractchecker.models.llm.ContractComponent;
+import de.ihrezuhauseberatung.contractchecker.models.llm.ExtractedContractData;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+class ContractSummaryGeneratorTest {
+
+    @Mock
+    private TcoCalculationEngine tcoEngine;
+
+    @Mock
+    private LegalComplianceEngine legalEngine;
+
+    private ContractSummaryGenerator summaryGenerator;
+
+    @BeforeEach
+    void setUp() {
+        summaryGenerator = new ContractSummaryGenerator(tcoEngine, legalEngine);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void generateAnalysisSummary_shouldCorrectlyGroupComponentsAndMapNewFields() {
+        // ARRANGE: TCO und Legal Mocks
+        TcoResult mockResult = new TcoResult(
+            new BigDecimal("1000.00"), 
+            new BigDecimal("41.67"), 
+            new ArrayList<>(), 
+            new ArrayList<>(), 
+            new PaymentReality(1, 0, BigDecimal.ZERO)
+        );
+        when(tcoEngine.calculateTcoAndPhases(any())).thenReturn(mockResult);
+        when(legalEngine.verifyBgbCompliance(any())).thenReturn(Map.of("legalScore", 100));
+
+        // ARRANGE: Bereite das komplexe KI-Datenobjekt vor
+        ExtractedContractData data = ExtractedContractData.builder()
+                .provider("TestProvider")
+                .targetAudienceGood("Gamer")
+                .telephonyRisks("Teure Auslandsgespräche")
+                .components(List.of(
+                        ContractComponent.builder().name("Internet").category("Haupttarif").build(),
+                        ContractComponent.builder().name("Router").category("Hardware").build(),
+                        ContractComponent.builder().name("Cashback").category("Rabatt").build(),
+                        ContractComponent.builder().name("TV Paket").category("Zusatzoption").build()
+                ))
+                .build();
+
+        // ACT
+        Map<String, Object> result = summaryGenerator.generateAnalysisSummary("Rohtext...", data);
+
+        // ASSERT: Hat der Generator die Daten in das 'overview' JSON-Map gepackt?
+        assertThat(result).containsKey("overview");
+        Map<String, Object> overview = (Map<String, Object>) result.get("overview");
+
+        // 1. Prüfe, ob die neuen KI-Beratungs-Felder im JSON gelandet sind
+        assertThat(overview.get("targetAudienceGood")).isEqualTo("Gamer");
+        assertThat(overview.get("telephonyRisks")).isEqualTo("Teure Auslandsgespräche");
+        assertThat(overview.get("calculatedTco")).isEqualTo(new BigDecimal("1000.00"));
+
+        // 2. Prüfe die Frontend-Kategorisierung!
+        List<ContractComponent> mainTariffs = (List<ContractComponent>) overview.get("mainTariffs");
+        List<ContractComponent> hardware = (List<ContractComponent>) overview.get("hardware");
+        List<ContractComponent> discounts = (List<ContractComponent>) overview.get("discounts");
+        List<ContractComponent> addOns = (List<ContractComponent>) overview.get("addOns");
+
+        assertThat(mainTariffs).hasSize(1);
+        assertThat(mainTariffs.get(0).getName()).isEqualTo("Internet");
+
+        assertThat(hardware).hasSize(1);
+        assertThat(hardware.get(0).getName()).isEqualTo("Router");
+
+        assertThat(discounts).hasSize(1);
+        assertThat(discounts.get(0).getName()).isEqualTo("Cashback");
+
+        assertThat(addOns).hasSize(1);
+        assertThat(addOns.get(0).getName()).isEqualTo("TV Paket");
+    }
+
+    @Test
+    void generateAnalysisSummary_shouldFlagUnreadableScan() {
+        // ARRANGE: Mock TCO
+        TcoResult mockResult = new TcoResult(
+            BigDecimal.ZERO, 
+            BigDecimal.ZERO, 
+            new ArrayList<>(), 
+            new ArrayList<>(), 
+            new PaymentReality(1, 0, BigDecimal.ZERO)
+        );
+        when(tcoEngine.calculateTcoAndPhases(any())).thenReturn(mockResult);
+
+        // ACT: Wir simulieren ein PDF, das nur aus Bildern besteht und unsere "Unreadable"-Warnung triggert
+        Map<String, Object> result = summaryGenerator.generateAnalysisSummary(
+                "Leider enthält das Dokument keinen maschinenlesbaren Text.", null);
+
+        // ASSERT
+        assertThat(result).containsKey("overview");
+        Map<String, Object> overview = (Map<String, Object>) result.get("overview");
+
+        // Prüfe, ob das Flag für das UI korrekt gesetzt wurde, damit die rote Kamera-Warnung erscheint
+        assertThat(overview.get("isUnreadableScan")).isEqualTo(true);
+        assertThat((String) overview.get("summaryB1")).contains("scheint ein reines Bild oder ein Scan zu sein");
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void generateAnalysisSummary_shouldSetYellowRiskAmpel_whenPriceIncreasesMoreThan100Percent() {
+        // ARRANGE: raw prices showing >100% increase (19.99 to 49.99)
+        List<Map<String, Object>> rawPhases = List.of(
+            Map.of("price", 19.99),
+            Map.of("price", 49.99)
+        );
+
+        TcoResult mockResult = new TcoResult(
+            new BigDecimal("1000.00"), 
+            new BigDecimal("41.67"), 
+            rawPhases, 
+            new ArrayList<>(), 
+            new PaymentReality(1, 0, BigDecimal.ZERO)
+        );
+        when(tcoEngine.calculateTcoAndPhases(any())).thenReturn(mockResult);
+        when(legalEngine.verifyBgbCompliance(any())).thenReturn(Map.of("legalScore", 100));
+
+        ExtractedContractData data = ExtractedContractData.builder().build();
+
+        // ACT
+        Map<String, Object> result = summaryGenerator.generateAnalysisSummary("Rohtext...", data);
+
+        // ASSERT
+        Map<String, Object> overview = (Map<String, Object>) result.get("overview");
+        Map<String, Object> riskAmpel = (Map<String, Object>) overview.get("riskAmpel");
+
+        System.out.println("DEBUG AMPEL: " + riskAmpel);
+        assertThat(riskAmpel.get("color")).isEqualTo("🟡");
+        assertThat((int) riskAmpel.get("score")).isEqualTo(60); // 100 - 40
+        assertThat((String) riskAmpel.get("description")).contains("Mittleres Risiko").contains("Die Fixkosten steigen im Vertragsverlauf um mehr als 100%!");
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void generateAnalysisSummary_shouldSetYellowRiskAmpel_whenPriceIncreasesMoreThan30Percent() {
+        // ARRANGE: raw prices showing >30% but <100% increase (19.99 to 25.99)
+        List<Map<String, Object>> rawPhases = List.of(
+            Map.of("price", 19.99),
+            Map.of("price", 25.99)
+        );
+
+        TcoResult mockResult = new TcoResult(
+            new BigDecimal("600.00"), 
+            new BigDecimal("25.00"), 
+            rawPhases, 
+            new ArrayList<>(), 
+            new PaymentReality(1, 0, BigDecimal.ZERO)
+        );
+        when(tcoEngine.calculateTcoAndPhases(any())).thenReturn(mockResult);
+        when(legalEngine.verifyBgbCompliance(any())).thenReturn(Map.of("legalScore", 100));
+
+        ExtractedContractData data = ExtractedContractData.builder().build();
+
+        // ACT
+        Map<String, Object> result = summaryGenerator.generateAnalysisSummary("Rohtext...", data);
+
+        // ASSERT
+        Map<String, Object> overview = (Map<String, Object>) result.get("overview");
+        Map<String, Object> riskAmpel = (Map<String, Object>) overview.get("riskAmpel");
+
+        assertThat(riskAmpel.get("color")).isEqualTo("🟡");
+        assertThat((int) riskAmpel.get("score")).isEqualTo(80); // 100 - 20
+        assertThat((String) riskAmpel.get("description")).contains("Mittleres Risiko").contains("Der reguläre Preis ist deutlich höher als der Lockpreis.");
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void generateAnalysisSummary_shouldSetRedRiskAmpel_whenLegalScoreIsVeryLow() {
+        // ARRANGE: No economic issues, but severe legal issues
+        List<Map<String, Object>> rawPhases = List.of(
+            Map.of("price", 19.99)
+        );
+
+        TcoResult mockResult = new TcoResult(
+            new BigDecimal("480.00"), 
+            new BigDecimal("19.99"), 
+            rawPhases, 
+            new ArrayList<>(), 
+            new PaymentReality(1, 0, BigDecimal.ZERO)
+        );
+        when(tcoEngine.calculateTcoAndPhases(any())).thenReturn(mockResult);
+        when(legalEngine.verifyBgbCompliance(any())).thenReturn(Map.of("legalScore", 30));
+
+        ExtractedContractData data = ExtractedContractData.builder().build();
+
+        // ACT
+        Map<String, Object> result = summaryGenerator.generateAnalysisSummary("Rohtext...", data);
+
+        // ASSERT
+        Map<String, Object> overview = (Map<String, Object>) result.get("overview");
+        Map<String, Object> riskAmpel = (Map<String, Object>) overview.get("riskAmpel");
+
+        assertThat(riskAmpel.get("color")).isEqualTo("🔴");
+        assertThat((int) riskAmpel.get("score")).isEqualTo(30);
+        assertThat((String) riskAmpel.get("description")).contains("Hohes Risiko (Extreme Kostenfallen oder illegale Klauseln)");
+    }
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="de" class="h-full bg-slate-50 text-slate-900 selection:bg-[#2D5016]/20 selection:text-[#2D5016]">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IHZ - OPS | B2C Contract-Checker</title>
+  
+  <!-- PWA Metadata -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="OpsControl">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+
+  <!-- Tailwind CSS & Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom scrollbars for a clean tech look */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="h-full font-sans antialiased bg-slate-50 flex flex-col min-h-screen relative overflow-x-hidden">
+  
+  <!-- Ambient background glow -->
+  <div class="absolute top-0 left-1/4 w-96 h-96 bg-[#2D5016]/5 rounded-full blur-3xl pointer-events-none z-0"></div>
+  <div class="absolute bottom-10 right-1/4 w-96 h-96 bg-[#9BC53D]/5 rounded-full blur-3xl pointer-events-none z-0"></div>
+
+  <!-- Header -->
+  <header class="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-40 px-6 py-4.5">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      
+      <!-- Brand & Name -->
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-[#2D5016] to-[#4A7C59] flex items-center justify-center shadow-lg shadow-[#2D5016]/20">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-extrabold text-slate-900 uppercase tracking-wider">IHZ - OPS</h1>
+            <span class="text-[9px] font-bold bg-[#f1f6ed] text-[#2D5016] border border-[#2D5016]/20 px-2 py-0.5 rounded-md uppercase tracking-wider">B2C Contract-Checker</span>
+          </div>
+          <p class="text-xs text-slate-600 mt-0.5">Isolated Operations Control Center (OCC)</p>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Header -->
+      <div class="flex flex-wrap items-center gap-6 text-xs text-slate-600">
+        <div class="border-l border-slate-200 pl-4 py-1">
+          <span class="block text-[10px] text-slate-500 uppercase font-extrabold">Registrierte Benutzer</span>
+          <span id="header-total-users" class="font-mono text-slate-800 font-bold">Lade...</span>
+        </div>
+        <div class="border-l border-slate-200 pl-4 py-1">
+          <span class="block text-[10px] text-slate-500 uppercase font-extrabold">System Uptime</span>
+          <span id="header-system-uptime" class="font-mono text-slate-800 font-bold">Verbinde...</span>
+        </div>
+        <div class="border-l border-slate-200 pl-4 py-1">
+          <span class="block text-[10px] text-slate-500 uppercase font-extrabold">DB Auditing</span>
+          <span id="header-db-auditing" class="text-slate-400 font-semibold flex items-center gap-1 font-mono">
+            Prüfe...
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Work area -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6 relative z-10">
+    
+    <!-- Top Row Grid: Health & Metrics / Security -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Live Monitoring -->
+      <div class="lg:col-span-8">
+        <ops-health-grid></ops-health-grid>
+      </div>
+
+      <!-- Security / RLS Control -->
+      <div class="lg:col-span-4">
+        <ops-security-audit></ops-security-audit>
+      </div>
+
+    </div>
+
+    <!-- Middle Row Grid: Pipeline Queue & Simulator -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Pipeline queue Table -->
+      <div class="lg:col-span-8">
+        <ops-pipeline-queue></ops-pipeline-queue>
+      </div>
+
+      <!-- AI Token & Cost Control -->
+      <div class="lg:col-span-4">
+        <ops-cost-metrics></ops-cost-metrics>
+      </div>
+
+    </div>
+
+    <!-- Bottom Row Grid: Live Simulator Panel -->
+    <div>
+      <ops-simulator-panel></ops-simulator-panel>
+    </div>
+
+    <!-- Live Incident and Auth Tracker Panel -->
+    <div>
+      <ops-incident-tracker></ops-incident-tracker>
+    </div>
+
+    <!-- Real-time Event Console Log (Streamed) -->
+    <div class="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden shadow-2xl">
+      <div class="bg-slate-50 px-5 py-3.5 border-b border-slate-200 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-2.5 h-2.5 rounded-full bg-[#9BC53D] animate-pulse"></div>
+          <span class="text-xs font-black text-slate-700 uppercase tracking-widest font-mono">Operations Console Stream</span>
+        </div>
+        <span class="text-[10px] font-mono text-slate-500">Kanal: secure_handshake_log</span>
+      </div>
+      <div id="log-stream-body" class="max-h-52 overflow-y-auto min-h-24 divide-y divide-slate-200">
+        <!-- Logs injected here dynamically by app.js -->
+        <div class="p-4 text-slate-500 text-xs font-mono text-center">Warte auf System-Events...</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <p>© 2026 IHZ - OPS | B2C Contract-Checker. Lizenziert für interne Administratoren. Keine externe Netzwerkschnittstelle freigegeben.</p>
+  </footer>
+
+  <!-- Toast Alert Containers -->
+  <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+  <!-- Load Web Component ESM Scripts -->
+  <script type="module" src="components/health-grid.js"></script>
+  <script type="module" src="components/pipeline-queue.js"></script>
+  <script type="module" src="components/cost-metrics.js"></script>
+  <script type="module" src="components/security-audit.js"></script>
+  <script type="module" src="components/simulator-panel.js"></script>
+  <script type="module" src="components/incident-tracker.js"></script>
+  
+  <!-- Load Main Orchestrator -->
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>

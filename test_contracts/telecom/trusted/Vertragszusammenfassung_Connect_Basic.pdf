@@ -1,0 +1,1034 @@
+    <!doctype html>
+    <html lang="de-DE">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <link rel='stylesheet' href='https://www.mojnet.de/wp-content/plugins/breakdance/plugin/themeless/normalize.min.css'>
+                <title>404 - Page not found - Mojnet</title>
+<!-- Google tag (gtag.js) consent mode dataLayer added by Site Kit -->
+<script id="google_gtagjs-js-consent-mode-data-layer">
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {"ad_personalization":"denied","ad_storage":"denied","ad_user_data":"denied","analytics_storage":"denied","functionality_storage":"denied","security_storage":"denied","personalization_storage":"denied","region":["AT","BE","BG","CH","CY","CZ","DE","DK","EE","ES","FI","FR","GB","GR","HR","HU","IE","IS","IT","LI","LT","LU","LV","MT","NL","NO","PL","PT","RO","SE","SI","SK"],"wait_for_update":500});
+window._googlesitekitConsentCategoryMap = {"statistics":["analytics_storage"],"marketing":["ad_storage","ad_user_data","ad_personalization"],"functional":["functionality_storage","security_storage"],"preferences":["personalization_storage"]};
+window._googlesitekitConsents = {"ad_personalization":"denied","ad_storage":"denied","ad_user_data":"denied","analytics_storage":"denied","functionality_storage":"denied","security_storage":"denied","personalization_storage":"denied","region":["AT","BE","BG","CH","CY","CZ","DE","DK","EE","ES","FI","FR","GB","GR","HR","HU","IE","IS","IT","LI","LT","LU","LV","MT","NL","NO","PL","PT","RO","SE","SI","SK"],"wait_for_update":500};
+</script>
+<!-- End Google tag (gtag.js) consent mode dataLayer added by Site Kit -->
+<meta name="robots" content="follow, noindex">
+<meta property="fb:pages" content="">
+<link rel='dns-prefetch' href='//www.googletagmanager.com' />
+<style id="wp-img-auto-sizes-contain-inline-css">
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+
+
+<link rel='stylesheet' id='mojnet-language-css' href='https://www.mojnet.de/wp-content/plugins/mojnet-checkout-customizer/assets/css/language.css?ver=1.34.28' media='all' />
+<link rel='stylesheet' id='mojnet-mobile-nav-css' href='https://www.mojnet.de/wp-content/plugins/mojnet-checkout-customizer/assets/css/mobile-nav.css?ver=1.34.28' media='all' />
+<script id="jquery-core-js" src="https://www.mojnet.de/wp-includes/js/jquery/jquery.min.js?ver=3.7.1"></script>
+<script id="jquery-migrate-js" src="https://www.mojnet.de/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1"></script>
+<script data-wp-strategy="defer" id="wc-jquery-blockui-js" src="https://www.mojnet.de/wp-content/plugins/woocommerce/assets/js/jquery-blockui/jquery.blockUI.min.js?ver=2.7.0-wc.10.9.4"></script>
+<script id="wc-add-to-cart-js-extra">
+var wc_add_to_cart_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/?wc-ajax=%%endpoint%%","i18n_view_cart":"Warenkorb anzeigen","cart_url":"https://www.mojnet.de/cart/","is_cart":"","cart_redirect_after_add":"yes"};
+//# sourceURL=wc-add-to-cart-js-extra
+</script>
+<script data-wp-strategy="defer" defer id="wc-add-to-cart-js" src="https://www.mojnet.de/wp-content/plugins/woocommerce/assets/js/frontend/add-to-cart.min.js?ver=10.9.4"></script>
+<script data-wp-strategy="defer" id="wc-js-cookie-js" src="https://www.mojnet.de/wp-content/plugins/woocommerce/assets/js/js-cookie/js.cookie.min.js?ver=2.1.4-wc.10.9.4"></script>
+<script id="wc-cart-fragments-js-extra">
+var wc_cart_fragments_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/?wc-ajax=%%endpoint%%","cart_hash_key":"wc_cart_hash_95959841c398785c6f0cdc7d80765739","fragment_name":"wc_fragments_95959841c398785c6f0cdc7d80765739","request_timeout":"5000"};
+//# sourceURL=wc-cart-fragments-js-extra
+</script>
+<script data-wp-strategy="defer" defer id="wc-cart-fragments-js" src="https://www.mojnet.de/wp-content/plugins/woocommerce/assets/js/frontend/cart-fragments.min.js?ver=10.9.4"></script>
+
+<!-- Google Tag (gtac.js) durch Site-Kit hinzugefügt -->
+<!-- Von Site Kit hinzugefügtes Google-Analytics-Snippet -->
+<script id="google_gtagjs-js" src="https://www.googletagmanager.com/gtag/js?id=GT-PHCFN5MK" async></script>
+<script id="google_gtagjs-js-after">
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+gtag("set","linker",{"domains":["www.mojnet.de"]});
+gtag("js", new Date());
+gtag("set", "developer_id.dZTNiMT", true);
+gtag("config", "GT-PHCFN5MK");
+ window._googlesitekit = window._googlesitekit || {}; window._googlesitekit.throttledEvents = []; window._googlesitekit.gtagEvent = (name, data) => { var key = JSON.stringify( { name, data } ); if ( !! window._googlesitekit.throttledEvents[ key ] ) { return; } window._googlesitekit.throttledEvents[ key ] = true; setTimeout( () => { delete window._googlesitekit.throttledEvents[ key ]; }, 5 ); gtag( "event", name, { ...data, event_source: "site-kit" } ); }; 
+//# sourceURL=google_gtagjs-js-after
+</script>
+<link rel="https://api.w.org/" href="https://www.mojnet.de/wp-json/" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.mojnet.de/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 7.0.2" />
+<meta name="generator" content="WooCommerce 10.9.4" />
+<meta name="generator" content="Site Kit by Google 1.183.0" />	<noscript><style>.woocommerce-product-gallery{ opacity: 1 !important; }</style></noscript>
+	<link rel="icon" href="https://www.mojnet.de/wp-content/uploads/2026/05/mojnetkleinjpg.jpg" sizes="32x32" />
+<link rel="icon" href="https://www.mojnet.de/wp-content/uploads/2026/05/mojnetkleinjpg.jpg" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://www.mojnet.de/wp-content/uploads/2026/05/mojnetkleinjpg.jpg" />
+<meta name="msapplication-TileImage" content="https://www.mojnet.de/wp-content/uploads/2026/05/mojnetkleinjpg.jpg" />
+<!-- [HEADER ASSETS] -->
+<link rel="stylesheet" href="https://www.mojnet.de/wp-content/plugins/breakdance/subplugins/breakdance-woocommerce/css/breakdance-woocommerce.css" />
+
+<link rel="stylesheet" href="https://www.mojnet.de/wp-content/plugins/breakdance/subplugins/breakdance-elements/dependencies-files/awesome-menu@1/awesome-menu.css?bd_ver=2.8.0-beta.3" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Barlow Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" />
+
+<link rel="stylesheet" href="https://www.mojnet.de/wp-content/uploads/breakdance/css/post-262-defaults.css?v=c823aa0681f4da68f2b2b88524abea3d" />
+
+<link rel="stylesheet" href="https://www.mojnet.de/wp-content/uploads/breakdance/css/post-223-defaults.css?v=13c8a996a137276d38a7f46793f20398" />
+
+<link rel="stylesheet" href="https://www.mojnet.de/wp-content/uploads/breakdance/css/post-604-defaults.css?v=9f342d75d6e17697699b9c00eca70d46" />
+
+<link rel="stylesheet" href="https://www.mojnet.de/wp-content/uploads/breakdance/css/global-settings.css?v=bb749dc01745a4d2ad4b4baae93efa9c" />
+
+<link rel="stylesheet" href="https://www.mojnet.de/wp-content/uploads/breakdance/css/selectors.css?v=2572b90d56400c7d03b2f15cbcc31adb" />
+
+<link rel="stylesheet" href="https://www.mojnet.de/wp-content/uploads/breakdance/css/post-262.css?v=9d6307c56c8ed9e0b980b1023f469abb" />
+
+<link rel="stylesheet" href="https://www.mojnet.de/wp-content/uploads/breakdance/css/post-223.css?v=ebcfa3a41314c7d3247eaf7606499ca7" />
+
+<link rel="stylesheet" href="https://www.mojnet.de/wp-content/uploads/breakdance/css/post-604.css?v=1be9c8fc96315e69c4c090a9b8548232" />
+<!-- [/EOF HEADER ASSETS] -->
+    </head>
+    
+    <body class="error404 wp-custom-logo wp-theme-breakdance-zero breakdance theme-breakdance-zero woocommerce-no-js">
+                    <a href="#bde-main" class="bde-skip-link">Skip to main content</a>
+        <header class="bde-header-builder-262-105 bde-header-builder bde-header-builder--sticky-scroll-slide">
+
+<div class="bde-header-builder__container"><div class="bde-columns-262-106 bde-columns"><div class="bde-column-262-107 bde-column">
+  
+  
+	
+
+
+
+<a class="bde-container-link-262-173 bde-container-link breakdance-link" href="https://www.mojnet.de/" target="_self" data-type="url">
+  
+  
+	
+
+
+
+<img class="bde-image2-262-174 bde-image2" src="https://www.mojnet.de/wp-content/uploads/2026/05/mojnetkleinjpg.jpg" alt="mojnet" loading="lazy" sizes="(max-width: 150px) 100vw, 150px">
+
+</a>
+</div><div class="bde-column-262-108 bde-column">
+  
+  
+	
+
+
+
+<div class="bde-wp-menu-262-172 bde-wp-menu">
+
+
+      
+        
+    <nav class="breakdance-menu breakdance-menu--collapse    ">
+    <button class="breakdance-menu-toggle breakdance-menu-toggle--squeeze" type="button" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-172">
+                  <span class="breakdance-menu-toggle-icon">
+            <span class="breakdance-menu-toggle-lines"></span>
+          </span>
+            </button>
+    
+  <ul class="breakdance-menu-list" id="menu-172">
+              
+      <li class="breakdance-menu-topbar">
+              <span class="breakdance-menu-topbar-logo">
+                                </span>
+      
+              <button class="breakdance-menu-close-button" type="button">Close</button>
+          </li>
+  
+    <li id="menu-item-1433" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1433 breakdance-menu-item"><a href="https://www.mojnet.de/tarife/" class="breakdance-menu-link">SIM Tarife</a></li>
+<li id="menu-item-1422" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1422 breakdance-menu-item"><a href="https://www.mojnet.de/travel-esim/" class="breakdance-menu-link">Travel eSIM</a></li>
+<li id="menu-item-1423" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1423 breakdance-menu-item"><a href="https://www.mojnet.de/evignette-de/" class="breakdance-menu-link">eVignette</a></li>
+<li id="menu-item-1424" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1424 breakdance-menu-item"><a href="https://www.mojnet.de/internet/" class="breakdance-menu-link">Internet</a></li>
+<li id="menu-item-2078" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2078 breakdance-menu-item breakdance-dropdown breakdance-dropdown--wp"><div class="breakdance-dropdown-toggle"><a href="#" class="breakdance-menu-link" aria-expanded="false">Pakete für Unternehmen</a><button class="breakdance-menu-link-arrow" type="button" aria-expanded="false" aria-label="Pakete für Unternehmen Submenu"></button></div><div class="breakdance-dropdown-floater" aria-hidden="true">
+  <div class="breakdance-dropdown-body">
+    <div class="breakdance-dropdown-section">
+<ul class="breakdance-dropdown-links">
+	<li id="menu-item-2077" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2077 breakdance-dropdown-item"><a href="https://www.mojnet.de/geschaftstarife/" class="breakdance-dropdown-link"><span class="breakdance-dropdown-link__text">Geschäftstarife</span></a></li>
+	<li id="menu-item-2076" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2076 breakdance-dropdown-item"><a href="https://www.mojnet.de/internet-fur-unternehmen/" class="breakdance-dropdown-link"><span class="breakdance-dropdown-link__text">Internet für Unternehmen</span></a></li>
+</ul>
+    </div>
+  </div>
+</div></li>
+<li id="menu-item-1425" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1425 breakdance-menu-item"><a href="https://www.mojnet.de/mojnet-club/" class="breakdance-menu-link">Mojnet Club</a></li>
+<li id="menu-item-1427" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1427 breakdance-menu-item"><a href="https://www.mojnet.de/hilfe/" class="breakdance-menu-link">Hilfe</a></li>
+<li id="menu-item-1426" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1426 breakdance-menu-item"><a href="https://www.mojnet.de/kontakt/" class="breakdance-menu-link">Kontakt</a></li>
+
+  </ul>
+  </nav>
+
+
+</div>
+</div><div class="bde-column-262-109 bde-column">
+  
+  
+	
+
+
+
+<div class="bce-polylang-languages-262-171 bce-polylang-languages"><ul>
+	<li class="lang-item lang-item-27 lang-item-hr no-translation lang-item-first"><a lang="hr" hreflang="hr" href="https://www.mojnet.de/hr/pocetna/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAIAAAD5gJpuAAAA1ElEQVR4AWP4x4ATfUVFr0EIIldZiRX9zsoCoYQEIPobGfk7IAChASIEES1d8yDz+P20xXeB5E87+x/6+kD0TUUFyEZogKuGoosXgdI/z56Fq0Zo+IsKvn//jqz606dPX5HA8+fP0TUAReGqv588CdcAYTx9+hSLBrhqoDMg6oAkQgND0KHmrU+AXoSg6Dk3/Bs2QdxtX7LKre+yVfs5CAqaeoWBYSJUA1w1EAElgAioFKIaQ4PzbqAGYFDCEbJtyEYgNICQ3kYoklwORVxzIAisCIEAGe83/nye/GcAAAAASUVORK5CYII=" alt="" width="16" height="11" style="width: 16px; height: 11px;" /><span style="margin-left:0.3em;">hr</span></a></li>
+	<li class="lang-item lang-item-30 lang-item-de current-lang no-translation"><a lang="de-DE" hreflang="de-DE" href="https://www.mojnet.de/" aria-current="true"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAALCAIAAAD5gJpuAAABLElEQVR4AY2QgUZEQRSGz9ydmzbYkBWABBJYABHEFhJ6m0WP0DMEQNIr9AKrN8ne2Tt3Zs7MOdOZmRBEv+v34Tvub9R6fdNlAzU+snSME/wdjbjbbJ6EiEg6BA8102QbjKNpoMzw8v6qD/sOALbbT2MC1NgaAWOKOgxf5czY+4dbAX2G/THzcozLrvPV85IQyqVz0rvg2p9Pei4HjzSsiFbV4JgyhhxCjpGdZ0RhdikLB9/b8Qig7MkpSovR7Cp59q6CazaNFiTt4J82o6uvdMVwTsztKTXZod4jgOJJuqNAjFyGrBR8gM6XwKfIC4KanBSTZ0rClKh08D9DFh3egW7ebH7NcRDQWrz9rM2Ne+mDOXB2mZJ8agL19nwxR2iZXGm1gDbQKhDjd4yHb2oW/KR8xHicAAAAAElFTkSuQmCC" alt="" width="16" height="11" style="width: 16px; height: 11px;" /><span style="margin-left:0.3em;">de</span></a></li>
+</ul>
+</div><div class="bde-icon-262-141 bde-icon">
+
+    
+                    
+            
+            
+
+    
+    
+    
+    
+    
+    <a class="breakdance-link bde-icon-icon breakdance-icon-atom" href="tel:+4917615383838" target="_self" data-type="url"  >
+
+    
+                    <svg xmlns="http://www.w3.org/2000/svg" id="icon-phone" viewBox="0 0 32 32">
+<path d="M22 20c-2 2-2 4-4 4s-4-2-6-4-4-4-4-6 2-2 4-4-4-8-6-8-6 6-6 6c0 4 4.109 12.109 8 16s12 8 16 8c0 0 6-4 6-6s-6-8-8-6z"/>
+</svg>
+        
+        
+        
+                </a>
+
+    
+
+
+</div><div class="bde-icon-262-175 bde-icon">
+
+    
+                    
+            
+            
+
+    
+    
+    
+    
+    
+    <a class="breakdance-link bde-icon-icon breakdance-icon-atom" href="https://www.mojnet.de/mein-konto/" target="_self" data-type="url"  >
+
+    
+                    <svg xmlns="http://www.w3.org/2000/svg" id="icon-user" viewBox="0 0 32 32">
+<path d="M18 22.082v-1.649c2.203-1.241 4-4.337 4-7.432 0-4.971 0-9-6-9s-6 4.029-6 9c0 3.096 1.797 6.191 4 7.432v1.649c-6.784 0.555-12 3.888-12 7.918h28c0-4.030-5.216-7.364-12-7.918z"/>
+</svg>
+        
+        
+        
+                </a>
+
+    
+
+
+</div><div class="bde-mini-cart-262-176 bde-mini-cart breakdance-woocommerce">
+    <a class="bde-mini-cart-toggle" href="https://www.mojnet.de/cart/" aria-label="Warenkorb anzeigen" >
+        <span class="bde-mini-cart-toggle__subtotal" data-count='0'><span class="woocommerce-Price-amount amount"><bdi>0,00&nbsp;<span class="woocommerce-Price-currencySymbol" translate="no">&euro;</span></bdi></span></span>
+        <span class="bde-mini-cart-toggle__icon"></span>
+        <span class="bde-mini-cart-toggle__counter" data-count='0'>0</span>
+    </a>
+
+    <div class="bde-mini-cart-offcanvas bde-mini-cart-offcanvas--dropdown bde-mini-cart-offcanvas--primary-checkout bde-mini-cart-offcanvas--left">
+        <div class="bde-mini-cart-offcanvas-body">
+            <div class="bde-mini-cart-offcanvas-topbar">
+                <p class="bde-mini-cart-offcanvas-title bde-h6">Warenkorb</p>
+                <button class="bde-mini-cart-offcanvas__close-button">×</button>
+            </div>
+
+            
+            <div class="widget_shopping_cart_content">
+                
+
+    <p class="woocommerce-mini-cart__empty-message">Es befinden sich keine Produkte im Warenkorb.</p>
+
+
+            </div>
+
+            
+                    </div>
+
+        <span class="bde-mini-cart-offcanvas-overlay"></span>
+    </div>
+
+</div>
+</div></div></div>
+
+
+</header><header class="bde-header-builder-262-126 bde-header-builder bde-header-builder--sticky-scroll-slide">
+
+<div class="bde-header-builder__container"><div class="bde-columns-262-127 bde-columns"><div class="bde-column-262-128 bde-column">
+  
+  
+	
+
+
+
+<a class="bde-container-link-262-177 bde-container-link breakdance-link" href="https://www.mojnet.de/de/startseite/" target="_self" data-type="url">
+  
+  
+	
+
+
+
+<img class="bde-image2-262-178 bde-image2" src="https://www.mojnet.de/wp-content/uploads/2026/05/mojnetkleinjpg.jpg" alt="mojnet" loading="lazy" sizes="(max-width: 150px) 100vw, 150px">
+
+</a>
+</div><div class="bde-column-262-130 bde-column">
+  
+  
+	
+
+
+
+<div class="bde-icon-262-142 bde-icon">
+
+    
+                    
+            
+            
+
+    
+    
+    
+    
+    
+    <a class="breakdance-link bde-icon-icon breakdance-icon-atom" href="tel:+4917615383838" target="_self" data-type="url"  >
+
+    
+                    <svg xmlns="http://www.w3.org/2000/svg" id="icon-phone" viewBox="0 0 32 32">
+<path d="M22 20c-2 2-2 4-4 4s-4-2-6-4-4-4-4-6 2-2 4-4-4-8-6-8-6 6-6 6c0 4 4.109 12.109 8 16s12 8 16 8c0 0 6-4 6-6s-6-8-8-6z"/>
+</svg>
+        
+        
+        
+                </a>
+
+    
+
+
+</div><div class="bde-icon-262-179 bde-icon">
+
+    
+                    
+            
+            
+
+    
+    
+    
+    
+    
+    <a class="breakdance-link bde-icon-icon breakdance-icon-atom" href="https://www.mojnet.de/mein-konto/" target="_self" data-type="url"  >
+
+    
+                    <svg xmlns="http://www.w3.org/2000/svg" id="icon-user" viewBox="0 0 32 32">
+<path d="M18 22.082v-1.649c2.203-1.241 4-4.337 4-7.432 0-4.971 0-9-6-9s-6 4.029-6 9c0 3.096 1.797 6.191 4 7.432v1.649c-6.784 0.555-12 3.888-12 7.918h28c0-4.030-5.216-7.364-12-7.918z"/>
+</svg>
+        
+        
+        
+                </a>
+
+    
+
+
+</div><div class="bde-mini-cart-262-136 bde-mini-cart breakdance-woocommerce">
+    <a class="bde-mini-cart-toggle" href="https://www.mojnet.de/cart/" aria-label="Warenkorb anzeigen" >
+        <span class="bde-mini-cart-toggle__subtotal" data-count='0'><span class="woocommerce-Price-amount amount"><bdi>0,00&nbsp;<span class="woocommerce-Price-currencySymbol" translate="no">&euro;</span></bdi></span></span>
+        <span class="bde-mini-cart-toggle__icon"></span>
+        <span class="bde-mini-cart-toggle__counter" data-count='0'>0</span>
+    </a>
+
+    <div class="bde-mini-cart-offcanvas bde-mini-cart-offcanvas--dropdown bde-mini-cart-offcanvas--primary-checkout bde-mini-cart-offcanvas--left">
+        <div class="bde-mini-cart-offcanvas-body">
+            <div class="bde-mini-cart-offcanvas-topbar">
+                <p class="bde-mini-cart-offcanvas-title bde-h6">Warenkorb</p>
+                <button class="bde-mini-cart-offcanvas__close-button">×</button>
+            </div>
+
+            
+            <div class="widget_shopping_cart_content">
+                
+
+    <p class="woocommerce-mini-cart__empty-message">Es befinden sich keine Produkte im Warenkorb.</p>
+
+
+            </div>
+
+            
+                    </div>
+
+        <span class="bde-mini-cart-offcanvas-overlay"></span>
+    </div>
+
+</div>
+</div></div></div>
+
+
+</header><header class="bde-header-builder-262-161 bde-header-builder bde-header-builder--sticky bde-header-builder--sticky-scroll-slide bde-header-builder--sticky-styles bde-header-builder--sticky-scroll-start-off-hidden bde-header-builder--sticky-scroll-hide" data-sticky-hide-until-scroll-distance="300">
+
+<div class="bde-header-builder__container"><div class="bde-columns-262-162 bde-columns"><div class="bde-column-262-163 bde-column">
+  
+  
+	
+
+
+
+<a class="bde-container-link-262-164 bde-container-link breakdance-link" href="https://www.mojnet.de" target="_self" data-type="url">
+  
+  
+	
+
+
+
+<img class="bde-image2-262-165 bde-image2" src="https://www.mojnet.de/wp-content/uploads/2026/05/mojnetkleinjpg.jpg" alt="mojnet" loading="lazy" sizes="(max-width: 150px) 100vw, 150px">
+
+</a>
+</div><div class="bde-column-262-166 bde-column">
+  
+  
+	
+
+
+
+<div class="bde-icon-262-167 bde-icon">
+
+    
+                    
+            
+            
+
+    
+    
+    
+    
+    
+    <a class="breakdance-link bde-icon-icon breakdance-icon-atom" href="tel:+4917615383838" target="_self" data-type="url"  >
+
+    
+                    <svg xmlns="http://www.w3.org/2000/svg" id="icon-phone" viewBox="0 0 32 32">
+<path d="M22 20c-2 2-2 4-4 4s-4-2-6-4-4-4-4-6 2-2 4-4-4-8-6-8-6 6-6 6c0 4 4.109 12.109 8 16s12 8 16 8c0 0 6-4 6-6s-6-8-8-6z"/>
+</svg>
+        
+        
+        
+                </a>
+
+    
+
+
+</div><div class="bde-icon-262-168 bde-icon">
+
+    
+                    
+            
+            
+
+    
+    
+    
+    
+    
+    <a class="breakdance-link bde-icon-icon breakdance-icon-atom" href="https://www.mojnet.de/my-account/" target="_self" data-type="url"  >
+
+    
+                    <svg xmlns="http://www.w3.org/2000/svg" id="icon-user" viewBox="0 0 32 32">
+<path d="M18 22.082v-1.649c2.203-1.241 4-4.337 4-7.432 0-4.971 0-9-6-9s-6 4.029-6 9c0 3.096 1.797 6.191 4 7.432v1.649c-6.784 0.555-12 3.888-12 7.918h28c0-4.030-5.216-7.364-12-7.918z"/>
+</svg>
+        
+        
+        
+                </a>
+
+    
+
+
+</div><div class="bde-mini-cart-262-169 bde-mini-cart breakdance-woocommerce">
+    <a class="bde-mini-cart-toggle" href="https://www.mojnet.de/cart/" aria-label="Warenkorb anzeigen" >
+        <span class="bde-mini-cart-toggle__subtotal" data-count='0'><span class="woocommerce-Price-amount amount"><bdi>0,00&nbsp;<span class="woocommerce-Price-currencySymbol" translate="no">&euro;</span></bdi></span></span>
+        <span class="bde-mini-cart-toggle__icon"></span>
+        <span class="bde-mini-cart-toggle__counter" data-count='0'>0</span>
+    </a>
+
+    <div class="bde-mini-cart-offcanvas bde-mini-cart-offcanvas--dropdown bde-mini-cart-offcanvas--primary-checkout bde-mini-cart-offcanvas--left">
+        <div class="bde-mini-cart-offcanvas-body">
+            <div class="bde-mini-cart-offcanvas-topbar">
+                <p class="bde-mini-cart-offcanvas-title bde-h6">Warenkorb</p>
+                <button class="bde-mini-cart-offcanvas__close-button">×</button>
+            </div>
+
+            
+            <div class="widget_shopping_cart_content">
+                
+
+    <p class="woocommerce-mini-cart__empty-message">Es befinden sich keine Produkte im Warenkorb.</p>
+
+
+            </div>
+
+            
+                    </div>
+
+        <span class="bde-mini-cart-offcanvas-overlay"></span>
+    </div>
+
+</div>
+</div></div></div>
+
+
+</header><main id='bde-main'><section class="bde-section-223-100 bde-section">
+  
+  
+	
+
+
+
+<div class="section-container"><h1 class="bde-heading-223-103 bde-heading">
+404
+</h1><div class="bde-text-223-104 bde-text">
+not found
+</div><div class="bde-icon-223-105 bde-icon">
+
+    
+            <div class="bde-icon-icon breakdance-icon-atom" >
+    
+                    <svg xmlns="http://www.w3.org/2000/svg" id="icon-sad" viewBox="0 0 32 32">
+<path d="M16 32c8.837 0 16-7.163 16-16s-7.163-16-16-16-16 7.163-16 16 7.163 16 16 16zM16 3c7.18 0 13 5.82 13 13s-5.82 13-13 13-13-5.82-13-13 5.82-13 13-13zM8 10c0-1.105 0.895-2 2-2s2 0.895 2 2c0 1.105-0.895 2-2 2s-2-0.895-2-2zM20 10c0-1.105 0.895-2 2-2s2 0.895 2 2c0 1.105-0.895 2-2 2s-2-0.895-2-2zM9.997 24.398l-2.573-1.544c1.749-2.908 4.935-4.855 8.576-4.855s6.827 1.946 8.576 4.855l-2.573 1.544c-1.224-2.036-3.454-3.398-6.003-3.398s-4.779 1.362-6.003 3.398z"/>
+</svg>
+        
+        
+        
+            </div>
+    
+
+
+</div></div>
+</section></main><section class="bde-section-604-123 bde-section">
+  
+  
+	
+
+
+
+<div class="section-container"><div class="bde-div-604-124 bde-div">
+  
+  
+	
+
+
+
+<div class="bde-columns-604-125 bde-columns"><div class="bde-column-604-126 bde-column">
+  
+  
+	
+
+
+
+<img class="bde-image2-604-127 bde-image2" src="https://www.mojnet.de/wp-content/uploads/2026/05/mojnetkleinjpg.jpg" alt="mojnet" loading="lazy" sizes="(max-width: 150px) 100vw, 150px"><div class="bde-text-604-128 bde-text">
+Ein Mobilfunkanbieter für Menschen,<br>die zwischen zwei Wohnorten pendeln.
+</div>
+</div><div class="bde-column-604-129 bde-column">
+  
+  
+	
+
+
+
+<div class="bde-columns-604-130 bde-columns"><div class="bde-column-604-131 bde-column">
+  
+  
+	
+
+
+
+<div class="bde-text-604-132 bde-text">
+Pläne
+</div><div class="bde-wp-menu-604-133 bde-wp-menu">
+
+
+      
+        
+    <nav class="breakdance-menu breakdance-menu--collapse breakdance-menu--vertical   ">
+    <button class="breakdance-menu-toggle breakdance-menu-toggle--squeeze" type="button" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-133">
+                  <span class="breakdance-menu-toggle-icon">
+            <span class="breakdance-menu-toggle-lines"></span>
+          </span>
+            </button>
+    
+  <ul class="breakdance-menu-list" id="menu-133">
+              
+  
+    <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1433 breakdance-menu-item"><a href="https://www.mojnet.de/tarife/" class="breakdance-menu-link">SIM Tarife</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1422 breakdance-menu-item"><a href="https://www.mojnet.de/travel-esim/" class="breakdance-menu-link">Travel eSIM</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1423 breakdance-menu-item"><a href="https://www.mojnet.de/evignette-de/" class="breakdance-menu-link">eVignette</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1424 breakdance-menu-item"><a href="https://www.mojnet.de/internet/" class="breakdance-menu-link">Internet</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-2078 breakdance-menu-item breakdance-dropdown breakdance-dropdown--wp"><div class="breakdance-dropdown-toggle"><a href="#" class="breakdance-menu-link" aria-expanded="false">Pakete für Unternehmen</a><button class="breakdance-menu-link-arrow" type="button" aria-expanded="false" aria-label="Pakete für Unternehmen Submenu"></button></div><div class="breakdance-dropdown-floater" aria-hidden="true">
+  <div class="breakdance-dropdown-body">
+    <div class="breakdance-dropdown-section">
+<ul class="breakdance-dropdown-links">
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2077 breakdance-dropdown-item"><a href="https://www.mojnet.de/geschaftstarife/" class="breakdance-dropdown-link"><span class="breakdance-dropdown-link__text">Geschäftstarife</span></a></li>
+	<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2076 breakdance-dropdown-item"><a href="https://www.mojnet.de/internet-fur-unternehmen/" class="breakdance-dropdown-link"><span class="breakdance-dropdown-link__text">Internet für Unternehmen</span></a></li>
+</ul>
+    </div>
+  </div>
+</div></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1425 breakdance-menu-item"><a href="https://www.mojnet.de/mojnet-club/" class="breakdance-menu-link">Mojnet Club</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1427 breakdance-menu-item"><a href="https://www.mojnet.de/hilfe/" class="breakdance-menu-link">Hilfe</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1426 breakdance-menu-item"><a href="https://www.mojnet.de/kontakt/" class="breakdance-menu-link">Kontakt</a></li>
+
+  </ul>
+  </nav>
+
+
+</div>
+</div><div class="bde-column-604-134 bde-column">
+  
+  
+	
+
+
+
+<div class="bde-text-604-135 bde-text">
+Hilfe
+</div><div class="bde-wp-menu-604-136 bde-wp-menu">
+
+
+      
+        
+    <nav class="breakdance-menu breakdance-menu--collapse breakdance-menu--vertical   ">
+    <button class="breakdance-menu-toggle breakdance-menu-toggle--squeeze" type="button" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-136">
+                  <span class="breakdance-menu-toggle-icon">
+            <span class="breakdance-menu-toggle-lines"></span>
+          </span>
+            </button>
+    
+  <ul class="breakdance-menu-list" id="menu-136">
+              
+  
+    <li id="menu-item-1521" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1521 breakdance-menu-item"><a href="https://www.mojnet.de/esim-und-gerateeinrichtung/" class="breakdance-menu-link">eSIM und Geräteeinrichtung</a></li>
+<li id="menu-item-1522" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1522 breakdance-menu-item"><a href="https://www.mojnet.de/behalten-sie-ihre-nummer/" class="breakdance-menu-link">Behalten Sie Ihre Nummer</a></li>
+<li id="menu-item-1523" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1523 breakdance-menu-item"><a href="https://www.mojnet.de/aktivieren-sie-ihre-sim-karte/" class="breakdance-menu-link">Aktivieren Sie Ihre SIM-Karte</a></li>
+<li id="menu-item-1524" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1524 breakdance-menu-item"><a href="https://www.mojnet.de/mein-konto/" class="breakdance-menu-link">Mein Konto</a></li>
+<li id="menu-item-2116" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2116 breakdance-menu-item"><a href="https://www.mojnet.de/vertrag-kuendigen/" class="breakdance-menu-link">Vertrag Kündigen</a></li>
+
+  </ul>
+  </nav>
+
+
+</div>
+</div><div class="bde-column-604-137 bde-column">
+  
+  
+	
+
+
+
+<div class="bde-text-604-138 bde-text">
+Unternehmen
+</div><div class="bde-wp-menu-604-139 bde-wp-menu">
+
+
+      
+        
+    <nav class="breakdance-menu breakdance-menu--collapse breakdance-menu--vertical   ">
+    <button class="breakdance-menu-toggle breakdance-menu-toggle--squeeze" type="button" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-139">
+                  <span class="breakdance-menu-toggle-icon">
+            <span class="breakdance-menu-toggle-lines"></span>
+          </span>
+            </button>
+    
+  <ul class="breakdance-menu-list" id="menu-139">
+              
+  
+    <li id="menu-item-1505" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1505 breakdance-menu-item"><a href="https://www.mojnet.de/reklamationen-kundendienst-ruecktritt-und-kuendigung-des-vertrags/" class="breakdance-menu-link">Reklamationen, Kundendienst, Rücktritt und Kündigung des Vertrags</a></li>
+<li id="menu-item-1506" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1506 breakdance-menu-item"><a href="https://www.mojnet.de/datenschutzerklaerung-2/" class="breakdance-menu-link">Datenschutzerklärung</a></li>
+<li id="menu-item-1507" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy menu-item-1507 breakdance-menu-item"><a href="https://www.mojnet.de/datenschutzerklaerung/" class="breakdance-menu-link">Cookies</a></li>
+<li id="menu-item-1508" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1508 breakdance-menu-item"><a href="https://www.mojnet.de/allgemeine-geschaftsbedingungen-agb/" class="breakdance-menu-link">Allgemeine Geschäftsbedingungen / AGB</a></li>
+<li id="menu-item-1515" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1515 breakdance-menu-item"><a href="https://www.mojnet.de/impressum/" class="breakdance-menu-link">Impressum</a></li>
+<li id="menu-item-1514" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1514 breakdance-menu-item"><a href="https://www.mojnet.de/kontakt/" class="breakdance-menu-link">Kontakt</a></li>
+
+  </ul>
+  </nav>
+
+
+</div>
+</div><div class="bde-column-604-140 bde-column">
+  
+  
+	
+
+
+
+<div class="bde-text-604-141 bde-text">
+Soziale Netzwerke
+</div><div class="bde-wp-menu-604-142 bde-wp-menu">
+
+
+      
+        
+    <nav class="breakdance-menu breakdance-menu--collapse breakdance-menu--vertical   ">
+    <button class="breakdance-menu-toggle breakdance-menu-toggle--squeeze" type="button" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-142">
+                  <span class="breakdance-menu-toggle-icon">
+            <span class="breakdance-menu-toggle-lines"></span>
+          </span>
+            </button>
+    
+  <ul class="breakdance-menu-list" id="menu-142">
+              
+  
+    <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-614 breakdance-menu-item"><a href="https://www.instagram.com/mojnet.de/" class="breakdance-menu-link">Instagram</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-615 breakdance-menu-item"><a href="https://www.facebook.com/mojnetde/?locale=hr_HR" class="breakdance-menu-link">Facebook</a></li>
+
+  </ul>
+  </nav>
+
+
+</div>
+</div></div>
+</div></div>
+</div><div class="bde-div-604-143 bde-div">
+  
+  
+	
+
+
+
+<div class="bde-text-604-144 bde-text">
+© 2026 Mojnet Deutschland
+</div>
+</div></div>
+</section>        <script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/plugins/breakdance/plugin/themeless/themes/breakdance-zero/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<nav class="mojnet-mobile-bar mojnet-mobile-bar--count-6" aria-label="Mobile Navigation"><a class="mojnet-mobile-bar-item" href="https://www.mojnet.de/travel-esim/"><svg focusable="false" aria-hidden="true" class="mojnet-mobile-icon mojnet-mobile-icon--travel-sim" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 34.53">
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <path d="M48,7.6v.94c-.23.74-.57,1.46-1.08,2.11-1.6,2.03-3.65,3.54-5.73,5.02l.06.84h-1.25c-.84-2.28-3.36-2.41-5.62-1.99-.16-1.98-.48-3.82-.95-5.65,1.69-.34,3.23-.75,4.82-1.3,1.34,1.97,2.24,4.1,2.71,6.46,1.99-1.47,4.41-3.25,5.43-5.4.22-.57.11-1.12-.47-1.39-1.49-.68-3.58-.48-5.33-.31l-.18-1.49c2.68-.28,6.89-.57,7.59,2.17Z"/>
+      <path d="M0,26.91v-.94c.57-2.07,2.35-3.61,4.02-5.07l.95,1.17c-1.32,1.12-2.83,2.44-3.4,3.97-.53,1.4,1.63,1.72,3.22,1.71,1.9,0,3.73-.3,5.54-.63-.13.57-.1.99.1,1.53-2.65.48-6.34,1.08-8.77.08-.86-.35-1.46-.97-1.66-1.82Z"/>
+      <path d="M13.97,28.34c-.85.13-1.88.25-2.16-.27-.24-.45.2-1.09.74-1.58l-2.95-3.53,2.04-.89,4.41,1.9,5.31-2.31-5.47-3.07,3.2-1.4,7.5,2.2,7.39-3.2c1-.43,2.13-.39,3.16-.31.64.16,1.16.43,1.44,1.04.13.53-.17,1.13-.74,1.38l-10.8,4.7-3.36,8.53-3.21,1.4,1.94-7.92-5.19,2.25c-1.07.46-2.15.77-3.26,1.07Z"/>
+      <path d="M22.08,16.51l-3.07-.9-2.07.9h-1.94c.06-2.52.37-4.96,1.06-7.37,2.44.38,4.77.58,7.18.61v6.75s-1.17,0-1.17,0Z"/>
+      <path d="M29.5,16.5h-4.75s0-6.75,0-6.75c2.41-.05,4.73-.23,7.18-.62.55,1.92.85,3.86.99,5.87l-3.42,1.5Z"/>
+      <path d="M13.52,16.5h-6.77c.13-3.22,1.18-6.27,3-8.95,1.59.54,3.13.96,4.82,1.3-.65,2.48-1.01,4.96-1.05,7.66Z"/>
+      <path d="M33.44,25.66c.34-1.37.61-2.73.8-4.14l4.25-1.85c.7-.4,1.25-.9,1.53-1.67h1.23c-.13,3.23-1.18,6.27-3,8.96-1.58-.55-3.14-.96-4.81-1.3Z"/>
+      <path d="M23.25,8.25c-2.29-.03-4.49-.22-6.74-.56.88-2.42,2.04-4.7,4-6.38.81-.65,1.69-1.13,2.74-1.3v8.25Z"/>
+      <path d="M27.39,1.22c1.99,1.66,3.2,3.96,4.1,6.46-2.2.35-4.43.52-6.74.57V0c1,.16,1.85.61,2.64,1.21Z"/>
+      <path d="M27.41,33.27c-.85.63-1.7,1.11-2.67,1.22l.06-1.7,2.55-6.42c1.39.1,2.74.25,4.14.45-.48,1.34-1.03,2.56-1.76,3.75-.65,1.01-1.37,1.9-2.32,2.7Z"/>
+      <path d="M13.54,18.98l.2,2.36-2.09-.9-4.18,1.81c-.42-1.4-.65-2.78-.72-4.24h6.68s-.89.43-.89.43l1,.55Z"/>
+      <path d="M33.01,7.42c-.42-1.08-.83-2.07-1.33-3.09-.68-1.29-1.48-2.41-2.54-3.52,3.23.99,6,2.89,8.17,5.49-1.44.47-2.79.8-4.3,1.12Z"/>
+      <path d="M29.2,33.68c.9-1.04,1.75-2.12,2.41-3.38.54-1.06.97-2.08,1.38-3.21,1.47.3,2.86.65,4.32,1.12-2.15,2.54-4.81,4.45-8.12,5.47Z"/>
+      <path d="M16.37,4.24c-.54,1.05-.95,2.03-1.35,3.17-1.43-.27-2.85-.64-4.33-1.11C12.86,3.69,15.63,1.79,18.86.81c-1.02,1.08-1.8,2.15-2.49,3.43Z"/>
+      <path d="M18.88,33.71c-2.43-.75-4.66-2.03-6.53-3.77,1.26.05,2.4-.23,3.57-.6.74,1.63,1.67,3.04,2.96,4.37Z"/>
+      <polygon points="27.94 24.89 28.24 24.12 32.62 22.22 31.95 25.36 27.94 24.89"/>
+      <path d="M19.21,31.83c-.78-.87-1.32-1.89-1.88-2.98l2.91-1.24-1.04,4.22Z"/>
+      <polygon points="16.09 22.33 15.33 22 15.1 19.87 17.99 21.49 16.09 22.33"/>
+      <path d="M10.67,26.56c-.36.23-.58.31-.94.39-.75-1.2-1.44-2.33-1.88-3.73l2.82,3.34Z"/>
+      <polygon points="23.25 34.53 21.75 34.04 23.25 33.37 23.25 34.53"/>
+    </g>
+  </g>
+</svg><span>Reise-eSIM</span></a><a class="mojnet-mobile-bar-item" href="https://www.mojnet.de/evignette-de/"><svg class="mojnet-mobile-icon mojnet-mobile-icon--highway" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 429.9 375.4" aria-hidden="true" focusable="false">
+  <g>
+    <path fill="currentColor" d="M429.02,142.45c-1.47-2.09-4.2-5.99-8.61-5.99h-121.01s-27.43-128.4-27.43-128.4c-.97-4.53-4.68-7.61-9.69-8.04h-.15s-93.28,0-93.28,0c-5.73-.13-9.86,3.11-11.06,8.72l-27.29,127.73H10.28c-5.4,0-9.62,3.97-10.25,9.66l-.02.19v48.08c.07,6.08,4.64,10.49,10.87,10.49h.04l17.55-.05,4.9,39.25c.56,4.53,5.1,8.5,9.71,8.5h36.45c5.04,0,9.31-3.75,10.15-8.93l4.81-38.81h21.39s-33.68,157.48-33.68,157.48l-.05.32c-.42,3.49.19,6.38,1.78,8.58,1.81,2.5,5.41,4.18,8.95,4.18h244.15c3.38,0,6.34-1.24,8.35-3.48,2-2.23,2.89-5.27,2.53-8.57l-.02-.17-33.86-158.34h21.39s4.78,38.67,4.78,38.67l.02.14c.84,5.16,5.12,8.91,10.16,8.92l35.62.04h0c4.59,0,9.84-3,10.54-8.57l4.88-39.18,16.73.03h.03c4.97,0,8.64-2.04,11.2-6.22l.51-.84v-54.14l-.88-1.24ZM292.92,204.8l32.02,149.85-99.69.08v-149.85s67.66-.07,67.66-.07ZM204.65,354.69l-99.71.03,32.03-149.85,67.67-.05v149.87ZM151.6,136.46l24.75-115.79,28.29-.04v115.77s-53.04.05-53.04.05ZM225.26,136.47V20.7s28.28-.1,28.28-.1l24.76,115.8-53.03.06ZM409.28,184.12l-16.75.1c-5.71.03-9.87,3.92-10.6,9.91l-4.65,37.82h-17.69s-4.82-38.82-4.82-38.82c-.55-4.44-4.16-8.94-9.99-8.94H85.46c-5.43,0-9.67,3.68-10.32,8.95l-4.8,38.79h-17.69s-4.77-38.52-4.77-38.52c-.65-5.28-5.03-9.16-10.45-9.23h-16.76s.07-27.07.07-27.07h388.44s.11,27,.11,27Z"/>
+  </g>
+</svg><span>eVignette</span></a><a class="mojnet-mobile-bar-item" href="https://www.mojnet.de/tarife/"><svg class="mojnet-mobile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 3h7l5 5v16H8z"/><path d="M12 15h4M12 19h4M12 11h1"/></svg><span>Sim Tarife</span></a><a class="mojnet-mobile-bar-item" href="https://www.mojnet.de/internet/"><svg focusable="false" aria-hidden="true" class="mojnet-mobile-icon mojnet-mobile-icon--internet" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 541 500">
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <path d="M540.95,301.16l.05,118.85c-2.79,15.88-16.44,30.09-34.15,30.1l-468.65.16c-19.31,0-35.19-11.31-38.2-30.26l.06-118.89c3.27-18.87,18.17-30.85,37.11-30.85l468.42.05c18.43,0,32.39,13.56,35.36,30.85ZM501.99,309.18H38.99v101.88h463v-101.88Z"/>
+      <path d="M25,0c4.46,2.29,7.19,5.44,8.13,11.14l63.88,241.97-30.44.11L11.27,13.87c-1.57-6.79,2.15-11.68,7.73-13.87h6Z"/>
+      <path d="M522,0c6.28,2.57,9.19,7.48,7.53,14.68l-55.1,238.56-30.44-.11L508.08,10.37c1.01-5.41,3.7-8.23,7.92-10.36h6Z"/>
+      <path d="M141.74,500h-60.18s-3.48-4.12-3.48-4.12v-33.96c.24-1.21,2.4-3.24,3.79-3.23l63.54.13.37,37.01-4.05,4.17Z"/>
+      <polygon points="467.74 500 406.39 500 403.89 495.76 404.25 458.75 471.12 458.79 471.38 496.02 467.74 500"/>
+      <path d="M404.92,87c-74.1-74.48-195.29-74.21-268.76.06l-13.51-13.59c81.5-82.2,215.04-81.78,295.85.22l-13.58,13.3Z"/>
+      <path d="M377.89,114.08c-59-58.87-154.75-59.6-214.4-.26l-13.83-13.09c66.02-66.8,174.84-67.4,241.53-.14l-13.31,13.49Z"/>
+      <path d="M351.71,140.14c-44.7-44.89-117.66-44.78-162.4-.06l-13.59-13.39c51.95-52.21,136.8-52.87,189.4-.16l-13.4,13.61Z"/>
+      <path d="M325.48,166.41c-30.55-30.22-79.39-30.19-109.91,0l-14.43-14.41c38.38-38.44,100.42-38.41,138.66-.03l-14.32,14.44Z"/>
+      <path d="M294.8,197.09c-13.85-12.93-34.2-13.52-48.47.04l-15.85-15.69c21.78-22.13,57.4-22.47,80.03-.16l-15.7,15.81Z"/>
+      <path d="M270.51,221.45l-12.61-12.67c7.46-6.65,17.75-6.84,25.12-.01l-12.51,12.68Z"/>
+      <circle cx="116.67" cy="360.24" r="21.37"/>
+      <circle cx="424.34" cy="360.25" r="21.35"/>
+      <circle cx="193.58" cy="360.24" r="21.33"/>
+      <circle cx="347.43" cy="360.24" r="21.32"/>
+      <circle cx="270.51" cy="360.24" r="21.31"/>
+    </g>
+  </g>
+</svg><span>Internet</span></a><a class="mojnet-mobile-bar-item" href="https://www.mojnet.de/mojnet-club/"><svg class="mojnet-mobile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M11 19h2"/></svg><span>Mojnet Club</span></a><button class="mojnet-mobile-bar-item mojnet-mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mojnet-mobile-menu-overlay"><svg class="mojnet-mobile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button></nav><div class="mojnet-mobile-menu-overlay" id="mojnet-mobile-menu-overlay" hidden><div class="mojnet-mobile-menu-panel" role="dialog" aria-modal="true" aria-labelledby="mojnet-mobile-menu-title"><div class="mojnet-mobile-menu-head"><h2 id="mojnet-mobile-menu-title">Menu</h2><button type="button" class="mojnet-mobile-menu-close" aria-label="Menü schließen">&times;</button></div><section class="mojnet-mobile-menu-section mojnet-mobile-menu-section--language" aria-labelledby="mojnet-mobile-menu-language-title"><h3 id="mojnet-mobile-menu-language-title" class="mojnet-mobile-menu-section-title">Sprache</h3><nav class="mojnet-mobile-menu-language-switcher mojnet-language-switcher" aria-label="Sprache"><a class="mojnet-language-switcher__item" href="https://www.mojnet.de/hr/pocetna/" data-language-slug="hr" lang="hr" hreflang="hr"><span>HR</span></a><a class="mojnet-language-switcher__item is-current" href="https://www.mojnet.de/" data-language-slug="de" lang="de-DE" hreflang="de-DE" aria-current="true"><span>DE</span></a></nav></section><section class="mojnet-mobile-menu-section mojnet-mobile-menu-section--main" aria-labelledby="mojnet-mobile-menu-main-title"><h3 id="mojnet-mobile-menu-main-title" class="mojnet-mobile-menu-section-title">Hauptlinks</h3><div class="mojnet-mobile-menu-links"><a href="https://www.mojnet.de/"><svg class="mojnet-mobile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V21h5v-6h3v6h5V9.5"/></svg><span>Startseite</span></a><a href="https://www.mojnet.de/travel-esim/"><svg focusable="false" aria-hidden="true" class="mojnet-mobile-icon mojnet-mobile-icon--travel-sim" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 34.53">
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <path d="M48,7.6v.94c-.23.74-.57,1.46-1.08,2.11-1.6,2.03-3.65,3.54-5.73,5.02l.06.84h-1.25c-.84-2.28-3.36-2.41-5.62-1.99-.16-1.98-.48-3.82-.95-5.65,1.69-.34,3.23-.75,4.82-1.3,1.34,1.97,2.24,4.1,2.71,6.46,1.99-1.47,4.41-3.25,5.43-5.4.22-.57.11-1.12-.47-1.39-1.49-.68-3.58-.48-5.33-.31l-.18-1.49c2.68-.28,6.89-.57,7.59,2.17Z"/>
+      <path d="M0,26.91v-.94c.57-2.07,2.35-3.61,4.02-5.07l.95,1.17c-1.32,1.12-2.83,2.44-3.4,3.97-.53,1.4,1.63,1.72,3.22,1.71,1.9,0,3.73-.3,5.54-.63-.13.57-.1.99.1,1.53-2.65.48-6.34,1.08-8.77.08-.86-.35-1.46-.97-1.66-1.82Z"/>
+      <path d="M13.97,28.34c-.85.13-1.88.25-2.16-.27-.24-.45.2-1.09.74-1.58l-2.95-3.53,2.04-.89,4.41,1.9,5.31-2.31-5.47-3.07,3.2-1.4,7.5,2.2,7.39-3.2c1-.43,2.13-.39,3.16-.31.64.16,1.16.43,1.44,1.04.13.53-.17,1.13-.74,1.38l-10.8,4.7-3.36,8.53-3.21,1.4,1.94-7.92-5.19,2.25c-1.07.46-2.15.77-3.26,1.07Z"/>
+      <path d="M22.08,16.51l-3.07-.9-2.07.9h-1.94c.06-2.52.37-4.96,1.06-7.37,2.44.38,4.77.58,7.18.61v6.75s-1.17,0-1.17,0Z"/>
+      <path d="M29.5,16.5h-4.75s0-6.75,0-6.75c2.41-.05,4.73-.23,7.18-.62.55,1.92.85,3.86.99,5.87l-3.42,1.5Z"/>
+      <path d="M13.52,16.5h-6.77c.13-3.22,1.18-6.27,3-8.95,1.59.54,3.13.96,4.82,1.3-.65,2.48-1.01,4.96-1.05,7.66Z"/>
+      <path d="M33.44,25.66c.34-1.37.61-2.73.8-4.14l4.25-1.85c.7-.4,1.25-.9,1.53-1.67h1.23c-.13,3.23-1.18,6.27-3,8.96-1.58-.55-3.14-.96-4.81-1.3Z"/>
+      <path d="M23.25,8.25c-2.29-.03-4.49-.22-6.74-.56.88-2.42,2.04-4.7,4-6.38.81-.65,1.69-1.13,2.74-1.3v8.25Z"/>
+      <path d="M27.39,1.22c1.99,1.66,3.2,3.96,4.1,6.46-2.2.35-4.43.52-6.74.57V0c1,.16,1.85.61,2.64,1.21Z"/>
+      <path d="M27.41,33.27c-.85.63-1.7,1.11-2.67,1.22l.06-1.7,2.55-6.42c1.39.1,2.74.25,4.14.45-.48,1.34-1.03,2.56-1.76,3.75-.65,1.01-1.37,1.9-2.32,2.7Z"/>
+      <path d="M13.54,18.98l.2,2.36-2.09-.9-4.18,1.81c-.42-1.4-.65-2.78-.72-4.24h6.68s-.89.43-.89.43l1,.55Z"/>
+      <path d="M33.01,7.42c-.42-1.08-.83-2.07-1.33-3.09-.68-1.29-1.48-2.41-2.54-3.52,3.23.99,6,2.89,8.17,5.49-1.44.47-2.79.8-4.3,1.12Z"/>
+      <path d="M29.2,33.68c.9-1.04,1.75-2.12,2.41-3.38.54-1.06.97-2.08,1.38-3.21,1.47.3,2.86.65,4.32,1.12-2.15,2.54-4.81,4.45-8.12,5.47Z"/>
+      <path d="M16.37,4.24c-.54,1.05-.95,2.03-1.35,3.17-1.43-.27-2.85-.64-4.33-1.11C12.86,3.69,15.63,1.79,18.86.81c-1.02,1.08-1.8,2.15-2.49,3.43Z"/>
+      <path d="M18.88,33.71c-2.43-.75-4.66-2.03-6.53-3.77,1.26.05,2.4-.23,3.57-.6.74,1.63,1.67,3.04,2.96,4.37Z"/>
+      <polygon points="27.94 24.89 28.24 24.12 32.62 22.22 31.95 25.36 27.94 24.89"/>
+      <path d="M19.21,31.83c-.78-.87-1.32-1.89-1.88-2.98l2.91-1.24-1.04,4.22Z"/>
+      <polygon points="16.09 22.33 15.33 22 15.1 19.87 17.99 21.49 16.09 22.33"/>
+      <path d="M10.67,26.56c-.36.23-.58.31-.94.39-.75-1.2-1.44-2.33-1.88-3.73l2.82,3.34Z"/>
+      <polygon points="23.25 34.53 21.75 34.04 23.25 33.37 23.25 34.53"/>
+    </g>
+  </g>
+</svg><span>Reise-eSIM</span></a><a href="https://www.mojnet.de/evignette-de/"><svg class="mojnet-mobile-icon mojnet-mobile-icon--highway" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 429.9 375.4" aria-hidden="true" focusable="false">
+  <g>
+    <path fill="currentColor" d="M429.02,142.45c-1.47-2.09-4.2-5.99-8.61-5.99h-121.01s-27.43-128.4-27.43-128.4c-.97-4.53-4.68-7.61-9.69-8.04h-.15s-93.28,0-93.28,0c-5.73-.13-9.86,3.11-11.06,8.72l-27.29,127.73H10.28c-5.4,0-9.62,3.97-10.25,9.66l-.02.19v48.08c.07,6.08,4.64,10.49,10.87,10.49h.04l17.55-.05,4.9,39.25c.56,4.53,5.1,8.5,9.71,8.5h36.45c5.04,0,9.31-3.75,10.15-8.93l4.81-38.81h21.39s-33.68,157.48-33.68,157.48l-.05.32c-.42,3.49.19,6.38,1.78,8.58,1.81,2.5,5.41,4.18,8.95,4.18h244.15c3.38,0,6.34-1.24,8.35-3.48,2-2.23,2.89-5.27,2.53-8.57l-.02-.17-33.86-158.34h21.39s4.78,38.67,4.78,38.67l.02.14c.84,5.16,5.12,8.91,10.16,8.92l35.62.04h0c4.59,0,9.84-3,10.54-8.57l4.88-39.18,16.73.03h.03c4.97,0,8.64-2.04,11.2-6.22l.51-.84v-54.14l-.88-1.24ZM292.92,204.8l32.02,149.85-99.69.08v-149.85s67.66-.07,67.66-.07ZM204.65,354.69l-99.71.03,32.03-149.85,67.67-.05v149.87ZM151.6,136.46l24.75-115.79,28.29-.04v115.77s-53.04.05-53.04.05ZM225.26,136.47V20.7s28.28-.1,28.28-.1l24.76,115.8-53.03.06ZM409.28,184.12l-16.75.1c-5.71.03-9.87,3.92-10.6,9.91l-4.65,37.82h-17.69s-4.82-38.82-4.82-38.82c-.55-4.44-4.16-8.94-9.99-8.94H85.46c-5.43,0-9.67,3.68-10.32,8.95l-4.8,38.79h-17.69s-4.77-38.52-4.77-38.52c-.65-5.28-5.03-9.16-10.45-9.23h-16.76s.07-27.07.07-27.07h388.44s.11,27,.11,27Z"/>
+  </g>
+</svg><span>eVignette</span></a><a href="https://www.mojnet.de/tarife"><svg class="mojnet-mobile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 3h7l5 5v16H8z"/><path d="M12 15h4M12 19h4M12 11h1"/></svg><span>SIM Tarife</span></a><a href="https://www.mojnet.de/internet/"><svg focusable="false" aria-hidden="true" class="mojnet-mobile-icon mojnet-mobile-icon--internet" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 541 500">
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <path d="M540.95,301.16l.05,118.85c-2.79,15.88-16.44,30.09-34.15,30.1l-468.65.16c-19.31,0-35.19-11.31-38.2-30.26l.06-118.89c3.27-18.87,18.17-30.85,37.11-30.85l468.42.05c18.43,0,32.39,13.56,35.36,30.85ZM501.99,309.18H38.99v101.88h463v-101.88Z"/>
+      <path d="M25,0c4.46,2.29,7.19,5.44,8.13,11.14l63.88,241.97-30.44.11L11.27,13.87c-1.57-6.79,2.15-11.68,7.73-13.87h6Z"/>
+      <path d="M522,0c6.28,2.57,9.19,7.48,7.53,14.68l-55.1,238.56-30.44-.11L508.08,10.37c1.01-5.41,3.7-8.23,7.92-10.36h6Z"/>
+      <path d="M141.74,500h-60.18s-3.48-4.12-3.48-4.12v-33.96c.24-1.21,2.4-3.24,3.79-3.23l63.54.13.37,37.01-4.05,4.17Z"/>
+      <polygon points="467.74 500 406.39 500 403.89 495.76 404.25 458.75 471.12 458.79 471.38 496.02 467.74 500"/>
+      <path d="M404.92,87c-74.1-74.48-195.29-74.21-268.76.06l-13.51-13.59c81.5-82.2,215.04-81.78,295.85.22l-13.58,13.3Z"/>
+      <path d="M377.89,114.08c-59-58.87-154.75-59.6-214.4-.26l-13.83-13.09c66.02-66.8,174.84-67.4,241.53-.14l-13.31,13.49Z"/>
+      <path d="M351.71,140.14c-44.7-44.89-117.66-44.78-162.4-.06l-13.59-13.39c51.95-52.21,136.8-52.87,189.4-.16l-13.4,13.61Z"/>
+      <path d="M325.48,166.41c-30.55-30.22-79.39-30.19-109.91,0l-14.43-14.41c38.38-38.44,100.42-38.41,138.66-.03l-14.32,14.44Z"/>
+      <path d="M294.8,197.09c-13.85-12.93-34.2-13.52-48.47.04l-15.85-15.69c21.78-22.13,57.4-22.47,80.03-.16l-15.7,15.81Z"/>
+      <path d="M270.51,221.45l-12.61-12.67c7.46-6.65,17.75-6.84,25.12-.01l-12.51,12.68Z"/>
+      <circle cx="116.67" cy="360.24" r="21.37"/>
+      <circle cx="424.34" cy="360.25" r="21.35"/>
+      <circle cx="193.58" cy="360.24" r="21.33"/>
+      <circle cx="347.43" cy="360.24" r="21.32"/>
+      <circle cx="270.51" cy="360.24" r="21.31"/>
+    </g>
+  </g>
+</svg><span>Internet</span></a><a href="https://www.mojnet.de/mojnet-club/"><svg class="mojnet-mobile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M11 19h2"/></svg><span>Mojnet Club</span></a><a href="https://www.mojnet.de/kontakt/"><svg class="mojnet-mobile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 5h18v14H3z"/><path d="m3 7 9 6 9-6"/></svg><span>Kontakt</span></a><a href="https://www.mojnet.de/hilfe"><svg class="mojnet-mobile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg><span>Hilfe</span></a><a href="https://www.mojnet.de/mein-konto"><svg class="mojnet-mobile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 22a8 8 0 0 1 16 0"/></svg><span>Mein Konto</span></a></div></section><section class="mojnet-mobile-menu-section mojnet-mobile-menu-section--business" aria-labelledby="mojnet-mobile-menu-business-title"><h3 id="mojnet-mobile-menu-business-title" class="mojnet-mobile-menu-section-title">Business</h3><div class="mojnet-mobile-menu-links"><a href="https://www.mojnet.de/internet-fur-unternehmen/"><svg focusable="false" aria-hidden="true" class="mojnet-mobile-icon mojnet-mobile-icon--internet" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 541 500">
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <path d="M540.95,301.16l.05,118.85c-2.79,15.88-16.44,30.09-34.15,30.1l-468.65.16c-19.31,0-35.19-11.31-38.2-30.26l.06-118.89c3.27-18.87,18.17-30.85,37.11-30.85l468.42.05c18.43,0,32.39,13.56,35.36,30.85ZM501.99,309.18H38.99v101.88h463v-101.88Z"/>
+      <path d="M25,0c4.46,2.29,7.19,5.44,8.13,11.14l63.88,241.97-30.44.11L11.27,13.87c-1.57-6.79,2.15-11.68,7.73-13.87h6Z"/>
+      <path d="M522,0c6.28,2.57,9.19,7.48,7.53,14.68l-55.1,238.56-30.44-.11L508.08,10.37c1.01-5.41,3.7-8.23,7.92-10.36h6Z"/>
+      <path d="M141.74,500h-60.18s-3.48-4.12-3.48-4.12v-33.96c.24-1.21,2.4-3.24,3.79-3.23l63.54.13.37,37.01-4.05,4.17Z"/>
+      <polygon points="467.74 500 406.39 500 403.89 495.76 404.25 458.75 471.12 458.79 471.38 496.02 467.74 500"/>
+      <path d="M404.92,87c-74.1-74.48-195.29-74.21-268.76.06l-13.51-13.59c81.5-82.2,215.04-81.78,295.85.22l-13.58,13.3Z"/>
+      <path d="M377.89,114.08c-59-58.87-154.75-59.6-214.4-.26l-13.83-13.09c66.02-66.8,174.84-67.4,241.53-.14l-13.31,13.49Z"/>
+      <path d="M351.71,140.14c-44.7-44.89-117.66-44.78-162.4-.06l-13.59-13.39c51.95-52.21,136.8-52.87,189.4-.16l-13.4,13.61Z"/>
+      <path d="M325.48,166.41c-30.55-30.22-79.39-30.19-109.91,0l-14.43-14.41c38.38-38.44,100.42-38.41,138.66-.03l-14.32,14.44Z"/>
+      <path d="M294.8,197.09c-13.85-12.93-34.2-13.52-48.47.04l-15.85-15.69c21.78-22.13,57.4-22.47,80.03-.16l-15.7,15.81Z"/>
+      <path d="M270.51,221.45l-12.61-12.67c7.46-6.65,17.75-6.84,25.12-.01l-12.51,12.68Z"/>
+      <circle cx="116.67" cy="360.24" r="21.37"/>
+      <circle cx="424.34" cy="360.25" r="21.35"/>
+      <circle cx="193.58" cy="360.24" r="21.33"/>
+      <circle cx="347.43" cy="360.24" r="21.32"/>
+      <circle cx="270.51" cy="360.24" r="21.31"/>
+    </g>
+  </g>
+</svg><span>Internet für Unternehmen</span></a><a href="https://www.mojnet.de/geschaftstarife/"><svg class="mojnet-mobile-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></svg><span>Geschäftstarife</span></a></div></section><section class="mojnet-mobile-menu-section mojnet-mobile-menu-section--additional" aria-labelledby="mojnet-mobile-menu-additional-title"><h3 id="mojnet-mobile-menu-additional-title" class="mojnet-mobile-menu-section-title">Zusätzlich</h3><div class="mojnet-mobile-menu-secondary-links"><a href="https://www.mojnet.de/impressum/">Impressum</a><a href="https://www.mojnet.de/reklamationen-kundendienst-ruecktritt-und-kuendigung-des-vertrags/">Reklamationen, Kundendienst, Rücktritt und Kündigung des Vertrags</a><a href="https://www.mojnet.de/datenschutzerklaerung/">Datenschutzerklärung</a><a href="https://www.mojnet.de/allgemeine-geschaftsbedingungen-agb/">Allgemeine Geschäftsbedingungen / AGB</a><a href="https://www.mojnet.de/datenschutzerklaerung/">Cookies</a><a href="https://www.mojnet.de/vertrag-kuendigen/">Vertrag kündigen</a></div></section></div></div>	<script type='text/javascript'>
+		(function () {
+			var c = document.body.className;
+			c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
+			document.body.className = c;
+		})();
+	</script>
+	<link rel='stylesheet' id='wc-blocks-style-css' href='https://www.mojnet.de/wp-content/plugins/woocommerce/assets/client/blocks/wc-blocks.css?ver=wc-10.9.4' media='all' />
+<style id="global-styles-inline-css">
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(body) { margin: 0; }:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}body{padding-top: 0px;padding-right: 0px;padding-bottom: 0px;padding-left: 0px;}:root :where(.wp-element-button, .wp-block-button__link){background-color: #32373c;border-width: 0;color: #fff;font-family: inherit;font-size: inherit;font-style: inherit;font-weight: inherit;letter-spacing: inherit;line-height: inherit;padding-top: calc(0.667em + 2px);padding-right: calc(1.333em + 2px);padding-bottom: calc(0.667em + 2px);padding-left: calc(1.333em + 2px);text-decoration: none;text-transform: inherit;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+<script id="mojnet-frontend-runtime-js-extra">
+var MojnetMobileNav = {"languageLinks":[{"label":"HR","url":"https://www.mojnet.de/hr/pocetna/","slug":"hr","lang":"hr","hreflang":"hr","is_current":false},{"label":"DE","url":"https://www.mojnet.de/","slug":"de","lang":"de-DE","hreflang":"de-DE","is_current":true}],"pageLinks":{"cart":{"baseUrl":"https://www.mojnet.de/cart/","currentUrl":"https://www.mojnet.de/cart/"},"checkout":{"baseUrl":"https://www.mojnet.de/checkout/","currentUrl":"https://www.mojnet.de/checkout/"},"myaccount":{"baseUrl":"https://www.mojnet.de/hr/my-account/","currentUrl":"https://www.mojnet.de/mein-konto/"}},"languagePrompt":{"enabled":true,"storageKey":"mojnet_language_prompt_v1","rememberDays":180,"delay":900,"currentSlug":"de"}};
+var MojnetFrontendAssets = {"jqueryUrl":"https://www.mojnet.de/wp-includes/js/jquery/jquery.min.js","cart":{"styleUrl":"https://www.mojnet.de/wp-content/plugins/mojnet-checkout-customizer/assets/css/add-to-cart-modal.css?ver=1.34.28","scriptUrl":"https://www.mojnet.de/wp-content/plugins/mojnet-checkout-customizer/assets/js/add-to-cart-modal.js?ver=1.34.28","config":{"ajaxUrl":"https://www.mojnet.de/wp-admin/admin-ajax.php","checkoutUrl":"https://www.mojnet.de/checkout/","nonce":"f5aac98909","labels":{"dialogTitle":"Nummernoption w\u00e4hlen","dialogIntro":"Sagen Sie uns, ob dieser Tarif eine neue Nummer oder eine Rufnummernmitnahme nutzen soll.","newNumber":"Neue Nummer","transferNumber":"Bestehende Nummer mitnehmen","phoneNumber":"Rufnummer zur Mitnahme","provider":"Aktueller Anbieter","chooseTariff":"Tarif w\u00e4hlen","chooseTariffIntro":"W\u00e4hlen Sie den Tarif, zu dem dieses Add-on geh\u00f6rt.","addToCart":"In den Warenkorb","continue":"Weiter","cancel":"Abbrechen","tariff":"Tarif","required":"Dieses Feld ist erforderlich.","addonNeedsTariff":"Bitte f\u00fcgen Sie einen Tarif hinzu, bevor Sie dieses Add-on hinzuf\u00fcgen.","eligibleCountries":"Verf\u00fcgbare L\u00e4nder","understandAdd":"Ich habe verstanden und lege den Artikel in den Warenkorb","registrationPlate":"Kennzeichen","registrationCountry":"Zulassungsland","vehicleCategory":"Fahrzeugkategorie","validFrom":"G\u00fcltig ab","selectOption":"Option ausw\u00e4hlen","countriesDialogTitle":"Verf\u00fcgbare L\u00e4nder","close":"Schlie\u00dfen","genericError":"Wir konnten diesen Warenkorbartikel nicht vorbereiten. Bitte versuchen Sie es erneut.","loading":"Wird vorbereitet..."}}},"internet":{"styleUrl":"https://www.mojnet.de/wp-content/plugins/mojnet-checkout-customizer/assets/css/internet-inquiry.css?ver=1.34.28","scriptUrl":"https://www.mojnet.de/wp-content/plugins/mojnet-checkout-customizer/assets/js/internet-inquiry.js?ver=1.34.28","config":{"ajaxUrl":"https://www.mojnet.de/wp-admin/admin-ajax.php","nonce":"66749f15ee","privacyUrl":"https://www.mojnet.de/datenschutzerklaerung/","currentPlanId":0,"currentPlanName":"","labels":{"title":"Internet-Verf\u00fcgbarkeit pr\u00fcfen","intro":"Senden Sie Ihre Daten und wir pr\u00fcfen, ob dieser Internetplan an Ihrer Adresse verf\u00fcgbar ist.","plan":"Ausgew\u00e4hlter Plan","name":"Vor- und Nachname","email":"E-Mail-Adresse","phone":"Telefonnummer","birthDate":"Geburtsdatum","city":"Ort","address":"Adresse und Hausnummer","postcode":"PLZ","consentBefore":"Ich stimme zu, dass Mojnet diese Informationen verarbeitet, um die Verf\u00fcgbarkeit zu pr\u00fcfen und mich zu dieser Anfrage zu kontaktieren. Weitere Informationen finden Sie in der","consentLink":"Datenschutzerkl\u00e4rung","consentAfter":".","submit":"Verf\u00fcgbarkeit pr\u00fcfen","sending":"Wird gesendet...","cancel":"Abbrechen","required":"Dieses Feld ist erforderlich.","emailInvalid":"Bitte geben Sie eine g\u00fcltige E-Mail-Adresse ein.","birthFuture":"Das Geburtsdatum darf nicht in der Zukunft liegen.","birthInvalid":"Bitte geben Sie ein g\u00fcltiges Geburtsdatum ein.","genericError":"Wir konnten Ihre Anfrage nicht senden. Bitte versuchen Sie es erneut.","success":"Vielen Dank. Wir haben Ihre Anfrage erhalten und kontaktieren Sie bald.","close":"Schlie\u00dfen"}}}};
+//# sourceURL=mojnet-frontend-runtime-js-extra
+</script>
+<script id="mojnet-frontend-runtime-js" src="https://www.mojnet.de/wp-content/plugins/mojnet-checkout-customizer/assets/js/frontend-runtime.js?ver=1.34.28"></script>
+<script id="mojnet-mobile-nav-js" src="https://www.mojnet.de/wp-content/plugins/mojnet-checkout-customizer/assets/js/mobile-nav.js?ver=1.34.28"></script>
+<script id="woocommerce-js-extra">
+var woocommerce_params = {"ajax_url":"/wp-admin/admin-ajax.php","wc_ajax_url":"/?wc-ajax=%%endpoint%%","i18n_password_show":"Passwort anzeigen","i18n_password_hide":"Passwort ausblenden"};
+//# sourceURL=woocommerce-js-extra
+</script>
+<script data-wp-strategy="defer" id="woocommerce-js" src="https://www.mojnet.de/wp-content/plugins/woocommerce/assets/js/frontend/woocommerce.min.js?ver=10.9.4"></script>
+<script id="breakdance-woo-qty-js" src="https://www.mojnet.de/wp-content/plugins/breakdance/subplugins/breakdance-woocommerce/js/quantity.js?ver=2.8.0-beta.3"></script>
+<script id="googlesitekit-consent-mode-js" src="https://www.mojnet.de/wp-content/plugins/google-site-kit/dist/assets/js/googlesitekit-consent-mode-86cb52dcb9f2b27ed244.js"></script>
+<script id="sourcebuster-js-js" src="https://www.mojnet.de/wp-content/plugins/woocommerce/assets/js/sourcebuster/sourcebuster.min.js?ver=10.9.4"></script>
+<script id="wc-order-attribution-js-extra">
+var wc_order_attribution = {"params":{"lifetime":1.0000000000000000818030539140313095458623138256371021270751953125e-5,"session":30,"base64":false,"ajaxurl":"https://www.mojnet.de/wp-admin/admin-ajax.php","prefix":"wc_order_attribution_","allowTracking":true},"fields":{"source_type":"current.typ","referrer":"current_add.rf","utm_campaign":"current.cmp","utm_source":"current.src","utm_medium":"current.mdm","utm_content":"current.cnt","utm_id":"current.id","utm_term":"current.trm","utm_source_platform":"current.plt","utm_creative_format":"current.fmt","utm_marketing_tactic":"current.tct","session_entry":"current_add.ep","session_start_time":"current_add.fd","session_pages":"session.pgs","session_count":"udata.vst","user_agent":"udata.uag"}};
+//# sourceURL=wc-order-attribution-js-extra
+</script>
+<script id="wc-order-attribution-js" src="https://www.mojnet.de/wp-content/plugins/woocommerce/assets/js/frontend/order-attribution.min.js?ver=10.9.4"></script>
+<script id="wp-consent-api-js-extra">
+var consent_api = {"consent_type":"","waitfor_consent_hook":"","cookie_expiration":"30","cookie_prefix":"wp_consent","services":[]};
+//# sourceURL=wp-consent-api-js-extra
+</script>
+<script id="wp-consent-api-js" src="https://www.mojnet.de/wp-content/plugins/wp-consent-api/assets/js/wp-consent-api.min.js?ver=2.0.1"></script>
+<script id="wp-consent-api-integration-js-before">
+window.wc_order_attribution.params.consentCategory = "marketing";
+//# sourceURL=wp-consent-api-integration-js-before
+</script>
+<script id="wp-consent-api-integration-js" src="https://www.mojnet.de/wp-content/plugins/woocommerce/assets/js/frontend/wp-consent-api-integration.min.js?ver=10.9.4"></script>
+<script id="googlesitekit-events-provider-woocommerce-js-before">
+window._googlesitekit.wcdata = window._googlesitekit.wcdata || {};
+window._googlesitekit.wcdata.products = [];
+window._googlesitekit.wcdata.add_to_cart = null;
+window._googlesitekit.wcdata.currency = "EUR";
+window._googlesitekit.wcdata.eventsToTrack = ["add_to_cart","purchase"];
+//# sourceURL=googlesitekit-events-provider-woocommerce-js-before
+</script>
+<script id="googlesitekit-events-provider-woocommerce-js" src="https://www.mojnet.de/wp-content/plugins/google-site-kit/dist/assets/js/googlesitekit-events-provider-woocommerce-454120fdf8df4537b59f.js" defer></script>
+<div class="mojnet-language-prompt" data-mojnet-language-prompt hidden><div class="mojnet-language-prompt__backdrop" data-mojnet-language-prompt-dismiss></div><section class="mojnet-language-prompt__panel" role="dialog" aria-modal="true" aria-labelledby="mojnet-language-prompt-title" aria-describedby="mojnet-language-prompt-description"><button type="button" class="mojnet-language-prompt__close" data-mojnet-language-prompt-dismiss aria-label="Sprachauswahl schließen">&times;</button><div class="mojnet-language-prompt__copy"><h2 id="mojnet-language-prompt-title">Sprache auswählen</h2><p id="mojnet-language-prompt-description">Wählen Sie die Sprache aus, die Sie auf Mojnet verwenden möchten. Wir merken sie uns auf diesem Gerät.</p></div><nav class="mojnet-language-prompt-switcher mojnet-language-switcher" aria-label="Sprache"><a class="mojnet-language-switcher__item" href="https://www.mojnet.de/hr/pocetna/" data-language-slug="hr" lang="hr" hreflang="hr"><span>HR</span></a><a class="mojnet-language-switcher__item is-current" href="https://www.mojnet.de/" data-language-slug="de" lang="de-DE" hreflang="de-DE" aria-current="true"><span>DE</span></a></nav><button type="button" class="mojnet-language-prompt__secondary" data-mojnet-language-prompt-dismiss>Aktuelle Sprache beibehalten</button></section></div><script src='https://www.mojnet.de/wp-content/plugins/breakdance/plugin/global-scripts/breakdance-utils.js?bd_ver=2.8.0-beta.3' defer></script>
+<script src='https://www.mojnet.de/wp-content/plugins/breakdance/subplugins/breakdance-elements/dependencies-files/breakdance-header-builder@1/header-builder.js?bd_ver=2.8.0-beta.3' defer></script>
+<script src='https://www.mojnet.de/wp-content/plugins/breakdance/subplugins/breakdance-elements/dependencies-files/awesome-menu@1/awesome-menu.js?bd_ver=2.8.0-beta.3' defer></script>
+<script src='https://www.mojnet.de/wp-content/plugins/breakdance/subplugins/breakdance-elements/dependencies-files/breakdance-mini-cart@1/mini-cart.js?bd_ver=2.8.0-beta.3' defer></script>
+<script>document.addEventListener('DOMContentLoaded', function(){     if (!window.BreakdanceFrontend) {
+        window.BreakdanceFrontend = {}
+    }
+
+    window.BreakdanceFrontend.data = {"homeUrl":"https:\/\/www.mojnet.de","ajaxUrl":"https:\/\/www.mojnet.de\/wp-admin\/admin-ajax.php","elementsPluginUrl":"https:\/\/www.mojnet.de\/wp-content\/plugins\/breakdance\/subplugins\/breakdance-elements\/","BASE_BREAKPOINT_ID":"breakpoint_base","breakpoints":[{"id":"breakpoint_base","label":"Desktop","defaultPreviewWidth":"100%"},{"id":"breakpoint_tablet_landscape","label":"Tablet Landscape","defaultPreviewWidth":1024,"maxWidth":1119},{"id":"breakpoint_tablet_portrait","label":"Tablet Portrait","defaultPreviewWidth":768,"maxWidth":1023},{"id":"breakpoint_phone_landscape","label":"Phone Landscape","defaultPreviewWidth":480,"maxWidth":767},{"id":"breakpoint_phone_portrait","label":"Phone Portrait","defaultPreviewWidth":400,"maxWidth":479}],"subscriptionMode":"pro"} }) </script>
+<script>document.addEventListener('DOMContentLoaded', function(){ new BreakdanceHeaderBuilder(".breakdance .bde-header-builder-262-105", "105", false); }) </script>
+<script>document.addEventListener('DOMContentLoaded', function(){ 
+new AwesomeMenu(".breakdance .bde-wp-menu-262-172 .breakdance-menu", {
+  dropdown: {
+    openOnClick: false,
+    mode: {
+      desktop: 'dropdown'
+    },
+    placement: 'left',
+    width: null,
+    animation: 'fade'
+  },
+  link: {
+    effect: '',
+    effectDirection: '',
+  },
+  mobile: {
+    breakpoint: 'breakpoint_phone_portrait',
+    mode: 'offcanvas',
+    offcanvasPosition: 'right',
+    offset: null,
+    followLinks: true
+  }
+});
+ }) </script>
+<script>document.addEventListener('DOMContentLoaded', function(){ 
+new BreakdanceMiniCart('.breakdance .bde-mini-cart-262-176', 
+    {
+      ...{"cart":{"top_bar":null,"open_cart_on_add":false,"primary_button":"checkout","continue_shopping_link":"disabled","hide_quantity_input":false},"link":{"hide_count":false,"hide_count_when_empty":true,"hide_subtotal":false,"hide_subtotal_when_empty":false,"attributes":[]}},
+      style: 'dropdown',
+      full_screen_at: 'breakpoint_phone_landscape'
+    }
+);
+ }) </script>
+<script>document.addEventListener('DOMContentLoaded', function(){ new BreakdanceHeaderBuilder(".breakdance .bde-header-builder-262-126", "126", false); }) </script>
+<script>document.addEventListener('DOMContentLoaded', function(){ 
+new BreakdanceMiniCart('.breakdance .bde-mini-cart-262-136', 
+    {
+      ...{"cart":{"top_bar":null,"open_cart_on_add":true,"primary_button":"checkout"},"link":{"hide_count":false,"hide_count_when_empty":true,"hide_subtotal":true,"hide_subtotal_when_empty":false}},
+      style: 'dropdown',
+      full_screen_at: 'breakpoint_phone_landscape'
+    }
+);
+ }) </script>
+<script>document.addEventListener('DOMContentLoaded', function(){ new BreakdanceHeaderBuilder(".breakdance .bde-header-builder-262-161", "161", false); }) </script>
+<script>document.addEventListener('DOMContentLoaded', function(){ 
+new BreakdanceMiniCart('.breakdance .bde-mini-cart-262-169', 
+    {
+      ...{"cart":{"top_bar":null,"open_cart_on_add":true,"primary_button":"checkout"},"link":{"hide_count":false,"hide_count_when_empty":true,"hide_subtotal":true,"hide_subtotal_when_empty":false}},
+      style: 'dropdown',
+      full_screen_at: 'breakpoint_phone_landscape'
+    }
+);
+ }) </script>
+<script>document.addEventListener('DOMContentLoaded', function(){ 
+new AwesomeMenu(".breakdance .bde-wp-menu-604-133 .breakdance-menu", {
+  dropdown: {
+    openOnClick: false,
+    mode: {
+      desktop: 'dropdown'
+    },
+    placement: 'left',
+    width: null,
+    animation: 'fade'
+  },
+  link: {
+    effect: '',
+    effectDirection: '',
+  },
+  mobile: {
+    breakpoint: 'never',
+    mode: 'default',
+    offcanvasPosition: 'left',
+    offset: null,
+    followLinks: true
+  }
+});
+ }) </script>
+<script>document.addEventListener('DOMContentLoaded', function(){ 
+new AwesomeMenu(".breakdance .bde-wp-menu-604-136 .breakdance-menu", {
+  dropdown: {
+    openOnClick: false,
+    mode: {
+      desktop: 'dropdown'
+    },
+    placement: 'left',
+    width: null,
+    animation: 'fade'
+  },
+  link: {
+    effect: '',
+    effectDirection: '',
+  },
+  mobile: {
+    breakpoint: 'never',
+    mode: 'default',
+    offcanvasPosition: 'left',
+    offset: null,
+    followLinks: true
+  }
+});
+ }) </script>
+<script>document.addEventListener('DOMContentLoaded', function(){ 
+new AwesomeMenu(".breakdance .bde-wp-menu-604-139 .breakdance-menu", {
+  dropdown: {
+    openOnClick: false,
+    mode: {
+      desktop: 'dropdown'
+    },
+    placement: 'left',
+    width: null,
+    animation: 'fade'
+  },
+  link: {
+    effect: '',
+    effectDirection: '',
+  },
+  mobile: {
+    breakpoint: 'never',
+    mode: 'default',
+    offcanvasPosition: 'left',
+    offset: null,
+    followLinks: true
+  }
+});
+ }) </script>
+<script>document.addEventListener('DOMContentLoaded', function(){ 
+new AwesomeMenu(".breakdance .bde-wp-menu-604-142 .breakdance-menu", {
+  dropdown: {
+    openOnClick: false,
+    mode: {
+      desktop: 'dropdown'
+    },
+    placement: 'left',
+    width: null,
+    animation: 'fade'
+  },
+  link: {
+    effect: '',
+    effectDirection: '',
+  },
+  mobile: {
+    breakpoint: 'never',
+    mode: 'default',
+    offcanvasPosition: 'left',
+    offset: null,
+    followLinks: true
+  }
+});
+ }) </script>
+    </body>
+
+    </html>

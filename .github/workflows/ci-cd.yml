@@ -1,0 +1,239 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
+  GKE_ZONE: ${{ secrets.GKE_ZONE }}
+  REGISTRY: europe-west1-docker.pkg.dev
+  IMAGE_FRONTEND: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/frontend
+  IMAGE_BACKEND: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/backend
+  IMAGE_AIGATEWAY: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/aigateway
+  IMAGE_OPSCONTROL: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/opscontrol
+
+jobs:
+  test-frontend:
+    name: Test Frontend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: './01_kundenbereich-b2c/package-lock.json'
+      - name: Install Dependencies
+        working-directory: ./01_kundenbereich-b2c
+        run: npm ci
+      - name: Run Linter
+        working-directory: ./01_kundenbereich-b2c
+        run: npm run lint --if-present
+      # - name: Run Tests
+      #   working-directory: ./01_kundenbereich-b2c
+      #   run: npm test
+
+  test-backend:
+    name: Test Backend
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+      - name: Run Tests
+        working-directory: ./02_b2c-contractchecker-spring
+        run: ./mvnw test
+
+  test-aigateway:
+    name: Test AI Gateway
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        working-directory: ./03_b2c-ai-gateway
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-asyncio
+      - name: Run Tests
+        working-directory: ./03_b2c-ai-gateway
+        env:
+          PYTHONPATH: .
+        run: pytest
+
+  build-and-push:
+    name: Build & Push Images
+    needs: [test-frontend, test-backend, test-aigateway]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # Required for requesting the JWT for Workload Identity Federation (WIF)
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          # Secure passwordless login using Workload Identity Federation (WIF)
+          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}'
+          
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v2'
+
+      - name: Configure Docker
+        run: gcloud auth configure-docker ${{ env.REGISTRY }} --quiet
+
+      - name: Build & Push Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./01_kundenbereich-b2c
+          push: true
+          tags: ${{ env.IMAGE_FRONTEND }}:${{ github.sha }},${{ env.IMAGE_FRONTEND }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build & Push Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./02_b2c-contractchecker-spring
+          push: true
+          tags: ${{ env.IMAGE_BACKEND }}:${{ github.sha }},${{ env.IMAGE_BACKEND }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build & Push AI Gateway
+        uses: docker/build-push-action@v5
+        with:
+          context: ./03_b2c-ai-gateway
+          push: true
+          tags: ${{ env.IMAGE_AIGATEWAY }}:${{ github.sha }},${{ env.IMAGE_AIGATEWAY }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build & Push Ops Control Center
+        uses: docker/build-push-action@v5
+        with:
+          context: ./04_ops-control-center
+          push: true
+          tags: ${{ env.IMAGE_OPSCONTROL }}:${{ github.sha }},${{ env.IMAGE_OPSCONTROL }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy-staging:
+    name: Deploy to Staging
+    needs: build-and-push
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: staging
+    permissions:
+      contents: read
+      id-token: write # Required for requesting JWT for WIF
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          # Secure passwordless login using Workload Identity Federation (WIF)
+          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}'
+
+      - name: Get GKE Credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Deploy to GKE
+        run: |
+          helm upgrade --install b2c-platform ./helm/b2c-platform \
+            --namespace staging --create-namespace \
+            --set global.environment=staging \
+            --set global.domain=staging.ihrezuhauseberatung.de \
+            --set frontend.image.tag=${{ github.sha }} \
+            --set backend.image.tag=${{ github.sha }} \
+            --set aigateway.image.tag=${{ github.sha }} \
+            --set opscontrol.image.tag=${{ github.sha }} \
+            --set ingress.hosts[0].host=staging.ihrezuhauseberatung.de \
+            --set ingress.tls[0].hosts[0]=staging.ihrezuhauseberatung.de \
+            --set ingress.hosts[1].host=ops.staging.ihrezuhauseberatung.de \
+            --set ingress.tls[0].hosts[1]=ops.staging.ihrezuhauseberatung.de
+
+  deploy-production:
+    name: Deploy to Production
+    needs: deploy-staging
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write # Required for requesting JWT for WIF
+    # Requires manual trigger from GitHub UI (Environment approval)
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          # Secure passwordless login using Workload Identity Federation (WIF)
+          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}'
+
+      - name: Get GKE Credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+
+      - name: Deploy to GKE
+        run: |
+          helm upgrade --install b2c-platform ./helm/b2c-platform \
+            --namespace production --create-namespace \
+            --set global.environment=production \
+            --set global.domain=ihrezuhauseberatung.de \
+            --set frontend.image.tag=${{ github.sha }} \
+            --set backend.image.tag=${{ github.sha }} \
+            --set aigateway.image.tag=${{ github.sha }} \
+            --set opscontrol.image.tag=${{ github.sha }} \
+            --set ingress.hosts[0].host=ihrezuhauseberatung.de \
+            --set ingress.tls[0].hosts[0]=ihrezuhauseberatung.de \
+            --set ingress.hosts[1].host=ops.ihrezuhauseberatung.de \
+            --set ingress.tls[0].hosts[1]=ops.ihrezuhauseberatung.de \
+            --set backend.env[0].name=SPRING_PROFILES_ACTIVE \
+            --set backend.env[0].value=prod

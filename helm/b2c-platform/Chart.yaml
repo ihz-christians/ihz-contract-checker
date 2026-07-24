@@ -1,0 +1,5 @@
+apiVersion: v2
+name: b2c-platform
+description: Helm chart for B2C Module (Frontend, Backend, AI Gateway)
+version: 0.1.0
+appVersion: "1.0.0"

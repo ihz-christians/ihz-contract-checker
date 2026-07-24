@@ -1,0 +1,90 @@
+name: Build and Deploy to GKE
+
+on:
+  push:
+    branches:
+      - main # Pipeline läuft nur beim Push auf main
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  GAR_LOCATION: europe-west1
+  GKE_CLUSTER: b2c-cluster
+  GKE_ZONE: europe-west1-b
+  REPOSITORY: b2c-repo
+  IMAGE: contractchecker
+  # OpenID Connect (OIDC) WIF provider - Best practice statt Service Account JSON Keys
+  WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.WIF_PROVIDER }}
+  SERVICE_ACCOUNT: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish, and Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write' # Zwingend erforderlich für OIDC Auth
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run Tests (Maven)
+        run: ./mvnw clean verify
+        
+      # === AB HIER: Cloud Deployment (Wenn Tests grün sind) ===
+
+      - name: Authenticate to Google Cloud (via WIF)
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Docker Auth for Google Artifact Registry
+        run: |-
+          gcloud auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev
+
+      - name: Get GKE Credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4.2.0
+
+      # Setzt als Tag den kurzen Git-Hash
+      - name: Set Image Tag
+        id: set-tag
+        run: echo "TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Build and Push Docker Image
+        run: |-
+          IMAGE_PATH=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}
+          docker build \
+            --tag "$IMAGE_PATH:${{ env.TAG }}" \
+            --tag "$IMAGE_PATH:latest" \
+            .
+          docker push "$IMAGE_PATH:${{ env.TAG }}"
+          docker push "$IMAGE_PATH:latest"
+
+      - name: Deploy to GKE via Helm
+        run: |-
+          IMAGE_PATH=${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.IMAGE }}
+          
+          # Helm Upgrade (oder Install wenn noch nicht vorhanden)
+          helm upgrade --install contractchecker-app ./helm/contractchecker \
+            --namespace production \
+            --create-namespace \
+            --set image.repository=$IMAGE_PATH \
+            --set image.tag=${{ env.TAG }}

@@ -1,0 +1,6 @@
+ALTER TABLE users ADD COLUMN street VARCHAR(255);
+ALTER TABLE users ADD COLUMN house_number VARCHAR(50);
+ALTER TABLE users ADD COLUMN zip_code VARCHAR(20);
+ALTER TABLE users ADD COLUMN city VARCHAR(255);
+ALTER TABLE users ADD COLUMN ai_context_tags JSONB;
+ALTER TABLE users ADD COLUMN ai_custom_prompt TEXT;

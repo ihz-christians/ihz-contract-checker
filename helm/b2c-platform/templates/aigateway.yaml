@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aigateway
+  labels:
+    app: aigateway
+spec:
+  replicas: {{ .Values.aigateway.replicaCount }}
+  selector:
+    matchLabels:
+      app: aigateway
+  template:
+    metadata:
+      labels:
+        app: aigateway
+    spec:
+      serviceAccountName: aigateway-sa
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - aigateway
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - name: aigateway
+          image: "{{ .Values.aigateway.image.repository }}:{{ .Values.aigateway.image.tag }}"
+          imagePullPolicy: {{ .Values.aigateway.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+          ports:
+            - containerPort: 8000
+          env:
+            - name: GEMINI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ai-secrets
+                  key: gemini-api-key
+            - name: LANGFUSE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ai-secrets
+                  key: langfuse-secret-key
+                  optional: true
+            - name: LANGFUSE_PUBLIC_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ai-secrets
+                  key: langfuse-public-key
+                  optional: true
+            - name: LANGFUSE_HOST
+              value: "https://us.cloud.langfuse.com" # default Langfuse cloud, can be overridden
+          resources:
+            {{- toYaml .Values.aigateway.resources | nindent 12 }}
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "sleep 10"]
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aigateway
+spec:
+  type: {{ .Values.aigateway.service.type }}
+  ports:
+    - port: {{ .Values.aigateway.service.port }}
+      targetPort: 8000
+      protocol: TCP
+  selector:
+    app: aigateway
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: aigateway-sa
+  annotations:
+    iam.gke.io/gcp-service-account: "aigateway-sa@{{ .Values.global.projectId }}.iam.gserviceaccount.com"

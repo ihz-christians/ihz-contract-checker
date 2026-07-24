@@ -1,0 +1,33 @@
+<!-- Tab-System for Dev/AI View -->
+<div class="border-t border-border pt-6 mb-6">
+    <details class="group">
+        <summary class="font-bold text-muted-foreground text-xs uppercase tracking-wider mb-4 cursor-pointer hover:text-primary transition-colors flex items-center">
+            <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+            Entwickler & KI-Transparenz (Rohtext & JSON)
+        </summary>
+        
+        <div class="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- Rohtext (OCR) -->
+            <div class="flex flex-col">
+                <div class="bg-secondary/50 px-4 py-2 rounded-t-xl border border-border border-b-0 text-[10px] font-bold text-foreground flex justify-between items-center">
+                    <span>📄 Rohtext (PDF Extraction)</span>
+                    <span class="text-muted-foreground font-normal">Was die KI gelesen hat</span>
+                </div>
+                <div class="bg-card rounded-b-xl p-4 overflow-x-auto shadow-inner text-[10px] font-mono whitespace-pre-wrap leading-relaxed border border-border h-96 overflow-y-auto text-muted-foreground">
+                    <th:block th:text="${analysis.metadata.extractedRawText}"></th:block>
+                </div>
+            </div>
+
+            <!-- KI JSON Reference -->
+            <div class="flex flex-col">
+                <div class="bg-secondary/50 px-4 py-2 rounded-t-xl border border-border border-b-0 text-[10px] font-bold text-primary flex justify-between items-center">
+                    <span>🧠 Strukturierte KI-Referenz (JSON)</span>
+                    <span class="text-muted-foreground font-normal">Context für den Chatbot</span>
+                </div>
+                <div class="bg-slate-900 rounded-b-xl p-4 overflow-x-auto shadow-inner text-[10px] font-mono whitespace-pre-wrap leading-relaxed border border-slate-800 h-96 overflow-y-auto text-green-400">
+                    <th:block th:text="${@customJsonRenderer.toJson(analysis)}">JSON Data</th:block>
+                </div>
+            </div>
+        </div>
+    </details>
+</div>

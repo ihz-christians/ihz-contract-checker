@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Vertragsanalyse PDF</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #334155; line-height: 1.5; margin: 0; padding: 20px; }
+        .header { border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px; display: flex; align-items: center; }
+        .header h1 { color: #0f172a; margin: 0; font-size: 24px; }
+        .header-sub { color: #64748b; font-size: 14px; margin-top: 5px; }
+        .section { margin-bottom: 30px; }
+        .section-title { font-size: 18px; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 15px; }
+        
+        .box { background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .box-title { font-weight: bold; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; margin-top: 0; }
+        .box-value { font-size: 16px; font-weight: bold; color: #0f172a; margin: 0; }
+        
+        .alert { background-color: #fff7ed; border-left: 4px solid #f97316; padding: 15px; margin-bottom: 20px; }
+        .alert-title { color: #9a3412; font-weight: bold; margin-top: 0; margin-bottom: 10px; }
+        .alert ul { margin: 0; padding-left: 20px; color: #c2410c; font-size: 14px; }
+        
+        .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .table th, .table td { padding: 10px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+        .table th { color: #64748b; font-weight: bold; background-color: #f8fafc; }
+        .table td { color: #334155; }
+        
+        .footer { margin-top: 50px; border-top: 1px solid #e2e8f0; padding-top: 15px; font-size: 12px; color: #94a3b8; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>Vertragsanalyse: <span th:text="${contract.contractType}">Vertrag</span></h1>
+            <div class="header-sub">IhreZuhauseBeratung - B2C Module</div>
+        </div>
+    </div>
+
+    <div class="alert" th:if="${analysis != null and analysis.overview != null and analysis.overview.costs != null and analysis.overview.costs.hidden != null and !analysis.overview.costs.hidden.isEmpty()}">
+        <h3 class="alert-title">⚠️ Achtung: Versteckte Kosten / Preiserhöhungen gefunden</h3>
+        <ul>
+            <li th:each="hidden : ${analysis.overview.costs.hidden}" th:text="${hidden}">Versteckter Kostenpunkt</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Allgemeine Informationen</h2>
+        <div style="display: table; width: 100%;">
+            <div style="display: table-cell; width: 50%; padding-right: 10px;">
+                <div class="box">
+                    <p class="box-title">Anbieter</p>
+                    <p class="box-value" th:text="${analysis != null and analysis.overview != null ? analysis.overview.provider : '-'}">Unbekannt</p>
+                </div>
+            </div>
+            <div style="display: table-cell; width: 50%; padding-left: 10px;">
+                <div class="box">
+                    <p class="box-title">Kündigungsfrist</p>
+                    <p class="box-value" th:text="${analysis != null and analysis.overview != null ? analysis.overview.noticePeriod : '-'}">Unbekannt</p>
+                </div>
+            </div>
+        </div>
+        <div style="display: table; width: 100%; margin-top: 10px;">
+            <div style="display: table-cell; width: 100%;">
+                <div class="box">
+                    <p class="box-title">Geschätzte Gesamtkosten (24 Monate)</p>
+                    <p class="box-value" th:text="${analysis != null and analysis.overview != null and analysis.overview.costs != null ? analysis.overview.costs.tco24 + ' €' : '-'}">0,00 €</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" th:if="${analysis != null and analysis.legalCheck != null and analysis.legalCheck.mandatoryElementsBGB != null and !analysis.legalCheck.mandatoryElementsBGB.isEmpty()}">
+        <h2 class="section-title">Rechtliche Hinweise (BGB Check)</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Klausel / Hinweis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="legal : ${analysis.legalCheck.mandatoryElementsBGB}">
+                    <td th:text="${legal}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        Dieses Dokument wurde automatisch von der IhreZuhauseBeratung KI generiert.<br>
+        Datum der Analyse: <span th:text="${#temporals.format(contract.createdAt, 'dd.MM.yyyy HH:mm')}">01.01.2024</span>
+    </div>
+</body>
+</html>

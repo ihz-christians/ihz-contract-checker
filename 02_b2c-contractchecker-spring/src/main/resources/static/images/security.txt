@@ -1,0 +1,25 @@
+Contact: security@ihrezuhauseberatung.de
+Expires: 2026-12-31T23:59:59.000Z
+Encryption: https://keys.openpgp.org/search?q=security@ihrezuhauseberatung.de
+Preferred-Languages: de, en
+Canonical: https://ihrezuhauseberatung.de/.well-known/security.txt
+
+# Security Policy
+
+If you discover a security vulnerability in our platform,
+please report it responsibly by contacting us at the above email address.
+
+We take security seriously and appreciate your help in keeping our platform safe.
+
+## What to include in your report:
+- Description of the vulnerability
+- Steps to reproduce
+- Potential impact
+- Any suggested fixes
+
+## What to expect:
+- Acknowledgment within 24 hours
+- Regular updates on our progress
+- Recognition for responsible disclosure
+
+Thank you for helping us maintain a secure platform!

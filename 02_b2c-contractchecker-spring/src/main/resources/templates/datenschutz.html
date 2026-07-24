@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IhreZuhauseBeratung - Datenschutzerklärung</title>
+    
+    <!-- Premium Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Link to the identical design system CSS variables from React -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: ["class"],
+            theme: {
+                extend: {
+                    colors: {
+                        border: "hsl(var(--border))",
+                        input: "hsl(var(--input))",
+                        ring: "hsl(var(--ring))",
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                        primary: {
+                          DEFAULT: "hsl(var(--primary))",
+                          foreground: "hsl(var(--primary-foreground))",
+                          hover: "hsl(var(--primary-hover))",
+                        },
+                        secondary: {
+                          DEFAULT: "hsl(var(--secondary))",
+                          foreground: "hsl(var(--secondary-foreground))",
+                        },
+                        muted: {
+                          DEFAULT: "hsl(var(--muted))",
+                          foreground: "hsl(var(--muted-foreground))",
+                        },
+                        accent: {
+                          DEFAULT: "hsl(var(--accent))",
+                          foreground: "hsl(var(--accent-foreground))",
+                          primary: "hsl(var(--accent-primary))",
+                          secondary: "hsl(var(--accent-secondary))",
+                        },
+                        card: {
+                          DEFAULT: "hsl(var(--card))",
+                          foreground: "hsl(var(--card-foreground))",
+                          hover: "hsl(var(--card-hover))",
+                        }
+                    },
+                    boxShadow: {
+                        card: "var(--shadow-md)",
+                        "card-hover": "var(--shadow-xl)",
+                    },
+                    borderRadius: {
+                        xl: "var(--radius-xl)",
+                        "2xl": "var(--radius-2xl)",
+                        "3xl": "var(--radius-3xl)",
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            font-family: 'Inter', sans-serif !important;
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground antialiased flex flex-col min-h-screen">
+
+    <!-- Navigation Header -->
+    <nav class="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex h-16 items-center justify-between gap-fluid-sm">
+                
+                <!-- Logo -->
+                <a href="/" class="flex items-center gap-2.5 group shrink-0">
+                    <img src="/images/white-logo.png" alt="IhreZuhauseBeratung Logo" class="w-10 h-10 transition-transform group-hover:scale-105" onerror="this.src='/images/logo.png'; this.onerror=null;">
+                    <span class="text-xl font-bold bg-gradient-to-r from-primary to-accent-primary bg-clip-text text-transparent">
+                        IhreZuhauseBeratung
+                    </span>
+                </a>
+
+                <!-- Back button -->
+                <div class="flex items-center gap-3">
+                    <a href="/" class="text-muted-foreground hover:text-foreground text-sm font-bold flex items-center gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                        <span>Zur Startseite</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content Area -->
+    <main class="flex-1 py-16 px-4 max-w-4xl mx-auto w-full">
+        <div class="bg-card rounded-3xl p-8 md:p-12 border border-border shadow-card space-y-8">
+            
+            <div class="border-b border-border pb-6">
+                <h1 class="text-3xl md:text-4xl font-black tracking-tight text-foreground">Datenschutzerklärung</h1>
+                <p class="text-muted-foreground text-sm mt-2">Informationen zur Verarbeitung Ihrer personenbezogenen Daten</p>
+            </div>
+
+            <!-- Allgemeine Hinweise -->
+            <section class="space-y-4">
+                <h2 class="text-lg font-bold text-foreground">1. Datenschutz auf einen Blick</h2>
+                <div class="text-sm text-muted-foreground leading-relaxed space-y-3">
+                    <h3 class="font-semibold text-foreground text-sm">Allgemeine Hinweise</h3>
+                    <p>
+                        Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen oder unseren B2C-Vertragsprüfungsdienst nutzen. Personenbezogene Daten sind alle Daten, mit denen Sie persönlich identifiziert werden können.
+                    </p>
+                    <h3 class="font-semibold text-foreground text-sm mt-4">Datenerfassung auf dieser Website</h3>
+                    <p>
+                        Die Datenverarbeitung auf dieser Website erfolgt durch den Websitebetreiber. Dessen Kontaktdaten können Sie dem Abschnitt „Hinweis zur Verantwortlichen Stelle“ in dieser Datenschutzerklärung entnehmen.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Verantwortliche Stelle -->
+            <section class="space-y-4">
+                <h2 class="text-lg font-bold text-foreground">2. Allgemeine Hinweise und Pflichtinformationen</h2>
+                <div class="text-sm text-muted-foreground leading-relaxed space-y-3">
+                    <h3 class="font-semibold text-foreground text-sm">Hinweis zur verantwortlichen Stelle</h3>
+                    <p>Die verantwortliche Stelle für die Datenverarbeitung auf dieser Website ist:</p>
+                    <div class="p-4 bg-secondary rounded-2xl border border-border/80 text-foreground font-medium space-y-1 my-3">
+                        <p class="font-bold text-primary">IhreZuhauseBeratung GmbH</p>
+                        <p>Murrstraße 12</p>
+                        <p>90429 Nürnberg</p>
+                        <p>E-Mail: datenschutz@ihrezuhauseberatung.de</p>
+                    </div>
+                    <p>
+                        Verantwortliche Stelle ist die natürliche oder juristische Person, die allein oder gemeinsam mit anderen über die Zwecke und Mittel der Verarbeitung von personenbezogenen Daten (z. B. Namen, E-Mail-Adressen o. Ä.) entscheidet.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Datensicherheit & Verschlüsselung -->
+            <section class="space-y-4">
+                <h2 class="text-lg font-bold text-foreground text-primary">3. Datensicherheit &amp; Hosting</h2>
+                <div class="text-sm text-muted-foreground leading-relaxed space-y-3">
+                    <p>
+                        Als Dienstleister für den Verbraucherschutz im Direktvertrieb steht die Sicherheit Ihrer hochgeladenen Dokumente an oberster Stelle. Wir haben weitreichende technische Schutzvorkehrungen getroffen:
+                    </p>
+                    <ul class="list-disc pl-5 space-y-1.5 font-medium text-foreground text-xs">
+                        <li>
+                            <span class="font-bold text-primary">Mandantenisolierung:</span> Alle von Ihnen hochgeladenen Daten, Analysen und Chatverläufe sind in unserer Datenbank strikt getrennt. Kein Dritter oder anderer Benutzer kann Zugriff auf Ihre Daten erlangen.
+                        </li>
+                        <li>
+                            <span class="font-bold text-primary">Verschlüsselte Ablage:</span> Verträge im PDF-, DOCX- oder TXT-Format werden verschlüsselt gespeichert (Hosting-Standort: Deutschland).
+                        </li>
+                        <li>
+                            <span class="font-bold text-primary">DSGVO-konforme KI-Nutzung:</span> Die Analyse von Vertragsdokumenten erfolgt datenschutzkonform. Eingespeiste Texte werden nicht zum Training globaler KI-Modelle genutzt und dienen ausschließlich der Bereitstellung unserer Services.
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Betroffenenrechte -->
+            <section class="space-y-4">
+                <h2 class="text-lg font-bold text-foreground">4. Ihre Rechte bezüglich Ihrer Daten</h2>
+                <div class="text-sm text-muted-foreground leading-relaxed space-y-3">
+                    <p>Sie haben im Rahmen der geltenden gesetzlichen Bestimmungen jederzeit das Recht auf:</p>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><span class="font-semibold text-foreground">Auskunft (Art. 15 DSGVO)</span> über Ihre gespeicherten personenbezogenen Daten, deren Herkunft und Empfänger und den Zweck der Datenverarbeitung.</li>
+                        <li><span class="font-semibold text-foreground">Berichtigung (Art. 16 DSGVO)</span> unrichtiger Daten oder Vervollständigung Ihrer Daten.</li>
+                        <li><span class="font-semibold text-foreground">Löschung bzw. das „Recht auf Vergessenwerden“ (Art. 17 DSGVO)</span>, wenn die Speicherung nicht mehr erforderlich ist oder Sie Ihre Einwilligung widerrufen.</li>
+                        <li><span class="font-semibold text-foreground">Einschränkung der Verarbeitung (Art. 18 DSGVO)</span> bei Bestreiten der Richtigkeit oder unrechtmäßiger Verarbeitung.</li>
+                        <li><span class="font-semibold text-foreground">Datenübertragbarkeit (Art. 20 DSGVO)</span> in einem strukturierten, gängigen und maschinenlesbaren Format.</li>
+                        <li><span class="font-semibold text-foreground">Widerspruch (Art. 21 DSGVO)</span> gegen die Verarbeitung Ihrer Daten, die auf Grundlage von berechtigten Interessen (Art. 6 Abs. 1 lit. f DSGVO) erfolgt.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SSL Verschlüsselung -->
+            <section class="space-y-4 border-t border-border pt-6">
+                <h2 class="text-lg font-bold text-foreground">5. Datenerfassung auf dieser Website</h2>
+                <div class="text-sm text-muted-foreground leading-relaxed space-y-3">
+                    <h3 class="font-semibold text-foreground text-sm">SSL- bzw. TLS-Verschlüsselung</h3>
+                    <p>
+                        Diese Seite nutzt aus Sicherheitsgründen und zum Schutz der Übertragung vertraulicher Inhalte, wie zum Beispiel Bestellungen oder Anfragen, die Sie an uns als Seitenbetreiber senden, eine SSL- bzw. TLS-Verschlüsselung. Eine verschlüsselte Verbindung erkennen Sie daran, dass die Adresszeile des Browsers von „http://“ auf „https://“ wechselt und an dem Schloss-Symbol in Ihrer Browserzeile.
+                    </p>
+                    <p>
+                        Wenn die SSL- bzw. TLS-Verschlüsselung aktiviert ist, können die Daten, die Sie an uns übermitteln, nicht von Dritten mitgelesen werden.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-card border-t border-border">
+        <div class="mx-auto max-w-7xl px-4 py-8">
+            <p class="text-center text-muted-foreground text-xs">
+                © <span th:text="${#calendars.year(#calendars.createNow())}">2026</span> IhreZuhauseBeratung GmbH. Alle Rechte vorbehalten.
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

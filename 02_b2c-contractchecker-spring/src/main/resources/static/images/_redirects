@@ -1,0 +1,6 @@
+# SPA Fallback - alle Routen zu index.html
+/* /index.html 200
+
+# Alte URLs weiterleiten (falls nötig)
+/home    /    301
+/ueber-uns    /about    301

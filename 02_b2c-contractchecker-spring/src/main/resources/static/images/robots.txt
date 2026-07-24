@@ -1,0 +1,35 @@
+# Robots.txt for IhreZuhauseBeratung
+# https://www.ihrezuhauseberatung.de
+
+# Anweisungen für alle Webcrawler (Robots), die nicht spezifisch aufgeführt sind.
+User-agent: *
+Allow: /
+
+# Verhindere das Crawlen von Seiten mit Query-Parametern und internen Pfaden.
+Disallow: /*?*
+Disallow: /_*
+Disallow: /api/
+
+# Spezifische Anweisungen für wichtige Suchmaschinen
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# --- NEU: Anweisungen für KI-Crawler für maximale Sichtbarkeit bei KI-Diensten ---
+# Spezifische Anweisungen für den Web-Crawler von OpenAI (ChatGPT)
+User-agent: GPTBot
+Allow: /
+Crawl-delay: 0
+
+# Spezifische Anweisungen für Google's erweiterte KI-Modelle
+User-agent: Google-Extended
+Allow: /
+Crawl-delay: 0
+
+# Sitemap-Standort
+# WICHTIG: Ersetzen Sie "https://www.ihrezuhauseberatung.de" durch Ihre tatsächliche Produktionsdomain!
+Sitemap: https://www.ihrezuhauseberatung.de/sitemap.xml

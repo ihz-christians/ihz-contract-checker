@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rechtliche Maßnahme</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #334155; line-height: 1.6; margin: 0; padding: 40px; }
+        .header { border-bottom: 2px solid #2D5016; padding-bottom: 20px; margin-bottom: 30px; }
+        .header h1 { color: #2D5016; margin: 0; font-size: 26px; text-transform: uppercase; letter-spacing: 1px; }
+        .header-sub { color: #4A7C59; font-size: 14px; margin-top: 5px; font-weight: bold; }
+        
+        .address-box { margin-bottom: 40px; font-size: 12px; line-height: 1.4; }
+        .sender-line { text-decoration: underline; color: #64748b; margin-bottom: 10px; }
+        
+        .content { margin-bottom: 40px; }
+        .title { font-size: 20px; font-weight: bold; color: #1e293b; margin-bottom: 25px; }
+        
+        .signature { margin-top: 50px; border-top: 1px solid #e2e8f0; padding-top: 20px; display: inline-block; width: 250px; }
+        .signature-title { font-size: 12px; color: #64748b; margin-top: 5px; }
+        
+        .footer { margin-top: 100px; border-top: 1px solid #e2e8f0; padding-top: 15px; font-size: 10px; color: #94a3b8; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>IhreZuhauseBeratung</h1>
+        <div class="header-sub">Verbraucherschutz & Vertragsprüfung</div>
+    </div>
+
+    <div class="address-box">
+        <div class="sender-line">
+            IhreZuhauseBeratung B2C, Musterweg 1, 12345 Musterstadt
+        </div>
+        <strong th:text="${user.firstName} + ' ' + ${user.lastName}">Absender Name</strong><br/>
+        <span th:text="${user.street} + ' ' + ${user.houseNumber}">Musterstraße 12</span><br/>
+        <span th:text="${user.zipCode} + ' ' + ${user.city}">12345 Musterstadt</span>
+    </div>
+
+    <div class="content">
+        <!-- Dynamic header based on action type -->
+        <div class="title" th:if="${action.actionType.name() == 'CANCELLATION'}">
+            Kündigung meines Vertrages
+        </div>
+        <div class="title" th:if="${action.actionType.name() == 'REVOCATION'}">
+            Widerruf meines Vertrages (Fernabsatz / Haustürgeschäft)
+        </div>
+        <div class="title" th:if="${action.actionType.name() == 'DOWNGRADE'}">
+            Anfrage auf Tarifwechsel / Downgrade
+        </div>
+
+        <p>Sehr geehrte Damen und Herren,</p>
+
+        <!-- Cancellation Template -->
+        <div th:if="${action.actionType.name() == 'CANCELLATION'}">
+            <p>hiermit kündige ich meinen Vertrag zum nächstmöglichen Zeitpunkt ordnungsgemäß.</p>
+            <p>Bitte senden Sie mir eine schriftliche Bestätigung der Kündigung unter Angabe des Beendigungszeitpunkts innerhalb der gesetzlichen Fristen zu.</p>
+        </div>
+
+        <!-- Revocation Template -->
+        <div th:if="${action.actionType.name() == 'REVOCATION'}">
+            <p>hiermit widerrufe ich den von mir abgeschlossenen Vertrag innerhalb der gesetzlichen 14-tägigen Widerrufsfrist.</p>
+            <p>Bitte bestätigen Sie mir den Erhalt dieses Widerrufs unverzüglich schriftlich.</p>
+        </div>
+
+        <!-- Downgrade Template -->
+        <div th:if="${action.actionType.name() == 'DOWNGRADE'}">
+            <p>hiermit frage ich einen Wechsel meines Tarifs in eine günstigere Option (Downgrade) gemäß meinen vertraglichen Rechten an.</p>
+            <p>Bitte senden Sie mir entsprechende Angebote sowie die geänderten Konditionen schriftlich zu.</p>
+        </div>
+
+        <p>Vielen Dank für Ihre Unterstützung.</p>
+
+        <p>Mit freundlichen Grüßen,</p>
+        
+        <div class="signature">
+            <strong th:text="${user.firstName} + ' ' + ${user.lastName}">Kunde Name</strong>
+            <div class="signature-title">Kunde (Eigenhändige Unterschrift nicht erforderlich bei Textform)</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Dieses Schreiben wurde automatisch von der Plattform IhreZuhauseBeratung im Auftrag des Kunden erstellt und verifiziert.</p>
+    </div>
+</body>
+</html>

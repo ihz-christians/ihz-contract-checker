@@ -1,0 +1,52 @@
+# System files
+.DS_Store
+Thumbs.db
+*.log
+gcp-deploy-key.json
+
+# IDEs
+.idea/
+.vscode/
+*.suo
+*.ntvsca
+*.njsproj
+*.sln
+*.swp
+
+# Virtual Environments (Python)
+.venv/
+venv/
+ENV/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node.js
+node_modules/
+dist/
+build/
+.npm
+package-lock.json
+
+# Java / Maven
+target/
+*.class
+.mvn/wrapper/
+.metadata
+.classpath
+.project
+.settings/
+*.jar
+*.war
+*.ear
+/target/
+bin/
+dependency-reduced-pom.xml
+
+# Local Storage / S3 / Databases
+data/
+minio-data/
+postgres-data/
+*.db

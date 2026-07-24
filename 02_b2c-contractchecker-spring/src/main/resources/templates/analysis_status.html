@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IhreZuhauseBeratung - Analyse läuft</title>
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script>
+        tailwind.config = {
+            darkMode: ["class"],
+            theme: {
+                extend: {
+                    colors: {
+                        border: "hsl(var(--border))",
+                        input: "hsl(var(--input))",
+                        ring: "hsl(var(--ring))",
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                        primary: { DEFAULT: "hsl(var(--primary))", foreground: "hsl(var(--primary-foreground))" },
+                        secondary: { DEFAULT: "hsl(var(--secondary))", foreground: "hsl(var(--secondary-foreground))" },
+                        muted: { DEFAULT: "hsl(var(--muted))", foreground: "hsl(var(--muted-foreground))" },
+                        card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
+                        destructive: { DEFAULT: "hsl(var(--destructive))", foreground: "hsl(var(--destructive-foreground))" }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif !important; }
+    </style>
+</head>
+<body class="bg-muted/20 text-foreground min-h-screen flex flex-col items-center justify-center font-sans px-4 relative">
+    <div class="absolute inset-0 z-0 bg-[radial-gradient(hsl(var(--border))_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none"></div>
+
+    <div class="max-w-md w-full bg-card rounded-2xl p-10 border border-border shadow-2xl z-10 relative overflow-hidden">
+        <div class="flex flex-col items-center mb-8 text-center">
+            <div class="mx-auto w-16 h-16 bg-gradient-to-br from-[#2D3E2F] to-[#1E2A1F] rounded-2xl flex items-center justify-center shadow-lg shadow-black/10 mb-6 relative group transition-transform hover:scale-105">
+                <div class="absolute inset-0 bg-white/5 rounded-2xl border border-white/10"></div>
+                <svg class="h-8 w-8 text-white relative z-10" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/>
+                </svg>
+            </div>
+            
+            <h1 class="text-3xl font-black tracking-tight text-card-foreground">Vertragsprüfung läuft</h1>
+            <p class="text-muted-foreground text-sm mt-3 leading-relaxed max-w-xs mx-auto">
+                Wir analysieren Ihr Dokument Zeile für Zeile auf rechtliche Risiken und versteckte Kostenfallen.
+            </p>
+        </div>
+
+        <div th:hx-get="@{/contract/status/{id}/progress(id=${contract.id})}" hx-trigger="every 1.5s" hx-swap="innerHTML" class="mb-8" id="progress-container">
+             <div th:fragment="progress_content" class="w-full">
+                 <div th:if="${status == 'completed'}" class="w-full text-center py-6" hx-trigger="load" th:hx-get="@{/contract/status/{id}/redirect-trigger(id=${contractId})}">
+                     <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-muted border-t-primary mb-4"></div>
+                     <span class="block text-foreground font-bold text-lg">Analyse abgeschlossen!</span>
+                     <span class="block text-muted-foreground text-sm mt-1">Ergebnisse werden geladen...</span>
+                 </div>
+
+                 <div th:if="${status == 'error'}" class="w-full text-center bg-destructive/10 border border-destructive/20 rounded-2xl p-6">
+                     <div class="w-12 h-12 bg-destructive/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                         <span class="text-destructive text-xl">❌</span>
+                     </div>
+                     <div class="text-destructive font-extrabold text-lg mb-2">Analyse fehlgeschlagen</div>
+                     <p class="text-destructive/80 text-sm mb-5 leading-relaxed" th:text="${errorMessage}">Fehler.</p>
+                     <a href="/dashboard" class="inline-block text-sm bg-background border border-border text-foreground px-5 py-2.5 rounded-xl font-bold hover:bg-muted transition-colors shadow-sm">← Zurück zum Dashboard</a>
+                 </div>
+
+                 <div th:if="${status != 'completed' and status != 'error'}">
+                     <div class="space-y-3 mb-10">
+                         <div class="flex justify-between text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-2.5">
+                             <span>Analyse-Fortschritt</span>
+                             <span class="text-primary" th:text="${progress} + '%'">0%</span>
+                         </div>
+                         <div class="w-full bg-secondary rounded-full h-2 overflow-hidden shadow-inner border border-border/50">
+                             <div class="bg-primary h-full rounded-full transition-all duration-500 ease-out relative overflow-hidden" th:style="'width: ' + ${progress} + '%'">
+                                 <div class="absolute top-0 bottom-0 left-0 right-0 bg-white/20 w-full animate-[shimmer_2s_infinite]"></div>
+                             </div>
+                         </div>
+                     </div>
+
+                     <div class="space-y-6 mt-10">
+                         <div class="flex items-start gap-4" th:classappend="${progress < 0 ? 'opacity-40' : ''}">
+                             <div th:if="${progress >= 25}" class="mt-0.5 h-7 w-7 rounded-full bg-[#E8F3EA] flex items-center justify-center border border-[#C5E1CB] shrink-0">
+                                 <svg class="w-4 h-4 text-[#2D3E2F]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                             </div>
+                             <div th:if="${progress >= 0 and progress < 25}" class="mt-0.5 h-7 w-7 rounded-full bg-[#2D3E2F]/10 flex items-center justify-center border border-[#2D3E2F]/20 shrink-0 relative">
+                                 <span class="animate-ping absolute h-full w-full rounded-full bg-[#2D3E2F]/30 opacity-75"></span>
+                                 <div class="w-2.5 h-2.5 bg-[#2D3E2F] rounded-full"></div>
+                             </div>
+                             <div th:if="${progress < 0}" class="mt-0.5 h-7 w-7 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 shrink-0">
+                                 <div class="w-2.5 h-2.5 bg-slate-300 rounded-full"></div>
+                             </div>
+                             <div>
+                                 <p class="text-[15px] leading-none" th:classappend="${progress >= 0 and progress < 25 ? 'font-extrabold text-[#2D3E2F]' : 'font-bold text-slate-800'}">Dokument sicher hochgeladen</p>
+                                 <p class="text-xs mt-1.5" th:classappend="${progress >= 0 and progress < 25 ? 'font-bold text-[#2D3E2F]/70' : 'font-medium text-slate-500'}">Ihre Daten werden vertraulich behandelt</p>
+                             </div>
+                         </div>
+
+                         <div class="flex items-start gap-4" th:classappend="${progress < 25 ? 'opacity-40' : ''}">
+                             <div th:if="${progress >= 50}" class="mt-0.5 h-7 w-7 rounded-full bg-[#E8F3EA] flex items-center justify-center border border-[#C5E1CB] shrink-0">
+                                 <svg class="w-4 h-4 text-[#2D3E2F]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                             </div>
+                             <div th:if="${progress >= 25 and progress < 50}" class="mt-0.5 h-7 w-7 rounded-full bg-[#2D3E2F]/10 flex items-center justify-center border border-[#2D3E2F]/20 shrink-0 relative">
+                                 <span class="animate-ping absolute h-full w-full rounded-full bg-[#2D3E2F]/30 opacity-75"></span>
+                                 <div class="w-2.5 h-2.5 bg-[#2D3E2F] rounded-full"></div>
+                             </div>
+                             <div th:if="${progress < 25}" class="mt-0.5 h-7 w-7 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 shrink-0">
+                                 <div class="w-2.5 h-2.5 bg-slate-300 rounded-full"></div>
+                             </div>
+                             <div>
+                                 <p class="text-[15px] leading-none" th:classappend="${progress >= 25 and progress < 50 ? 'font-extrabold text-[#2D3E2F]' : 'font-bold text-slate-800'}">Vertragsdaten werden gelesen</p>
+                                 <p class="text-xs mt-1.5" th:classappend="${progress >= 25 and progress < 50 ? 'font-bold text-[#2D3E2F]/70' : 'font-medium text-slate-500'}">Laufzeiten, Fristen und Kosten werden extrahiert</p>
+                             </div>
+                         </div>
+
+                         <div class="flex items-start gap-4" th:classappend="${progress < 50 ? 'opacity-40' : ''}">
+                             <div th:if="${progress >= 75}" class="mt-0.5 h-7 w-7 rounded-full bg-[#E8F3EA] flex items-center justify-center border border-[#C5E1CB] shrink-0">
+                                 <svg class="w-4 h-4 text-[#2D3E2F]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                             </div>
+                             <div th:if="${progress >= 50 and progress < 75}" class="mt-0.5 h-7 w-7 rounded-full bg-[#2D3E2F]/10 flex items-center justify-center border border-[#2D3E2F]/20 shrink-0 relative">
+                                 <span class="animate-ping absolute h-full w-full rounded-full bg-[#2D3E2F]/30 opacity-75"></span>
+                                 <div class="w-2.5 h-2.5 bg-[#2D3E2F] rounded-full"></div>
+                             </div>
+                             <div th:if="${progress < 50}" class="mt-0.5 h-7 w-7 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 shrink-0">
+                                 <div class="w-2.5 h-2.5 bg-slate-300 rounded-full"></div>
+                             </div>
+                             <div>
+                                 <p class="text-[15px] leading-none" th:classappend="${progress >= 50 and progress < 75 ? 'font-extrabold text-[#2D3E2F]' : 'font-bold text-slate-800'}">Rechtliche Prüfung läuft</p>
+                                 <p class="text-xs mt-1.5" th:classappend="${progress >= 50 and progress < 75 ? 'font-bold text-[#2D3E2F]/70' : 'font-medium text-slate-500'}">Wir suchen nach versteckten Klauseln und Risiken</p>
+                             </div>
+                         </div>
+
+                         <div class="flex items-start gap-4" th:classappend="${progress < 75 ? 'opacity-40' : ''}">
+                             <div th:if="${progress >= 100}" class="mt-0.5 h-7 w-7 rounded-full bg-[#E8F3EA] flex items-center justify-center border border-[#C5E1CB] shrink-0">
+                                 <svg class="w-4 h-4 text-[#2D3E2F]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                             </div>
+                             <div th:if="${progress >= 75 and progress < 100}" class="mt-0.5 h-7 w-7 rounded-full bg-[#2D3E2F]/10 flex items-center justify-center border border-[#2D3E2F]/20 shrink-0 relative">
+                                 <span class="animate-ping absolute h-full w-full rounded-full bg-[#2D3E2F]/30 opacity-75"></span>
+                                 <div class="w-2.5 h-2.5 bg-[#2D3E2F] rounded-full"></div>
+                             </div>
+                             <div th:if="${progress < 75}" class="mt-0.5 h-7 w-7 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 shrink-0">
+                                 <div class="w-2.5 h-2.5 bg-slate-300 rounded-full"></div>
+                             </div>
+                             <div>
+                                 <p class="text-[15px] leading-none" th:classappend="${progress >= 75 and progress < 100 ? 'font-extrabold text-[#2D3E2F]' : 'font-bold text-slate-800'}">Kostenübersicht wird erstellt</p>
+                                 <p class="text-xs mt-1.5" th:classappend="${progress >= 75 and progress < 100 ? 'font-bold text-[#2D3E2F]/70' : 'font-medium text-slate-500'}">Berechnung der Gesamtkosten und Vergleich</p>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+        </div>
+
+        <div class="mt-10 pt-5 border-t border-border/50 flex items-center justify-center gap-2 text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            Sichere Verarbeitung
+        </div>
+    </div>
+</body>
+</html>
