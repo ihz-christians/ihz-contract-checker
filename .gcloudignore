@@ -11,3 +11,6 @@
 .idea
 .vscode 
 01_kundenbereich-b2c/
+dev-scripts
+setup-base
+test_contracts                           

@@ -20,7 +20,7 @@ services:
       timeout: 5s
       retries: 5
 
-  # MinIO - Local S3 Compatible Object Storage
+  # MinIO - Local S3 Compatible Object Storage (Only for Dev)
   minio:
     image: minio/minio:latest
     container_name: cc_minio
@@ -41,7 +41,7 @@ services:
       retries: 5
 
   # Automatischer Setup-Container: Legt den Bucket "b2c-contracts" direkt beim Start an
-  minio-createbucket:
+  minio-setup:
     image: minio/mc:latest
     container_name: cc_minio_setup
     depends_on:
@@ -55,8 +55,27 @@ services:
       exit 0;
       "
 
+  # Python FastAPI AI Gateway (Dockerized)
+  aigateway:
+    build:
+      context: ../03_b2c-ai-gateway
+      dockerfile: Dockerfile
+    container_name: cc_ai_gateway
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - AWS_ACCESS_KEY_ID=minioadmin
+      - AWS_SECRET_ACCESS_KEY=minioadmin123
+      - S3_ENDPOINT_URL=http://minio:9000
+    depends_on:
+      minio:
+        condition: service_healthy
+
 volumes:
   cc_spring_pg_data:
     driver: local
   cc_minio_data:
     driver: local
+

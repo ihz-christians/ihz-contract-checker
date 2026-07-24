@@ -55,37 +55,25 @@ else
     echo -e "${GREEN}✅ Gemini API Key gefunden.${NC}\n"
 fi
 
-# --- 2. Starte Docker (MinIO & Postgres) ---
-echo -e "${BLUE}🐳 Starte Docker Infrastruktur (Postgres, MinIO)...${NC}"
+# --- 2. Starte Docker (Postgres, MinIO & Python AI Gateway) ---
+echo -e "${BLUE}🐳 Starte Docker Infrastruktur (Postgres, MinIO & Python AI Gateway)...${NC}"
 cd "$ROOT_DIR/02_b2c-contractchecker-spring"
-docker compose up -d
+# Load environment variables from env file for Gemini API Key mapping
+docker compose --env-file ../03_b2c-ai-gateway/.env up -d --build
 cd "$ROOT_DIR"
-echo -e "${GREEN}✅ Docker läuft.${NC}\n"
+echo -e "${GREEN}✅ Docker Container gestartet.${NC}\n"
 
-# --- 3. Starte Python AI-Gateway mit UV ---
-echo -e "${BLUE}🐍 Starte Python AI Gateway via uv...${NC}"
-cd "$ROOT_DIR/03_b2c-ai-gateway"
-# Stelle sicher, dass die Pakete installiert sind (geht dank uv in Millisekunden)
-# Da uv sehr strikt ist, weisen wir es explizit auf unser lokales venv hin:
-VIRTUAL_ENV=venv uv pip install -r requirements.txt > /dev/null 2>&1 || true
-
-# Starte Uvicorn im Hintergrund mit explizitem Pfad zum Binary
-# Achtung: uv pip erzeugt manchmal keine relativen bin-Links, wenn man es force-überschreibt.
-# Wir nutzen daher den Python-Interpreter aus dem venv, um uvicorn als Modul zu starten:
-./venv/bin/python3 -m uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload &
-cd "$ROOT_DIR"
-
-# Kurze Pause, damit Python nicht im gleichen Millisekunden-Log-Stream mit Java kollidiert
-sleep 2
-
-# --- 4. Starte Java Spring Boot Backend ---
+# --- 3. Starte Java Spring Boot Backend ---
 echo -e "${BLUE}☕ Starte Java Spring Boot Backend (Profil: dev)...${NC}"
 cd "$ROOT_DIR/02_b2c-contractchecker-spring"
 # Starte Maven/Spring im Hintergrund
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev &
 cd "$ROOT_DIR"
 
-# --- 4.5 Starte Ops Control Center PWA ---
+# Kurze Pause, damit Java hochfahren kann
+sleep 5
+
+# --- 4. Starte Ops Control Center PWA ---
 echo -e "${BLUE}🛡️ Starte Ops Control Center PWA...${NC}"
 cd "$ROOT_DIR/04_ops-control-center"
 python3 -m http.server 8090 --bind 0.0.0.0 > /dev/null 2>&1 &
