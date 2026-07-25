@@ -72,7 +72,7 @@ else
     gcloud iam workload-identity-pools providers create-oidc "$PROVIDER_NAME" \
         --workload-identity-pool="$POOL_NAME" \
         --location="global" \
-        --attribute-mapping="google.subject=assertion.subject,attribute.actor=assertion.actor,attribute.repository=assertion.repository" \
+        --attribute-mapping="google.subject=assertion.sub,attribute.actor=assertion.actor,attribute.repository=assertion.repository" \
         --attribute-condition="assertion.repository != ''" \
         --issuer-uri="https://token.actions.githubusercontent.com" \
         --display-name="GitHub Provider"
