@@ -148,15 +148,10 @@ jobs:
         run: |
           helm upgrade --install b2c-platform ./helm/b2c-platform \
             --namespace staging --create-namespace \
-            --set global.environment=staging \
-            --set global.domain=staging.ihrezuhauseberatung.de \
+            -f ./helm/b2c-platform/values-staging.yaml \
             --set backend.image.tag=${{ github.sha }} \
             --set aigateway.image.tag=${{ github.sha }} \
-            --set opscontrol.image.tag=${{ github.sha }} \
-            --set ingress.hosts[0].host=staging.ihrezuhauseberatung.de \
-            --set ingress.tls[0].hosts[0]=staging.ihrezuhauseberatung.de \
-            --set ingress.hosts[1].host=ops.staging.ihrezuhauseberatung.de \
-            --set ingress.tls[0].hosts[1]=ops.staging.ihrezuhauseberatung.de
+            --set opscontrol.image.tag=${{ github.sha }}
 
   deploy-production:
     name: Deploy to Production
@@ -192,14 +187,7 @@ jobs:
         run: |
           helm upgrade --install b2c-platform ./helm/b2c-platform \
             --namespace production --create-namespace \
-            --set global.environment=production \
-            --set global.domain=ihrezuhauseberatung.de \
+            -f ./helm/b2c-platform/values-production.yaml \
             --set backend.image.tag=${{ github.sha }} \
             --set aigateway.image.tag=${{ github.sha }} \
-            --set opscontrol.image.tag=${{ github.sha }} \
-            --set ingress.hosts[0].host=ihrezuhauseberatung.de \
-            --set ingress.tls[0].hosts[0]=ihrezuhauseberatung.de \
-            --set ingress.hosts[1].host=ops.ihrezuhauseberatung.de \
-            --set ingress.tls[0].hosts[1]=ops.ihrezuhauseberatung.de \
-            --set backend.env[0].name=SPRING_PROFILES_ACTIVE \
-            --set backend.env[0].value=prod
+            --set opscontrol.image.tag=${{ github.sha }}

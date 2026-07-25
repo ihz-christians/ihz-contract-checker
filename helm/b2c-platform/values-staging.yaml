@@ -1,0 +1,57 @@
+global:
+  environment: staging
+  domain: staging.ihrezuhauseberatung.de
+
+ingress:
+  hosts:
+    - host: staging.ihrezuhauseberatung.de
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: frontend
+              port:
+                number: 80
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: backend
+              port:
+                number: 8080
+        - path: /ai
+          pathType: Prefix
+          backend:
+            service:
+              name: aigateway
+              port:
+                number: 8000
+    - host: ops.staging.ihrezuhauseberatung.de
+      paths:
+        - path: /api/admin
+          pathType: Prefix
+          backend:
+            service:
+              name: backend
+              port:
+                number: 8080
+        - path: /api/v1
+          pathType: Prefix
+          backend:
+            service:
+              name: aigateway
+              port:
+                number: 8000
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: backend
+              port:
+                number: 8090
+  tls:
+    - secretName: b2c-platform-tls
+      hosts:
+        - staging.ihrezuhauseberatung.de
+        - ops.staging.ihrezuhauseberatung.de

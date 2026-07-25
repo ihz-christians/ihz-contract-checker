@@ -78,10 +78,13 @@ spec:
           image: postgres:15-alpine
           securityContext:
             allowPrivilegeEscalation: false
-          environment:
-            - POSTGRES_USER=postgres
-            - POSTGRES_DB=customerai
-            - POSTGRES_PASSWORD_FILE=/run/secrets/db-password/password
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_DB
+              value: customerai
+            - name: POSTGRES_PASSWORD_FILE
+              value: /run/secrets/db-password/password
           ports:
             - containerPort: 5432
           volumeMounts:
