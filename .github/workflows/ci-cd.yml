@@ -90,7 +90,7 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_BACKEND }}:${{ github.sha }},${{ env.IMAGE_BACKEND }}:latest
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=max,scope=${{ github.workflow }}-backend
 
       - name: Build & Push AI Gateway
         uses: docker/build-push-action@v5
@@ -101,7 +101,7 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_AIGATEWAY }}:${{ github.sha }},${{ env.IMAGE_AIGATEWAY }}:latest
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=max,scope=${{ github.workflow }}-aigateway
 
       - name: Build & Push Ops Control Center
         uses: docker/build-push-action@v5
@@ -112,7 +112,7 @@ jobs:
           push: true
           tags: ${{ env.IMAGE_OPSCONTROL }}:${{ github.sha }},${{ env.IMAGE_OPSCONTROL }}:latest
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=max,scope=${{ github.workflow }}-opscontrol
 
   deploy-staging:
     name: Deploy to Staging
