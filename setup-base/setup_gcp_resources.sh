@@ -151,6 +151,17 @@ gcloud storage buckets add-iam-policy-binding "gs://$BUCKET_NAME" \
     --member="serviceAccount:$GSA_EMAIL" \
     --role="roles/storage.objectAdmin"
 
+# Grant Artifact Registry Writer role to GSA so CI/CD can push images
+gcloud artifacts repositories add-iam-policy-binding "$REGISTRY_NAME" \
+    --location="$REGION" \
+    --member="serviceAccount:$GSA_EMAIL" \
+    --role="roles/artifactregistry.writer"
+
+# Grant GKE Developer role to GSA so CI/CD can get credentials and deploy
+gcloud projects add-iam-policy-binding "$PROJECT_ID" \
+    --member="serviceAccount:$GSA_EMAIL" \
+    --role="roles/container.developer"
+
 # Bind GKE Service Accounts (Staging & Production) to GSA
 info "Binde Kubernetes Service Accounts an Google IAM..."
 
