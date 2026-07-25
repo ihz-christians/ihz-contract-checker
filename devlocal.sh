@@ -41,7 +41,15 @@ if [ "$1" = "test" ]; then
     
     if command -v uv >/dev/null 2>&1; then
         echo -e "Nutze 'uv' für Python Tests..."
-        if PYTHONPATH=. uv run pytest; then
+        if uv run pytest; then
+            echo -e "${GREEN}✅ Python Tests erfolgreich abgeschlossen.${NC}\n"
+        else
+            echo -e "${RED}❌ Python Tests fehlgeschlagen!${NC}\n"
+            exit 1
+        fi
+    elif [ -f .venv/bin/pytest ]; then
+        echo -e "Nutze lokale virtuelle Umgebung (.venv/bin/pytest)..."
+        if PYTHONPATH=. .venv/bin/python -m pytest; then
             echo -e "${GREEN}✅ Python Tests erfolgreich abgeschlossen.${NC}\n"
         else
             echo -e "${RED}❌ Python Tests fehlgeschlagen!${NC}\n"
@@ -51,7 +59,7 @@ if [ "$1" = "test" ]; then
         echo -e "Nutze Standard 'pip' und 'pytest' (Erstelle virtuelles Environment)..."
         python3 -m venv venv
         source venv/bin/activate
-        pip install -r requirements.txt pytest httpx > /dev/null
+        pip install pytest pytest-asyncio fastapi uvicorn pydantic httpx google-genai instructor pymupdf docling boto3 python-dotenv langfuse faker > /dev/null
         if PYTHONPATH=. pytest; then
             echo -e "${GREEN}✅ Python Tests erfolgreich abgeschlossen.${NC}\n"
             deactivate

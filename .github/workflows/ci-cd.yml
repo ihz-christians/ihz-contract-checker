@@ -49,11 +49,9 @@ jobs:
       - name: Install dependencies
         working-directory: ./03_b2c-ai-gateway
         run: |
-          uv pip install --system -r requirements.txt pytest pytest-asyncio
+          uv sync --dev
       - name: Run Tests
         working-directory: ./03_b2c-ai-gateway
-        env:
-          PYTHONPATH: .
         run: uv run pytest
 
   build-and-push:

@@ -37,8 +37,8 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
-COPY 03_b2c-ai-gateway/requirements.txt .
-RUN uv pip install --system --no-cache -r requirements.txt
+COPY 03_b2c-ai-gateway/pyproject.toml 03_b2c-ai-gateway/uv.lock ./
+RUN uv pip install --system --no-cache .
 COPY 03_b2c-ai-gateway/src/ ./src/
 RUN chown -R appuser:appuser /app
 USER appuser
