@@ -1,0 +1,16 @@
+:8080 {
+    root * /usr/share/caddy
+    file_server
+
+    # Kubernetes Ping / Healthcheck
+    respond /healthz "OK" 200 {
+        header Content-Type text/plain
+    }
+
+    # Security Headers for Ops Center
+    header {
+        X-Frame-Options "DENY"
+        X-Content-Type-Options "nosniff"
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    }
+}
