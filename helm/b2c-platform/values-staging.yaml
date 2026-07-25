@@ -1,10 +1,10 @@
 global:
   environment: staging
-  domain: staging.ihrezuhauseberatung.de
+  domain: 34.140.239.3.nip.io
 
 ingress:
   hosts:
-    - host: staging.ihrezuhauseberatung.de
+    - host: 34.140.239.3.nip.io
       paths:
         - path: /
           pathType: Prefix
@@ -27,7 +27,7 @@ ingress:
               name: aigateway
               port:
                 number: 8000
-    - host: ops.staging.ihrezuhauseberatung.de
+    - host: ops.34.140.239.3.nip.io
       paths:
         - path: /api/admin
           pathType: Prefix
@@ -53,5 +53,5 @@ ingress:
   tls:
     - secretName: b2c-platform-tls
       hosts:
-        - staging.ihrezuhauseberatung.de
-        - ops.staging.ihrezuhauseberatung.de
+        - 34.140.239.3.nip.io
+        - ops.34.140.239.3.nip.io
