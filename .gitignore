@@ -3,6 +3,8 @@
 Thumbs.db
 *.log
 gcp-deploy-key.json
+.old-*
+.old-01_kundenbereich-b2c/
 
 # IDEs
 .idea/

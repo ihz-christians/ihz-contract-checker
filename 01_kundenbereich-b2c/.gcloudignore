@@ -1,9 +1,0 @@
-.gcloudignore
-.git
-.gitignore
-.dockerignore
-node_modules/
-dist/
-build/
-.env
-.DS_Store

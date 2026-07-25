@@ -20,9 +20,9 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # ==============================================================================
-# TEST MODE (`./devlocal.sh test`)
+# TEST LOGIC (Wird von 'test' und 'run-ci-local' verwendet)
 # ==============================================================================
-if [ "$1" = "test" ]; then
+run_tests() {
     echo -e "${BLUE}🧪 Starte automatisierte Tests (Java & Python) in einer sauberen Umgebung...${NC}\n"
 
     # 1. Java Spring Boot Tests
@@ -69,8 +69,72 @@ if [ "$1" = "test" ]; then
             exit 1
         fi
     fi
+}
 
+# ==============================================================================
+# CLI PARAMETER AUSWERTUNG
+# ==============================================================================
+if [ "$1" = "test" ]; then
+    run_tests
     echo -e "${GREEN}🎉 Alle Tests (Java & Python) wurden erfolgreich bestanden!${NC}"
+    exit 0
+elif [ "$1" = "run-ci-local" ]; then
+    echo -e "${BLUE}🏗️  Starte lokalen CI/CD Simulationslauf (run-ci-local)...${NC}\n"
+    
+    run_tests
+
+    echo -e "${YELLOW}🐳 Simuliere Docker Build (Backend, AI Gateway, OpsControl)...${NC}"
+    cd "$ROOT_DIR"
+    
+    echo -e "   -> Baue Backend Image..."
+    if docker build --target backend -t b2c-backend-local:latest . > /dev/null; then
+        echo -e "${GREEN}   ✅ Backend Docker Build erfolgreich.${NC}"
+    else
+        echo -e "${RED}❌ Backend Docker Build fehlgeschlagen!${NC}"
+        exit 1
+    fi
+    
+    echo -e "   -> Baue AI Gateway Image..."
+    if docker build --target aigateway -t b2c-aigateway-local:latest . > /dev/null; then
+        echo -e "${GREEN}   ✅ AI Gateway Docker Build erfolgreich.${NC}"
+    else
+        echo -e "${RED}❌ AI Gateway Docker Build fehlgeschlagen!${NC}"
+        exit 1
+    fi
+    
+    echo -e "   -> Baue Ops Control Center Image..."
+    if docker build --target opscontrol -t b2c-opscontrol-local:latest . > /dev/null; then
+        echo -e "${GREEN}   ✅ OpsControl Docker Build erfolgreich.${NC}"
+    else
+        echo -e "${RED}❌ OpsControl Docker Build fehlgeschlagen!${NC}"
+        exit 1
+    fi
+    echo -e "${GREEN}✅ Alle Docker Images erfolgreich gebaut.${NC}\n"
+
+    echo -e "${YELLOW}⛵ Prüfe Kubernetes Helm Charts (Linting & Templating)...${NC}"
+    if command -v helm >/dev/null 2>&1; then
+        echo -e "   -> Führe Helm Lint aus..."
+        if helm lint ./helm/b2c-platform > /dev/null; then
+            echo -e "${GREEN}   ✅ Helm Lint erfolgreich.${NC}"
+        else
+            echo -e "${RED}❌ Helm Lint fehlgeschlagen!${NC}"
+            exit 1
+        fi
+        
+        echo -e "   -> Teste Helm Template Generierung..."
+        if helm template test-release ./helm/b2c-platform > /dev/null; then
+            echo -e "${GREEN}   ✅ Helm Templating erfolgreich.${NC}"
+        else
+            echo -e "${RED}❌ Helm Templating fehlgeschlagen!${NC}"
+            exit 1
+        fi
+    else
+        echo -e "${YELLOW}⚠️  Helm CLI nicht installiert. Überspringe Helm Checks.${NC}"
+    fi
+    
+    echo -e "\n${GREEN}========================================================================${NC}"
+    echo -e "${GREEN}🎉 CI/CD Simulationslauf war erfolgreich! Du kannst nun sicher pushen.${NC}"
+    echo -e "${GREEN}========================================================================${NC}"
     exit 0
 fi
 
