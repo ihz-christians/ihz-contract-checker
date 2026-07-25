@@ -93,4 +93,4 @@ kind: ServiceAccount
 metadata:
   name: aigateway-sa
   annotations:
-    iam.gke.io/gcp-service-account: "aigateway-sa@{{ .Values.global.projectId }}.iam.gserviceaccount.com"
+    iam.gke.io/gcp-service-account: "b2c-app-sa@{{ .Values.global.projectId }}.iam.gserviceaccount.com"

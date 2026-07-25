@@ -149,5 +149,5 @@ kind: ServiceAccount
 metadata:
   name: backend-sa
   annotations:
-    iam.gke.io/gcp-service-account: "backend-sa@{{ .Values.global.projectId }}.iam.gserviceaccount.com"
+    iam.gke.io/gcp-service-account: "b2c-app-sa@{{ .Values.global.projectId }}.iam.gserviceaccount.com"
 
