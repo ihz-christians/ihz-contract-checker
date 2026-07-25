@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # Map database port 5434 locally to avoid host conflicts
   db:
@@ -28,7 +26,6 @@ services:
 
   # Auto-setup for local development S3 bucket
   minio-setup:
-    image: mc:latest
     image: minio/mc:latest
     container_name: cc_minio_setup
     depends_on:
