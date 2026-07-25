@@ -3,9 +3,7 @@
     file_server
 
     # Kubernetes Ping / Healthcheck
-    respond /healthz "OK" 200 {
-        header Content-Type text/plain
-    }
+    respond /healthz "OK" 200
 
     # Security Headers for Ops Center
     header {
