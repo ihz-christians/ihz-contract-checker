@@ -113,7 +113,9 @@ jobs:
       - name: Build & Push Frontend
         uses: docker/build-push-action@v5
         with:
-          context: ./01_kundenbereich-b2c
+          context: .
+          file: ./Dockerfile
+          target: frontend
           push: true
           tags: ${{ env.IMAGE_FRONTEND }}:${{ github.sha }},${{ env.IMAGE_FRONTEND }}:latest
           cache-from: type=gha
@@ -122,7 +124,9 @@ jobs:
       - name: Build & Push Backend
         uses: docker/build-push-action@v5
         with:
-          context: ./02_b2c-contractchecker-spring
+          context: .
+          file: ./Dockerfile
+          target: backend
           push: true
           tags: ${{ env.IMAGE_BACKEND }}:${{ github.sha }},${{ env.IMAGE_BACKEND }}:latest
           cache-from: type=gha
@@ -131,7 +135,9 @@ jobs:
       - name: Build & Push AI Gateway
         uses: docker/build-push-action@v5
         with:
-          context: ./03_b2c-ai-gateway
+          context: .
+          file: ./Dockerfile
+          target: aigateway
           push: true
           tags: ${{ env.IMAGE_AIGATEWAY }}:${{ github.sha }},${{ env.IMAGE_AIGATEWAY }}:latest
           cache-from: type=gha
@@ -140,7 +146,9 @@ jobs:
       - name: Build & Push Ops Control Center
         uses: docker/build-push-action@v5
         with:
-          context: ./04_ops-control-center
+          context: .
+          file: ./Dockerfile
+          target: opscontrol
           push: true
           tags: ${{ env.IMAGE_OPSCONTROL }}:${{ github.sha }},${{ env.IMAGE_OPSCONTROL }}:latest
           cache-from: type=gha

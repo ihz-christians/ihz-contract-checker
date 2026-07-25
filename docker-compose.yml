@@ -23,8 +23,9 @@ services:
   # 2. Python FastAPI AI Gateway Service
   aigateway:
     build:
-      context: ./03_b2c-ai-gateway
+      context: .
       dockerfile: Dockerfile
+      target: aigateway
     container_name: cc_ai_gateway
     restart: always
     ports:
@@ -41,8 +42,9 @@ services:
   # 3. Java Spring Boot Backend Service (Production-ready container)
   backend:
     build:
-      context: ./02_b2c-contractchecker-spring
+      context: .
       dockerfile: Dockerfile
+      target: backend
     container_name: cc_backend
     restart: always
     ports:
@@ -60,8 +62,9 @@ services:
   # 4. Ops Control Center PWA Service (Static unprivileged Nginx)
   opscontrol:
     build:
-      context: ./04_ops-control-center
+      context: .
       dockerfile: Dockerfile
+      target: opscontrol
     container_name: cc_ops_control
     restart: always
     ports:
