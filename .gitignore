@@ -48,7 +48,11 @@ bin/
 dependency-reduced-pom.xml
 
 # Local Storage / S3 / Databases
-data/
+/data/
 minio-data/
 postgres-data/
 *.db
+
+# Secrets & Credentials
+.secrets/
+.secrets
