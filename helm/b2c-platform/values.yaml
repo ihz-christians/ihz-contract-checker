@@ -1,29 +1,7 @@
 global:
   environment: staging
   domain: staging.ihrezuhauseberatung.de
-  projectId: your-gcp-project-id
-
-frontend:
-  replicaCount: 2
-  autoscaling:
-    enabled: true
-    minReplicas: 2
-    maxReplicas: 5
-    targetCPUUtilizationPercentage: 75
-  image:
-    repository: europe-west1-docker.pkg.dev/your-gcp-project-id/b2c-repo/frontend
-    tag: latest
-    pullPolicy: Always
-  service:
-    type: ClusterIP
-    port: 80
-  resources:
-    requests:
-      cpu: 100m
-      memory: 128Mi
-    limits:
-      cpu: 500m
-      memory: 256Mi
+  projectId: ihz-contract-checker
 
 backend:
   replicaCount: 2
@@ -33,7 +11,7 @@ backend:
     maxReplicas: 10
     targetCPUUtilizationPercentage: 70
   image:
-    repository: europe-west1-docker.pkg.dev/your-gcp-project-id/b2c-repo/backend
+    repository: europe-west1-docker.pkg.dev/ihz-contract-checker/b2c-repo/backend
     tag: latest
     pullPolicy: Always
   service:
@@ -50,7 +28,7 @@ backend:
     - name: SPRING_PROFILES_ACTIVE
       value: "prod"
     - name: GCP_PROJECT_ID
-      value: "your-gcp-project-id"
+      value: "ihz-contract-checker"
 
 aigateway:
   replicaCount: 2
@@ -60,7 +38,7 @@ aigateway:
     maxReplicas: 8
     targetCPUUtilizationPercentage: 75
   image:
-    repository: europe-west1-docker.pkg.dev/your-gcp-project-id/b2c-repo/aigateway
+    repository: europe-west1-docker.pkg.dev/ihz-contract-checker/b2c-repo/aigateway
     tag: latest
     pullPolicy: Always
   service:
@@ -82,7 +60,7 @@ opscontrol:
     maxReplicas: 3
     targetCPUUtilizationPercentage: 75
   image:
-    repository: europe-west1-docker.pkg.dev/your-gcp-project-id/b2c-repo/opscontrol
+    repository: europe-west1-docker.pkg.dev/ihz-contract-checker/b2c-repo/opscontrol
     tag: latest
     pullPolicy: Always
   service:
@@ -106,13 +84,6 @@ ingress:
     - host: staging.ihrezuhauseberatung.de
       paths:
         - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: frontend
-              port:
-                number: 80
-        - path: /api
           pathType: Prefix
           backend:
             service:

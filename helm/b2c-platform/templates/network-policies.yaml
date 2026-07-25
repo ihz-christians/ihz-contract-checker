@@ -35,38 +35,6 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: frontend-network-policy
-  labels:
-    app: frontend
-spec:
-  podSelector:
-    matchLabels:
-      app: frontend
-  policyTypes:
-    - Ingress
-    - Egress
-  ingress:
-    # Allow traffic from Google Cloud Load Balancer / Ingress Controller
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: ingress-nginx
-      ports:
-        - protocol: TCP
-          port: 80
-  egress:
-    # Frontend can only talk to Backend APIs and public internet (for SSO redirects)
-    - to:
-        - podSelector:
-            matchLabels:
-              app: backend
-      ports:
-        - protocol: TCP
-          port: 8080
-    - to:
-        - ipBlock:
-            cidr: 0.0.0.0/0
----
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
