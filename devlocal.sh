@@ -19,6 +19,53 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
+# ==============================================================================
+# TEST MODE (`./devlocal.sh test`)
+# ==============================================================================
+if [ "$1" = "test" ]; then
+    echo -e "${BLUE}🧪 Starte automatisierte Tests (Java & Python) in einer sauberen Umgebung...${NC}\n"
+
+    # 1. Java Spring Boot Tests
+    echo -e "${YELLOW}☕ Führe Java Spring Boot Tests aus...${NC}"
+    cd "$ROOT_DIR/02_b2c-contractchecker-spring"
+    if ./mvnw clean test; then
+        echo -e "${GREEN}✅ Java Tests erfolgreich abgeschlossen.${NC}\n"
+    else
+        echo -e "${RED}❌ Java Tests fehlgeschlagen!${NC}\n"
+        exit 1
+    fi
+
+    # 2. Python FastAPI / AI Gateway Tests
+    echo -e "${YELLOW}🐍 Führe Python (AI Gateway) Tests aus...${NC}"
+    cd "$ROOT_DIR/03_b2c-ai-gateway"
+    
+    if command -v uv >/dev/null 2>&1; then
+        echo -e "Nutze 'uv' für Python Tests..."
+        if PYTHONPATH=. uv run pytest; then
+            echo -e "${GREEN}✅ Python Tests erfolgreich abgeschlossen.${NC}\n"
+        else
+            echo -e "${RED}❌ Python Tests fehlgeschlagen!${NC}\n"
+            exit 1
+        fi
+    else
+        echo -e "Nutze Standard 'pip' und 'pytest' (Erstelle virtuelles Environment)..."
+        python3 -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt pytest httpx > /dev/null
+        if PYTHONPATH=. pytest; then
+            echo -e "${GREEN}✅ Python Tests erfolgreich abgeschlossen.${NC}\n"
+            deactivate
+        else
+            echo -e "${RED}❌ Python Tests fehlgeschlagen!${NC}\n"
+            deactivate
+            exit 1
+        fi
+    fi
+
+    echo -e "${GREEN}🎉 Alle Tests (Java & Python) wurden erfolgreich bestanden!${NC}"
+    exit 0
+fi
+
 echo -e "${BLUE}🚀 Starte B2C Contract Checker Local Dev Environment...${NC}\n"
 
 # --- Cleanup Trap ---

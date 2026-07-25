@@ -41,22 +41,20 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
         with:
+          enable-cache: true
           python-version: '3.13'
-          cache: 'pip'
       - name: Install dependencies
         working-directory: ./03_b2c-ai-gateway
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest pytest-asyncio
+          uv pip install --system -r requirements.txt pytest pytest-asyncio
       - name: Run Tests
         working-directory: ./03_b2c-ai-gateway
         env:
           PYTHONPATH: .
-        run: pytest
+        run: uv run pytest
 
   build-and-push:
     name: Build & Push Images
