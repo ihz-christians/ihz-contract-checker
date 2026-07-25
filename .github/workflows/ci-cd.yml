@@ -47,12 +47,10 @@ jobs:
           enable-cache: true
           python-version: '3.13'
       - name: Install dependencies
-        working-directory: ./03_b2c-ai-gateway
         run: |
-          uv sync --dev
+          uv sync
       - name: Run Tests
-        working-directory: ./03_b2c-ai-gateway
-        run: uv run pytest
+        run: uv run --package b2c-ai-gateway pytest
 
   build-and-push:
     name: Build & Push Images
