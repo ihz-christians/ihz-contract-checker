@@ -31,7 +31,7 @@ cleanup() {
 
     # Fahre Docker sauber herunter (gehe sicher in den richtigen Ordner)
     echo -e "${YELLOW}🛑 Stoppe Docker Container...${NC}"
-    cd "$ROOT_DIR/02_b2c-contractchecker-spring" && docker compose down > /dev/null 2>&1
+    cd "$ROOT_DIR" && docker compose down > /dev/null 2>&1
 
     echo -e "${GREEN}✅ Alles sauber beendet. Auf Wiedersehen!${NC}"
     exit 0
@@ -57,10 +57,9 @@ fi
 
 # --- 2. Starte Docker (Postgres, MinIO & Python AI Gateway) ---
 echo -e "${BLUE}🐳 Starte Docker Infrastruktur (Postgres, MinIO & Python AI Gateway)...${NC}"
-cd "$ROOT_DIR/02_b2c-contractchecker-spring"
-# Load environment variables from env file for Gemini API Key mapping and layer both compose files for dev
-docker compose -f docker-compose.yml -f docker-compose.dev.yml --env-file ../03_b2c-ai-gateway/.env up -d --build
 cd "$ROOT_DIR"
+# Load environment variables from env file for Gemini API Key mapping and layer both compose files for dev from the root
+docker compose -f docker-compose.yml -f docker-compose.dev.yml --env-file 03_b2c-ai-gateway/.env up -d --build
 echo -e "${GREEN}✅ Docker Container gestartet.${NC}\n"
 
 # --- 3. Starte Java Spring Boot Backend ---

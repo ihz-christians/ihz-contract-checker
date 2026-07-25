@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Database Service
+  db:
+    image: postgres:15-alpine
+    container_name: cc_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: customerai
+    volumes:
+      - cc_pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d customerai"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. Python FastAPI AI Gateway Service
+  aigateway:
+    build:
+      context: ./03_b2c-ai-gateway
+      dockerfile: Dockerfile
+    container_name: cc_ai_gateway
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - AWS_ACCESS_KEY_ID=${GCP_STORAGE_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${GCP_STORAGE_SECRET_ACCESS_KEY}
+      - S3_ENDPOINT_URL=https://storage.googleapis.com
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # 3. Java Spring Boot Backend Service (Production-ready container)
+  backend:
+    build:
+      context: ./02_b2c-contractchecker-spring
+      dockerfile: Dockerfile
+    container_name: cc_backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/customerai
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - AI_GATEWAY_URL=http://aigateway:8000
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # 4. Ops Control Center PWA Service (Static unprivileged Nginx)
+  opscontrol:
+    build:
+      context: ./04_ops-control-center
+      dockerfile: Dockerfile
+    container_name: cc_ops_control
+    restart: always
+    ports:
+      - "8090:8080"
+    depends_on:
+      - backend
+      - aigateway
+
+volumes:
+  cc_pg_data:
+    driver: local

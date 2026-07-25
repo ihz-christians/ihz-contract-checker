@@ -1,7 +1,12 @@
 version: '3.8'
 
 services:
-  # MinIO - Local S3 Compatible Object Storage (Only for Dev)
+  # Map database port 5434 locally to avoid host conflicts
+  db:
+    ports:
+      - "5434:5432"
+
+  # MinIO - Local S3 Compatible Object Storage (Only for Local Dev)
   minio:
     image: minio/minio:latest
     container_name: cc_minio
@@ -21,8 +26,9 @@ services:
       timeout: 5s
       retries: 5
 
-  # Automatischer Setup-Container: Legt den Bucket "b2c-contracts" direkt beim Start an
+  # Auto-setup for local development S3 bucket
   minio-setup:
+    image: mc:latest
     image: minio/mc:latest
     container_name: cc_minio_setup
     depends_on:
@@ -36,7 +42,7 @@ services:
       exit 0;
       "
 
-  # Override AI Gateway to connect to local MinIO instead of GCS in development
+  # Local development overrides for AI Gateway
   aigateway:
     environment:
       - AWS_ACCESS_KEY_ID=minioadmin
