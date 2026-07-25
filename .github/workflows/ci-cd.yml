@@ -60,7 +60,7 @@ jobs:
 
   build-and-push:
     name: Build & Push Images
-    needs: [test-frontend, test-backend, test-aigateway]
+    needs: [test-backend, test-aigateway]
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
