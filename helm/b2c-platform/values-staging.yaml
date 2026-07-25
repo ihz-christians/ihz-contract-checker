@@ -2,6 +2,16 @@ global:
   environment: staging
   domain: 34.140.239.3.nip.io
 
+backend:
+  replicaCount: 1
+  autoscaling:
+    enabled: false
+
+aigateway:
+  replicaCount: 1
+  autoscaling:
+    enabled: false
+
 ingress:
   hosts:
     - host: 34.140.239.3.nip.io

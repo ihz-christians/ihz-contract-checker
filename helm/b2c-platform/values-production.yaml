@@ -3,9 +3,17 @@ global:
   domain: ihrezuhauseberatung.de
 
 backend:
+  replicaCount: 1
+  autoscaling:
+    enabled: false
   env:
     - name: SPRING_PROFILES_ACTIVE
       value: "prod"
+
+aigateway:
+  replicaCount: 1
+  autoscaling:
+    enabled: false
 
 ingress:
   hosts:
