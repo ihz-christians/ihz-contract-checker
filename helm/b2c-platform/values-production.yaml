@@ -6,8 +6,6 @@ backend:
   env:
     - name: SPRING_PROFILES_ACTIVE
       value: "prod"
-    - name: GCP_PROJECT_ID
-      value: "your-gcp-project-id"
 
 ingress:
   hosts:

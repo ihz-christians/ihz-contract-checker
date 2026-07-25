@@ -149,6 +149,11 @@ jobs:
           helm upgrade --install b2c-platform ./helm/b2c-platform \
             --namespace staging --create-namespace \
             -f ./helm/b2c-platform/values-staging.yaml \
+            --set global.projectId=${{ secrets.GCP_PROJECT_ID }} \
+            --set frontend.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/frontend \
+            --set backend.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/backend \
+            --set aigateway.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/aigateway \
+            --set opscontrol.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/opscontrol \
             --set backend.image.tag=${{ github.sha }} \
             --set aigateway.image.tag=${{ github.sha }} \
             --set opscontrol.image.tag=${{ github.sha }}
@@ -188,6 +193,11 @@ jobs:
           helm upgrade --install b2c-platform ./helm/b2c-platform \
             --namespace production --create-namespace \
             -f ./helm/b2c-platform/values-production.yaml \
+            --set global.projectId=${{ secrets.GCP_PROJECT_ID }} \
+            --set frontend.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/frontend \
+            --set backend.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/backend \
+            --set aigateway.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/aigateway \
+            --set opscontrol.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/opscontrol \
             --set backend.image.tag=${{ github.sha }} \
             --set aigateway.image.tag=${{ github.sha }} \
             --set opscontrol.image.tag=${{ github.sha }}
