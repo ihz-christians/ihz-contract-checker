@@ -14,34 +14,11 @@ env:
   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
   GKE_ZONE: ${{ secrets.GKE_ZONE }}
   REGISTRY: europe-west1-docker.pkg.dev
-  IMAGE_FRONTEND: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/frontend
   IMAGE_BACKEND: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/backend
   IMAGE_AIGATEWAY: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/aigateway
   IMAGE_OPSCONTROL: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/opscontrol
 
 jobs:
-  test-frontend:
-    name: Test Frontend
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: './01_kundenbereich-b2c/package-lock.json'
-      - name: Install Dependencies
-        working-directory: ./01_kundenbereich-b2c
-        run: npm ci
-      - name: Run Linter
-        working-directory: ./01_kundenbereich-b2c
-        run: npm run lint --if-present
-      # - name: Run Tests
-      #   working-directory: ./01_kundenbereich-b2c
-      #   run: npm test
-
   test-backend:
     name: Test Backend
     runs-on: ubuntu-latest
@@ -109,17 +86,6 @@ jobs:
 
       - name: Configure Docker
         run: gcloud auth configure-docker ${{ env.REGISTRY }} --quiet
-
-      - name: Build & Push Frontend
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          target: frontend
-          push: true
-          tags: ${{ env.IMAGE_FRONTEND }}:${{ github.sha }},${{ env.IMAGE_FRONTEND }}:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
 
       - name: Build & Push Backend
         uses: docker/build-push-action@v5
@@ -190,7 +156,6 @@ jobs:
             --namespace staging --create-namespace \
             --set global.environment=staging \
             --set global.domain=staging.ihrezuhauseberatung.de \
-            --set frontend.image.tag=${{ github.sha }} \
             --set backend.image.tag=${{ github.sha }} \
             --set aigateway.image.tag=${{ github.sha }} \
             --set opscontrol.image.tag=${{ github.sha }} \
@@ -235,7 +200,6 @@ jobs:
             --namespace production --create-namespace \
             --set global.environment=production \
             --set global.domain=ihrezuhauseberatung.de \
-            --set frontend.image.tag=${{ github.sha }} \
             --set backend.image.tag=${{ github.sha }} \
             --set aigateway.image.tag=${{ github.sha }} \
             --set opscontrol.image.tag=${{ github.sha }} \
