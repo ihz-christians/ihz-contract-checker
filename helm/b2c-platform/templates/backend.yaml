@@ -28,6 +28,7 @@ spec:
                   - backend
               topologyKey: kubernetes.io/hostname
       containers:
+        # Container A: Java Spring Boot App
         - name: backend
           image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
           imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
@@ -41,10 +42,8 @@ spec:
           env:
             {{- toYaml .Values.backend.env | nindent 12 }}
             - name: SPRING_DATASOURCE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: db-secrets
-                  key: url
+              # Verbindet sich physisch sicher über localhost an das Postgres-Sidecar im selben Pod!
+              value: "jdbc:postgresql://localhost:5432/customerai"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -73,6 +72,56 @@ spec:
               port: 8081
             initialDelaySeconds: 30
             periodSeconds: 10
+
+        # Container B: PostgreSQL Database Sidecar (Komplett intern abgesichert!)
+        - name: db-sidecar
+          image: postgres:15-alpine
+          securityContext:
+            allowPrivilegeEscalation: false
+          environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB=customerai
+            - POSTGRES_PASSWORD_FILE=/run/secrets/db-password/password
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: pg-db-data
+              mountPath: /var/lib/postgresql/data
+            - name: db-password-secret
+              mountPath: /run/secrets/db-password
+              readOnly: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+
+        # Container C: Ops Control PWA Sidecar (Nur über VPN-Ingress erreichbar!)
+        - name: opscontrol-sidecar
+          image: "{{ .Values.opscontrol.image.repository }}:{{ .Values.opscontrol.image.tag }}"
+          imagePullPolicy: {{ .Values.opscontrol.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 101
+          ports:
+            - containerPort: 8090
+          resources:
+            {{- toYaml .Values.opscontrol.resources | nindent 12 }}
+
+      # Shared Pod Storage and Secrets Configuration
+      volumes:
+        - name: pg-db-data
+          persistentVolumeClaim:
+            claimName: backend-postgres-pvc
+        - name: db-password-secret
+          secret:
+            secretName: db-secrets
+            items:
+              - key: password
+                path: password
 ---
 apiVersion: v1
 kind: Service
@@ -81,8 +130,13 @@ metadata:
 spec:
   type: {{ .Values.backend.service.type }}
   ports:
-    - port: {{ .Values.backend.service.port }}
+    - name: web
+      port: {{ .Values.backend.service.port }}
       targetPort: 8080
+      protocol: TCP
+    - name: opscontrol
+      port: 8090
+      targetPort: 8090
       protocol: TCP
   selector:
     app: backend
@@ -93,3 +147,4 @@ metadata:
   name: backend-sa
   annotations:
     iam.gke.io/gcp-service-account: "backend-sa@{{ .Values.global.projectId }}.iam.gserviceaccount.com"
+

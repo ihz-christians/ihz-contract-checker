@@ -148,9 +148,9 @@ ingress:
           pathType: Prefix
           backend:
             service:
-              name: opscontrol
+              name: backend # Points to the backend service which maps port 8090 directly to the opscontrol sidecar!
               port:
-                number: 80
+                number: 8090
   tls:
     - secretName: b2c-platform-tls
       hosts:
