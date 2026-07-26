@@ -12,6 +12,7 @@ import de.ihrezuhauseberatung.contractchecker.repositories.ContractRepository;
 import de.ihrezuhauseberatung.contractchecker.integration.AiGatewayClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import static net.logstash.logback.argument.StructuredArguments.kv;
 
@@ -33,6 +34,9 @@ public class ContractService {
     private final TextProcessingService textProcessingService;
     private final StorageService storageService;
     private final AiGatewayClient aiGatewayClient;
+
+    @Value("${app.backend.internal-url:http://localhost:8080}")
+    private String internalBackendUrl;
 
     public ContractService(ContractRepository contractRepository,
                            AnalysisTaskRepository taskRepository,
@@ -104,7 +108,7 @@ public class ContractService {
         // WICHTIG: Wenn Python aus seinem Docker-Container (oder host) Java anpingt,
         // muss host.docker.internal genutzt werden, falls Python in Docker läuft.
         // Da wir Python hier NATIV starten (uv run), funktioniert localhost:8080!
-        String webhookUrl = "http://localhost:8080/api/internal/webhooks/ai-result";
+        String webhookUrl = internalBackendUrl + "/api/internal/webhooks/ai-result";
 
         try {
             // Starte asynchronen Job auf dem Python Gateway

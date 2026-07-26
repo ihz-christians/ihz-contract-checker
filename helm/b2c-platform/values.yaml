@@ -4,11 +4,11 @@ global:
   projectId: ihz-contract-checker
 
 backend:
-  replicaCount: 2
+  replicaCount: 1
   autoscaling:
-    enabled: true
-    minReplicas: 2
-    maxReplicas: 10
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 1
     targetCPUUtilizationPercentage: 70
   image:
     repository: europe-west1-docker.pkg.dev/ihz-contract-checker/b2c-repo/backend
@@ -29,6 +29,14 @@ backend:
       value: "prod"
     - name: GCP_PROJECT_ID
       value: "ihz-contract-checker"
+    - name: GCP_STORAGE_BUCKET
+      value: "ihz-contracts-ihz-contract-checker"
+    - name: APP_BACKEND_INTERNAL_URL
+      value: "http://backend:8080"
+    - name: AI_GATEWAY_URL
+      value: "http://aigateway:8000"
+    - name: AI_GATEWAY_URL
+      value: "http://aigateway:8000"
 
 aigateway:
   replicaCount: 2
@@ -75,7 +83,7 @@ opscontrol:
       memory: 128Mi
 
 ingress:
-  enabled: true
+  enabled: false
   className: "nginx" # or gce for Google Cloud Load Balancer
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"

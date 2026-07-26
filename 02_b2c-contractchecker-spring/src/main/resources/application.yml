@@ -62,6 +62,9 @@ management:
     web:
       exposure:
         include: health,metrics,prometheus
+  health:
+    mail:
+      enabled: false
   endpoint:
     health:
       probes:

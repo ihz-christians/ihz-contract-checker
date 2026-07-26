@@ -141,4 +141,19 @@ public class ContractController {
         contractService.deleteContract(contractId);
         return "redirect:/dashboard";
     }
+
+    @GetMapping("/{contractId}/switch-modal")
+    public String getSwitchModal(@PathVariable("contractId") UUID contractId, Model model) {
+        model.addAttribute("contractId", contractId);
+        return "fragments/switch_modal";
+    }
+
+    @PostMapping("/{contractId}/trigger-switch")
+    public String triggerSwitchProcess(@PathVariable("contractId") UUID contractId, 
+                                       @RequestParam(value="hasExtended", defaultValue="false") boolean hasExtended, 
+                                       Model model) {
+        model.addAttribute("contractId", contractId);
+        model.addAttribute("hasExtended", hasExtended);
+        return "fragments/switch_success";
+    }
 }

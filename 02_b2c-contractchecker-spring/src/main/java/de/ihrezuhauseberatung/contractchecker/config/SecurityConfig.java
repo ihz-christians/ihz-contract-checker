@@ -44,6 +44,7 @@ public class SecurityConfig {
                 .requestMatchers("/register", "/login", "/error", "/impressum", "/datenschutz", "/forgot-password", "/reset-password").permitAll()
                 .requestMatchers("/api/internal/webhooks/**").permitAll() // <-- WICHTIG: Webhooks von Python zulassen!
                 .requestMatchers("/api/admin/ops/**").permitAll() // <-- WICHTIG: Ops Control Center zulassen! Securing internally.
+                .requestMatchers("/actuator/health", "/actuator/health/**").permitAll()
                 .anyRequest().authenticated()
             )
             // 1. Lokaler Fallback: Klassischer Form-Login für Tests & Demos

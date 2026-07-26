@@ -65,6 +65,9 @@
 </head>
 <body class="bg-background min-h-screen font-sans flex flex-col">
 
+    <!-- HTMX Modal Container -->
+    <div id="modal-container"></div>
+
     <!-- Header -->
     <header class="bg-primary text-primary-foreground shadow-card border-b border-primary-hover">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
@@ -231,8 +234,20 @@
             <div class="bg-orange-50/50 border-l-4 border-orange-500 border-t border-r border-b border-orange-200 rounded-2xl p-5 flex gap-4 items-start shadow-sm" th:if="${analysis.overview.costs.hidden != null && !analysis.overview.costs.hidden.isEmpty()}">
                 <span class="text-3xl">⚠️</span>
                 <div class="w-full">
-                    <h3 class="font-extrabold text-slate-900 text-base mb-1">Achtung: Kostenfallen gefunden!</h3>
-                    <ul class="text-slate-600 text-sm mb-4 leading-relaxed list-disc list-inside ml-4">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-extrabold text-slate-900 text-base mb-1">Achtung: Kostenfallen gefunden!</h3>
+                        
+                        <!-- Der "Jetzt Wechseln" Trigger-Button für das Modal -->
+                        <button type="button"
+                                th:hx-get="'/contract/' + ${contract.id} + '/switch-modal'"
+                                hx-target="#modal-container"
+                                hx-swap="innerHTML"
+                                class="bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition-all transform hover:scale-105">
+                            🔄 Tarif wechseln (TKG-Novelle)
+                        </button>
+                    </div>
+                    
+                    <ul class="text-slate-600 text-sm mb-4 leading-relaxed list-disc list-inside ml-4 mt-2">
                         <li th:each="hidden : ${analysis.overview.costs.hidden}" th:text="${hidden}">Preiserhöhung</li>
                     </ul>
                     

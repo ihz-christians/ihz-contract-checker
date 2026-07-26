@@ -1,0 +1,52 @@
+<div id="switch-modal" class="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"></div>
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <span class="text-blue-600 text-xl">🔄</span>
+                        </div>
+                        <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                            <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Sicherheits-Check: Vertragslaufzeit</h3>
+                            <div class="mt-2 space-y-3">
+                                <p class="text-sm text-gray-500">
+                                    <span class="font-bold text-slate-700">TKG-Novelle greift:</span> Da dieser Vertrag älter als 24 Monate ist, bist du gesetzlich <b>monatlich kündbar</b>. 
+                                </p>
+                                <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg">
+                                    <p class="text-xs text-amber-800 font-medium">
+                                        Wichtige Frage: Hast du in den letzten 24 Monaten am Telefon oder online einer Vertragsverlängerung (z.B. für einen neuen Router) zugestimmt?
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-2">
+                    <button type="button" 
+                            th:hx-post="'/contract/' + ${contractId} + '/trigger-switch'"
+                            hx-vals='{"hasExtended": false}'
+                            hx-target="#switch-modal"
+                            hx-swap="outerHTML"
+                            class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:w-auto">
+                        Nein, nichts verlängert (Wechsel starten)
+                    </button>
+                    <button type="button" 
+                            th:hx-post="'/contract/' + ${contractId} + '/trigger-switch'"
+                            hx-vals='{"hasExtended": true}'
+                            hx-target="#switch-modal"
+                            hx-swap="outerHTML"
+                            class="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                        Ja, habe ich (Alternative prüfen)
+                    </button>
+                    <button type="button" 
+                            onclick="document.getElementById('switch-modal').remove()"
+                            class="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-red-600 shadow-sm ring-1 ring-inset ring-red-300 hover:bg-red-50 sm:mt-0 sm:w-auto sm:mr-auto">
+                        Abbrechen
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

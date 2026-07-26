@@ -1,9 +1,0 @@
-[project]
-name = "b2c-platform-root"
-version = "1.0.0"
-description = "B2C Contract Checker Monorepo Root"
-requires-python = ">=3.11"
-dependencies = []
-
-[tool.uv]
-workspace = { members = ["03_b2c-ai-gateway"] }

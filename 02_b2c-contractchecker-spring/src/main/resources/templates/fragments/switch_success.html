@@ -1,0 +1,40 @@
+<div id="switch-modal" class="relative z-50" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"></div>
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 text-center">
+                    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 mb-4">
+                        <span class="text-green-600 text-3xl">✅</span>
+                    </div>
+                    <h3 class="text-lg font-bold leading-6 text-gray-900 mb-2">Workflow gestartet!</h3>
+                    <div th:if="${!hasExtended}">
+                        <p class="text-sm text-gray-600 mb-4">
+                            Der nahtlose Wechselprozess wurde initiiert. Der Kunde hat soeben eine E-Mail mit einem Magic-Link (Double-Opt-In) auf sein Smartphone erhalten.
+                        </p>
+                        <div class="bg-slate-50 p-4 rounded-xl text-left border border-slate-200">
+                            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Automatischer Ablauf:</h4>
+                            <ul class="text-xs text-slate-600 space-y-2">
+                                <li class="flex gap-2"><span>1️⃣</span> Kunde zeichnet digital (Smartphone).</li>
+                                <li class="flex gap-2"><span>2️⃣</span> Webhook sendet PDF-Portierungsauftrag an neuen Anbieter.</li>
+                                <li class="flex gap-2"><span>3️⃣</span> System überwacht den Kündigungsstatus.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div th:if="${hasExtended}">
+                        <p class="text-sm text-gray-600 mb-4">
+                            Sicherheit geht vor! Da der Vertrag telefonisch verlängert wurde, haben wir den Kunden per Mail um die Auftragsbestätigung gebeten. Sobald diese vorliegt, berechnet die KI das neue Wechseldatum.
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                    <button type="button" 
+                            onclick="document.getElementById('switch-modal').remove()"
+                            class="inline-flex w-full justify-center rounded-lg bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">
+                        Verstanden
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

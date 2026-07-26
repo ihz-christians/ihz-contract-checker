@@ -36,6 +36,6 @@ public class DatabaseConfig {
     @Primary
     @Profile("test")
     public DataSource testDataSource(HikariDataSource rawDataSource) {
-        return rawDataSource;
+        return new TenantAwareDataSource(rawDataSource);
     }
 }

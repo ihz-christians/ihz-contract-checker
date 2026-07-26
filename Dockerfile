@@ -17,8 +17,8 @@ RUN ./mvnw clean package -DskipTests
 
 FROM eclipse-temurin:21-jre-alpine AS backend
 WORKDIR /app
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
+RUN addgroup -S spring && adduser -S -u 1000 -G spring spring
+USER 1000:1000
 COPY --from=backend-builder /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75.0", "-XX:InitialRAMPercentage=50.0", "-XX:+UseZGC", "-Dspring.profiles.active=prod", "-jar", "app.jar"]
@@ -38,6 +38,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 COPY 03_b2c-ai-gateway/pyproject.toml 03_b2c-ai-gateway/uv.lock ./
+# Pre-install CPU-only torch to avoid downloading multi-gigabyte CUDA binaries
+RUN uv pip install --system --no-cache torch torchvision --index-url https://download.pytorch.org/whl/cpu
 RUN uv pip install --system --no-cache .
 COPY 03_b2c-ai-gateway/src/ ./src/
 RUN chown -R appuser:appuser /app
@@ -53,5 +55,5 @@ CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
 FROM caddy:2-alpine AS opscontrol
 COPY 04_ops-control-center/Caddyfile /etc/caddy/Caddyfile
 COPY 04_ops-control-center/ /usr/share/caddy/
-EXPOSE 8080
+EXPOSE 8090
 CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
