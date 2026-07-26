@@ -1,0 +1,108 @@
+#!/bin/bash
+# ==============================================================================
+# B2C Contract Checker - Central Developer Entrypoint
+# ==============================================================================
+
+# Farben für Output
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$ROOT_DIR"
+
+# ------------------------------------------------------------------------------
+# 1. System-Prüfung (Nix & Docker)
+# ------------------------------------------------------------------------------
+ensure_nix() {
+    if ! command -v nix &> /dev/null; then
+        if [ -f "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
+            source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
+        else
+            echo -e "${RED}❌ Nix Paketmanager nicht gefunden!${NC}"
+            echo -e "Damit dieses Projekt garantiert ohne Versions-Konflikte läuft, nutzen wir Nix."
+            echo -e "Bitte installiere Nix (dauert 1 Minute) mit folgendem Befehl:\n"
+            echo -e "  ${CYAN}curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install${NC}\n"
+            exit 1
+        fi
+    fi
+}
+
+ensure_docker() {
+    if ! docker info > /dev/null 2>&1; then
+        echo -e "${RED}⚠️  FEHLER: Docker läuft nicht!${NC}"
+        echo -e "Bitte starte Docker Desktop (oder OrbStack/Colima), bevor du fortfährst.\n"
+        exit 1
+    fi
+}
+
+# ------------------------------------------------------------------------------
+# 2. Command Router
+# ------------------------------------------------------------------------------
+COMMAND=$1
+
+case "$COMMAND" in
+    "setup")
+        echo -e "${BLUE}🔧 Führe Ersteinrichtung (Onboarding) durch...${NC}"
+        ensure_nix
+        ensure_docker
+        
+        # Check .env File für AI-Gateway
+        if [ ! -f "03_b2c-ai-gateway/.env" ]; then
+            echo -e "${YELLOW}Erstelle 03_b2c-ai-gateway/.env aus Template...${NC}"
+            echo "GEMINI_API_KEY=YOUR_GEMINI_API_KEY" > 03_b2c-ai-gateway/.env
+            echo "LOG_LEVEL=INFO" >> 03_b2c-ai-gateway/.env
+            echo -e "${RED}WICHTIG: Bitte trage deinen echten GEMINI_API_KEY in 03_b2c-ai-gateway/.env ein!${NC}"
+        else
+            echo -e "${GREEN}✅ .env Datei für AI-Gateway existiert bereits.${NC}"
+        fi
+
+        echo -e "${GREEN}✅ Setup abgeschlossen! Führe finalen System-Check aus...${NC}"
+        nix develop --command go run tools/b2c-cli/main.go doctor
+        ;;
+        
+    "start"|"dev")
+        ensure_nix
+        ensure_docker
+        echo -e "${GREEN}🚀 Übergebe an Go CLI: Starte die lokale Entwicklungsumgebung...${NC}"
+        # Startet den Go-Runner innerhalb der Nix-Umgebung
+        nix develop --command go run tools/b2c-cli/main.go dev
+        ;;
+        
+    "test")
+        ensure_nix
+        ensure_docker
+        echo -e "${GREEN}🧪 Übergebe an Go CLI: Führe Integrationstests aus...${NC}"
+        nix develop --command go run tools/b2c-cli/main.go test
+        ;;
+        
+    "shell")
+        ensure_nix
+        echo -e "${GREEN}💻 Lade interaktive Nix-Shell...${NC}"
+        nix develop
+        ;;
+        
+    *)
+        echo -e "${CYAN}====================================================${NC}"
+        echo -e "${CYAN}🚀 B2C Contract Checker - Central Dev Tool 🚀${NC}"
+        echo -e "${CYAN}====================================================${NC}"
+        echo -e "Verwendung: ${YELLOW}./devlocal [command]${NC}"
+        echo ""
+        echo -e "Befehle:"
+        echo -e "  ${GREEN}setup${NC}   Ersteinrichtung (Nur am ersten Tag benötigt)"
+        echo -e "          ${NC}Prüft Tools, richtet Docker ein & erstellt .env Files${NC}"
+        echo ""
+        echo -e "  ${GREEN}start${NC}   Startet das komplette System"
+        echo -e "          ${NC}Fährt Postgres, Spring Boot und FastAPI AI-Gateway hoch${NC}"
+        echo ""
+        echo -e "  ${GREEN}test${NC}    Führt die isolierten CI-Tests (Java & Python) aus"
+        echo -e "          ${NC}Zieht eine saubere Test-DB hoch und prüft die RLS Policies${NC}"
+        echo ""
+        echo -e "  ${GREEN}shell${NC}   Öffnet die isolierte Entwickler-Konsole"
+        echo -e "          ${NC}Hiermit bekommst du direkten Terminalzugriff auf Java/uv/Helm${NC}"
+        echo ""
+        ;;
+esac
