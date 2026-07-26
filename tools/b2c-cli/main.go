@@ -181,6 +181,8 @@ func runTest() {
 
 	fmt.Println(Green + "\n🎉 Alle Tests (Java & Python) wurden erfolgreich bestanden!" + Reset)
 }
+
+func waitForPort(url string, maxSeconds int) bool {
 	client := http.Client{Timeout: 1 * time.Second}
 	for i := 0; i < maxSeconds; i++ {
 		resp, err := client.Get(url)
