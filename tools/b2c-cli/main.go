@@ -90,7 +90,15 @@ func runDev() {
 
 	// 1. Docker Compose (Postgres, MinIO etc.)
 	fmt.Println(Cyan + "🐳 Starte Infrastruktur (Postgres, MinIO)..." + Reset)
-	dockerCmd := exec.CommandContext(ctx, "docker", "compose", "-f", "docker-compose.yml", "-f", "docker-compose.dev.yml", "up", "-d")
+
+	// Wir übergeben die --env-file, damit Docker Compose keine Warnungen über fehlende Keys wirft
+	dockerArgs := []string{"compose", "-f", "docker-compose.yml", "-f", "docker-compose.dev.yml"}
+	if _, err := os.Stat("03_b2c-ai-gateway/.env"); err == nil {
+		dockerArgs = append(dockerArgs, "--env-file", "03_b2c-ai-gateway/.env")
+	}
+	dockerArgs = append(dockerArgs, "up", "-d")
+
+	dockerCmd := exec.CommandContext(ctx, "docker", dockerArgs...)
 	dockerCmd.Stdout = os.Stdout
 	dockerCmd.Stderr = os.Stderr
 	if err := dockerCmd.Run(); err != nil {
