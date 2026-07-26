@@ -1,20 +1,24 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:postgresql://localhost:5433/testdb
+    driver-class-name: org.postgresql.Driver
+    username: app_user
+    password: password
     hikari:
       maximum-pool-size: 5
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     show-sql: false
 
   flyway:
-    enabled: false
+    enabled: true
+    clean-disabled: false
+    url: jdbc:postgresql://localhost:5433/testdb
+    user: app_user
+    password: password
 
 ihz:
   auth:

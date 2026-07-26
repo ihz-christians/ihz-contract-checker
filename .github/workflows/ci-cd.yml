@@ -25,15 +25,14 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-          cache: 'maven'
-      - name: Run Tests
-        working-directory: ./02_b2c-contractchecker-spring
-        run: ./mvnw test
+        
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
+        
+      # Führt exakt eure lokale Nix-Umgebung aus! (Inkl. korrektem headless Java 21)
+      - name: Run Tests via Nix
+        working-directory: ./01_b2c_module
+        run: nix develop --command bash -c "cd 02_b2c-contractchecker-spring && ./mvnw test"
 
   test-aigateway:
     name: Test AI Gateway
@@ -41,16 +40,14 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Setup uv
-        uses: astral-sh/setup-uv@v5
-        with:
-          enable-cache: true
-          python-version: '3.13'
-      - name: Install dependencies
-        run: |
-          uv sync
-      - name: Run Tests
-        run: uv run --package b2c-ai-gateway pytest
+        
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
+        
+      # Nutzt exakt Python 3.11 und das uv aus der flake.nix
+      - name: Install and Run Tests via Nix
+        working-directory: ./01_b2c_module
+        run: nix develop --command bash -c "cd 03_b2c-ai-gateway && uv sync && uv run --package b2c-ai-gateway pytest"
 
   build-and-push:
     name: Build & Push Images
