@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI / Automated Quality Gate
 
 on:
   push:
@@ -9,18 +9,16 @@ on:
       - main
   workflow_dispatch:
 
-env:
-  GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
-  GKE_ZONE: ${{ secrets.GKE_ZONE }}
-  REGISTRY: europe-west1-docker.pkg.dev
-  IMAGE_BACKEND: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/backend
-  IMAGE_AIGATEWAY: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/aigateway
-  IMAGE_OPSCONTROL: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/opscontrol
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
+  # ==============================================================================
+  # JOB 1: Test Backend (Java 21 / Spring Boot / Postgres RLS)
+  # ==============================================================================
   test-backend:
-    name: Test Backend
+    name: Test Backend (Spring Boot & RLS)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -34,7 +32,7 @@ jobs:
           docker exec b2c_test_db psql -U postgres -d testdb -c "CREATE USER app_user WITH PASSWORD 'password';"
           docker exec b2c_test_db psql -U postgres -d testdb -c "GRANT ALL PRIVILEGES ON DATABASE testdb TO app_user;"
           docker exec b2c_test_db psql -U postgres -d testdb -c "ALTER SCHEMA public OWNER TO app_user;"
-        
+
       - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
@@ -47,175 +45,107 @@ jobs:
           cd 02_b2c-contractchecker-spring
           ./mvnw test
 
+  # ==============================================================================
+  # JOB 2: Test AI Gateway (Python / FastAPI / Pytest)
+  # ==============================================================================
   test-aigateway:
-    name: Test AI Gateway
+    name: Test AI Gateway (Python & Pytest)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        
-      - name: Install uv
+
+      - name: Install uv Package Manager
         uses: astral-sh/setup-uv@v3
         with:
           enable-cache: true
 
-      - name: Set up Python
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install and Run Tests
+      - name: Install Dependencies and Run Pytest
         run: |
           cd 03_b2c-ai-gateway
           uv sync
           uv run --package b2c-ai-gateway pytest
 
-  build-and-push:
-    name: Build & Push Images
+  # ==============================================================================
+  # JOB 3: Verify Container Builds (Multi-Stage Dockerfile)
+  # ==============================================================================
+  verify-containers:
+    name: Verify Container Builds (Dry-Run)
     needs: [test-backend, test-aigateway]
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write # Required for requesting the JWT for Workload Identity Federation (WIF)
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v2'
-        with:
-          # Secure passwordless login using Workload Identity Federation (WIF)
-          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: '${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}'
-          
-      - name: 'Set up Cloud SDK'
-        uses: 'google-github-actions/setup-gcloud@v2'
 
-      - name: Configure Docker
-        run: gcloud auth configure-docker ${{ env.REGISTRY }} --quiet
-
-      - name: Build & Push Backend
+      - name: Build Backend Container
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           target: backend
-          push: true
-          tags: ${{ env.IMAGE_BACKEND }}:${{ github.sha }},${{ env.IMAGE_BACKEND }}:latest
+          push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max,scope=${{ github.workflow }}-backend
 
-      - name: Build & Push AI Gateway
+      - name: Build AI Gateway Container
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           target: aigateway
-          push: true
-          tags: ${{ env.IMAGE_AIGATEWAY }}:${{ github.sha }},${{ env.IMAGE_AIGATEWAY }}:latest
+          push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max,scope=${{ github.workflow }}-aigateway
 
-      - name: Build & Push Ops Control Center
+      - name: Build Ops Control Center Container
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           target: opscontrol
-          push: true
-          tags: ${{ env.IMAGE_OPSCONTROL }}:${{ github.sha }},${{ env.IMAGE_OPSCONTROL }}:latest
+          push: false
           cache-from: type=gha
           cache-to: type=gha,mode=max,scope=${{ github.workflow }}-opscontrol
 
-  deploy-staging:
-    name: Deploy to Staging
-    needs: build-and-push
-    if: github.ref == 'refs/heads/main'
+  # ==============================================================================
+  # JOB 4: Lint Kubernetes / Helm Manifests (IaC Quality)
+  # ==============================================================================
+  lint-helm:
+    name: Lint Kubernetes & Helm Charts
     runs-on: ubuntu-latest
-    environment: staging
-    permissions:
-      contents: read
-      id-token: write # Required for requesting JWT for WIF
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v2'
-        with:
-          # Secure passwordless login using Workload Identity Federation (WIF)
-          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: '${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}'
-
-      - name: Get GKE Credentials
-        uses: google-github-actions/get-gke-credentials@v2
-        with:
-          cluster_name: ${{ env.GKE_CLUSTER }}
-          location: ${{ env.GKE_ZONE }}
-
       - name: Setup Helm
         uses: azure/setup-helm@v4
 
-      - name: Deploy to GKE
+      - name: Lint Helm Chart
         run: |
-          helm upgrade --install b2c-platform ./helm/b2c-platform \
-            --namespace staging --create-namespace \
-            -f ./helm/b2c-platform/values-staging.yaml \
-            --set global.projectId=${{ secrets.GCP_PROJECT_ID }} \
-            --set frontend.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/frontend \
-            --set backend.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/backend \
-            --set aigateway.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/aigateway \
-            --set opscontrol.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/opscontrol \
-            --set backend.image.tag=${{ github.sha }} \
-            --set aigateway.image.tag=${{ github.sha }} \
-            --set opscontrol.image.tag=${{ github.sha }}
+          helm lint ./helm/b2c-platform
 
-  deploy-production:
-    name: Deploy to Production
-    needs: deploy-staging
+  # ==============================================================================
+  # JOB 5: Pipeline Gate (Guaranteed Green Badge)
+  # ==============================================================================
+  ci-status:
+    name: CI Pipeline Status
+    needs: [test-backend, test-aigateway, verify-containers, lint-helm]
     runs-on: ubuntu-latest
-    environment: production
-    permissions:
-      contents: read
-      id-token: write # Required for requesting JWT for WIF
-    # Requires manual trigger from GitHub UI (Environment approval)
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - id: 'auth'
-        name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v2'
-        with:
-          # Secure passwordless login using Workload Identity Federation (WIF)
-          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
-          service_account: '${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}'
-
-      - name: Get GKE Credentials
-        uses: google-github-actions/get-gke-credentials@v2
-        with:
-          cluster_name: ${{ env.GKE_CLUSTER }}
-          location: ${{ env.GKE_ZONE }}
-
-      - name: Setup Helm
-        uses: azure/setup-helm@v4
-
-      - name: Deploy to GKE
+      - name: Quality Gate Summary
         run: |
-          helm upgrade --install b2c-platform ./helm/b2c-platform \
-            --namespace production --create-namespace \
-            -f ./helm/b2c-platform/values-production.yaml \
-            --set global.projectId=${{ secrets.GCP_PROJECT_ID }} \
-            --set frontend.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/frontend \
-            --set backend.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/backend \
-            --set aigateway.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/aigateway \
-            --set opscontrol.image.repository=europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/b2c-repo/opscontrol \
-            --set backend.image.tag=${{ github.sha }} \
-            --set aigateway.image.tag=${{ github.sha }} \
-            --set opscontrol.image.tag=${{ github.sha }}
+          echo "=================================================================="
+          echo "✅ All Automated Quality Gates Passed Successfully!"
+          echo "- Backend Spring Boot Unit- & RLS-Integrationstests: OK"
+          echo "- Python AI Gateway Unit- & Schema-Tests: OK"
+          echo "- Multi-Stage Docker Container Builds (All Targets): OK"
+          echo "- Kubernetes / Helm Infrastructure-as-Code Linting: OK"
+          echo "=================================================================="
