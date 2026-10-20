@@ -1,60 +1,57 @@
-# 📋 B2C Contract Checker Platform
+# 📋 B2C Contract Checker
 
-[![Java](https://img.shields.io/badge/Java-21%20LTS-orange.svg)](https://adoptium.net/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.1-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://adoptium.net/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15%20(RLS)-336791.svg)](https://www.postgresql.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791.svg)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED.svg)](https://www.docker.com/)
-[![Kubernetes](https://img.shields.io/badge/Kubernetes-GKE-326CE5.svg)](https://cloud.google.com/kubernetes-engine)
 
-Die **B2C Contract Checker Platform** ist eine moderne, cloud-native Enterprise-Anwendung zur automatisierten Analyse, dem Vergleich und der rechtlichen Weiterverarbeitung von Verbraucherverträgen (Energie, Telekommunikation, Versicherungen).
+Eine praktische Web-Anwendung zur automatisierten Prüfung und Verwaltung von Verbraucherverträgen (z. B. Strom, Gas oder Handyverträge).
 
-> 💡 **Showcase & Projektkontext (Digital Transformation):**  
-> Dieses Repository ist eine eigenständige **Referenz- und Machbarkeitsstudie zur Digitalen Transformation manueller Vertragsprozesse**. Es demonstriert praxisnah, wie Medienbrüche und zeitaufwendige manuelle Prüfaufwände im Kundenservice und Vertrieb durch das Zusammenspiel von **KI-Layout-Parsing (Python/FastAPI)**, **transaktionaler Enterprise-Sicherheit (Java 21 / Spring Boot 3 / Postgres RLS)** und **moderner Cloud-Native-Bereitstellung (Docker/Kubernetes)** automatisiert und skaliert werden können.
+Das Projekt entstand als **praxisnahes Showcase-Projekt zur Prozessdigitalisierung**: Es zeigt, wie man manuelle, papier- und PDF-lastige Abläufe im Kundenservice und Vertrieb durch moderne Software und gezielten KI-Einsatz spürbar vereinfachen und beschleunigen kann.
 
 ---
 
 ## 📑 Inhaltsverzeichnis
 
-1. [Business Case & Transformationspotenzial](#-business-case--transformationspotenzial)
-2. [Funktionsumfang](#-funktionsumfang)
-3. [Monorepo-Architektur](#-monorepo-architektur)
+1. [Warum dieses Projekt? (Praxis-Hintergrund)](#-warum-dieses-projekt-praxis-hintergrund)
+2. [Was das System kann](#-was-das-system-kann)
+3. [Aufbau der Anwendung](#-aufbau-der-anwendung)
 4. [Schnellstart mit `./devlocal`](#-schnellstart-mit-devlocal)
 5. [Services & Port-Übersicht](#-services--port-übersicht)
-6. [Sicherheits- & Mandantenarchitektur](#-sicherheits--mandantenarchitektur)
+6. [Sicherheit & Datenschutz](#-sicherheit--datenschutz)
 7. [Dokumentations-Index](#-dokumentations-index)
-8. [CI/CD & Deployment](#-cicd--deployment)
+8. [Qualitätssicherung & CI/CD](#-qualitätssicherung--cicd)
 
 ---
 
-## 💼 Business Case & Transformationspotenzial
+## 💡 Warum dieses Projekt? (Praxis-Hintergrund)
 
-In der Prozessdigitalisierung ist Technologie ein Enabler für konkreten geschäftlichen Mehrwert. Die Plattform adressiert typische Ineffizienzen in der Dokumentenprüfung:
+Wer schon einmal versucht hat, Verträge von verschiedenen Anbietern zu vergleichen, kennt das Problem: Wichtige Details wie Kündigungsfristen, Grundpreise oder Klauseln zur automatischen Verlängerung verstecken sich oft im Kleingedruckten. Im Kundenservice oder bei Beratungsstellen werden diese Dokumente meist noch per Hand durchgesehen und in Excel-Tabellen abgetippt.
 
-| Dimension | Traditioneller Prozess (As-Is) | Digitalisierte Plattform (To-Be) | Geschäftlicher Mehrwert |
-| :--- | :--- | :--- | :--- |
-| **Durchlaufzeit** | 35 – 45 Min. manuelle Durchsicht | < 30 Sek. KI-Extraktion | **> 90 % Zeitersparnis** pro Vorgang |
-| **Skalierbarkeit** | Linear an Personalbestand gekoppelt | Dunkelverarbeitung (STP) | Tausende Verträge parallel verarbeitbar |
-| **Fristen- & Compliance-Risiko** | Menschliche Fehlerquote (~18 %) | Regelbasierte TCO- & Fristenvalidierung | Vermeidung ungewollter Vertragsverlängerungen |
-| **Mandantentrennung & DSGVO** | Anwendungsfilter (fehleranfällig) | Postgres Row-Level Security (RLS) | Garantierte Datenisolation auf Datenbankebene |
+**Der Lösungsansatz in diesem Projekt:**
+* **Kein mühsames Abtippen mehr:** Das Dokument wird als PDF hochgeladen, automatisch ausgelesen und übersichtlich zusammengefasst.
+* **Kosten auf einen Blick:** Laufende Kosten und Kündigungsfristen werden sofort berechnet, statt manuell in Tabellen kalkuliert werden zu müssen.
+* **Direkt handeln:** Wenn der Vertrag gekündigt oder gewechselt werden soll, generiert das System mit einem Klick ein passendes Kündigungsschreiben als PDF.
+* **Fragen stellen:** Über einen integrierten Chat-Assistenten kann man konkrete Fragen zum hochgeladenen Vertrag stellen (z. B. *„Gibt es eine Preisgarantie?“*).
 
-Detaillierte ROI-Kalkulationen, Payback-Perioden und Rollout-Phasen sind im Strategiedokument [`BUSINESS_CASE_AND_TRANSFORMATION.md`](./BUSINESS_CASE_AND_TRANSFORMATION.md) dokumentiert.
-
----
-
-## 🚀 Funktionsumfang
-
-* **Automatisierte Vertragsanalyse**: Upload von PDF-Verträgen, Layout-Parsing mit PyMuPDF und strukturierte Extraktion wesentlicher Vertragsdaten via Google Gemini LLM.
-* **TCO-Berechnung & Tarifvergleich**: Automatische Kalkulation der Gesamtkosten über die Vertragslaufzeit, Identifikation von Boni, Preiserhöhungen und Sparpotenzialen.
-* **Interaktiver RAG-Vertrags-Chatbot**: Direkte Beantwortung nutzerspezifischer Fragen zum eigenen Vertrag über eine eingebettete KI-Schnittstelle.
-* **Rechtliche Aktionen & Outbox-Muster**: Generierung rechtskonformer Kündigungs- und Widerspruchsschreiben als PDF (OpenHTMLToPDF) mit automatisiertem Versand über einen transaktionalen Outbox-Worker.
-* **Echtes Multi-Tenancy (RLS)**: Strikte Datenisolierung auf PostgreSQL-Engine-Ebene (`FORCE ROW LEVEL SECURITY`) kombiniert mit feingranularer IDOR-Validierung im Anwendungscode.
-* **Operations Control Center (OCC)**: Isoliertes PWA-Dashboard für Systemmetriken, KI-Latenzen, Token-Kosten und Mandantenstatistiken ohne geteilte Sessions.
+Ausführliche Überlegungen zum Praxisnutzen sind im Dokument [`PROJEKTKONZEPT.md`](./PROJEKTKONZEPT.md) beschrieben.
 
 ---
 
-## 🏛️ Monorepo-Architektur
+## 🚀 Was das System kann
+
+* **PDF-Verträge automatisch auslesen**: Vertragsdaten (Laufzeiten, Fristen, Arbeitspreise, Boni) werden per Texterkennung und KI-Unterstützung (Gemini) direkt aus dem PDF extrahiert.
+* **Gesamtkosten & Fristen berechnen**: Automatische Berechnung der monatlichen und jährlichen Kosten über die Mindestvertragslaufzeit sowie übersichtliche Anzeige der Kündigungsfrist.
+* **Kündigungsschreiben als PDF erstellen**: Fertig formatiertes Kündigungsschreiben mit den korrekten Vertragsdaten auf Knopfdruck generieren und herunterladen.
+* **Vertrags-Chat**: Bei Unklarheiten direkt im Browser Fragen zum Vertrag stellen.
+* **Saubere Mandantentrennung**: Schutz der Kundendaten direkt auf Datenbank-Ebene (PostgreSQL Row-Level Security), damit Berater oder Mandanten nur ihre eigenen Daten sehen.
+* **Einfaches Admin-Cockpit**: Schnelle Übersicht über Verarbeitungszeiten und Systemstatus.
+
+---
+
+## 🏛️ Aufbau der Anwendung
 
 ```
 01_b2c_module/
@@ -123,44 +120,40 @@ Führt die Java Spring Boot Tests und die Python AI-Gateway Tests gegen eine aut
 
 ---
 
-## 🛡️ Sicherheits- & Mandantenarchitektur
+## 🔒 Sicherheit & Datenschutz
 
-Das Projekt folgt einem strikten **Defense-in-Depth** Sicherheitsmodell:
+Weil Verträge persönliche und sensible Daten enthalten, wurden von Anfang an saubere Standards eingehalten:
 
-1. **PostgreSQL Row-Level Security (RLS)**:
-   * Jede Tabelle mit Mandantenbezug erzwingt RLS (`FORCE ROW LEVEL SECURITY`).
-   * Der `TenantAwareDataSource` injiziert die Kontextvariablen `app.current_tenant_id` und `app.current_user_id` transparent bei jedem Verbindungsabruf aus dem Pool.
-2. **Objekt-Ownership-Prüfung (IDOR-Prävention)**:
-   * Im Controller- und Service-Layer wird die Besitzerschaft jedes Vertrags explizit verifiziert (`verifyContractOwner`).
-3. **Transaktionales Outbox-Muster**:
-   * Hintergrund-Worker (`LegalActionOutboxWorker`) und Metrik-Endpunkte verwenden einen isolierten, auditierten RLS-Bypass (`TenantContext.setBypassRls(true)`) mit verlässlicher `try-finally`-Bereinigung.
-4. **CSRF & Web-Sicherheit**:
-   * Vollständiger CSRF-Schutz mit `CookieCsrfTokenRepository.withHttpOnlyFalse()` und nativer HTMX-Integration.
-5. **M2M-Sicherheit**:
-   * Interne Webhooks zwischen AI-Gateway und Backend sind über `X-Internal-Secret` geschützt.
-   * Das Ops Control Center kommuniziert über dedizierte Endpunkte mit `X-Ops-Secret`.
+1. **Sichere Mandantentrennung**:
+   * Über PostgreSQL Row-Level Security (`FORCE ROW LEVEL SECURITY`) wird garantiert, dass Nutzer und Mandanten strikt nur auf ihre eigenen Daten zugreifen können – direkt auf Datenbank-Ebene erzwungen.
+   * Der `TenantAwareDataSource` setzt die Mandanten-ID transparent bei jedem Datenbank-Zugriff.
+2. **Besitzer-Prüfung im Code**:
+   * Bei jedem Aufruf im Web-Backend wird zusätzlich geprüft, ob der eingeloggte Nutzer tatsächlich der Eigentümer des aufgerufenen Vertrags ist.
+3. **Zuverlässige Aufgaben-Verarbeitung**:
+   * Kündigungsschreiben und Benachrichtigungen werden über eine interne Aufgaben-Tabelle (Outbox-Muster) abgearbeitet, damit auch bei kurzen Verbindungsproblemen keine Aktion verloren geht.
+4. **Schutz der Web-Oberfläche**:
+   * Durchgehender CSRF-Schutz und sichere Session-Verwaltung über Spring Security.
+5. **Geschützte interne Schnittstellen**:
+   * Die Kommunikation zwischen dem KI-Dienst und dem Backend ist über interne Tokens abgesichert.
 
 ---
 
 ## 📚 Dokumentations-Index
 
-* 🏗️ **[Systemarchitektur (`architecture.md`)](./architecture.md)** — Detailliertes Mermaid-Diagramm, Komponenten und End-to-End Datenflüsse.
-* 📐 **[Architektur-Leitlinien (`ARCHITECTURE_GUIDELINES.md`)](./ARCHITECTURE_GUIDELINES.md)** — Technische Standards, Best Practices und Entwicklungsregeln.
-* 🚢 **[Deployment Guide (`DEPLOYMENT.md`)](./DEPLOYMENT.md)** — Kubernetes (GKE), Helm, Workload Identity Federation und CI/CD.
-* 🔒 **[ADR 001: Multi-Tenancy & RLS (`docs/adr/001-multi-tenancy-and-rls.md`)](./docs/adr/001-multi-tenancy-and-rls.md)** — Architekturentscheidung zur Mandantenisolierung.
-* 💼 **[Business Case & Transformation (`BUSINESS_CASE_AND_TRANSFORMATION.md`)](./BUSINESS_CASE_AND_TRANSFORMATION.md)** — Quantitativer ROI, Prozessoptimierung und Transformations-Roadmap.
-* 📈 **[Go-to-Market Strategie (`GTM_Strategy_Notes.md`)](./GTM_Strategy_Notes.md)** — Zielgruppen (ICPs), B2B2C-Marktpotenzial und Nutzenversprechen.
-* ☕ **[Spring Boot Backend Doku (`02_b2c-contractchecker-spring/README.md`)](./02_b2c-contractchecker-spring/README.md)** — Detaillierte Moduldokumentation Backend.
-* 🐍 **[AI Gateway Doku (`03_b2c-ai-gateway/README.md`)](./03_b2c-ai-gateway/README.md)** — Detaillierte Moduldokumentation KI-Dienst.
-* 🛡️ **[Ops Control Center Doku (`04_ops-control-center/README.md`)](./04_ops-control-center/README.md)** — Detaillierte Moduldokumentation Admin-Cockpit.
+* 💡 **[Projektkonzept & Praxis-Hintergrund (`PROJEKTKONZEPT.md`)](./PROJEKTKONZEPT.md)** — Alltagsproblem, Prozessvergleich und Praxiseinsatz.
+* 🏗️ **[Systemarchitektur (`architecture.md`)](./architecture.md)** — Übersicht der Komponenten, Datenflüsse und Schnittstellen.
+* 📐 **[Architektur-Leitlinien (`ARCHITECTURE_GUIDELINES.md`)](./ARCHITECTURE_GUIDELINES.md)** — Entwicklungsregeln und Qualitätsstandards.
+* ☕ **[Spring Boot Backend Doku (`02_b2c-contractchecker-spring/README.md`)](./02_b2c-contractchecker-spring/README.md)** — Dokumentation des Java-Kerns.
+* 🐍 **[AI Gateway Doku (`03_b2c-ai-gateway/README.md`)](./03_b2c-ai-gateway/README.md)** — Dokumentation des Python/FastAPI-Dienstes.
+* 🛡️ **[Ops Control Center Doku (`04_ops-control-center/README.md`)](./04_ops-control-center/README.md)** — Dokumentation des Admin-Cockpits.
+* 🚢 **[Deployment Guide (`DEPLOYMENT.md`)](./DEPLOYMENT.md)** — Container-Builds und Kubernetes-Setup.
 
 ---
 
-## 🔄 CI/CD & Deployment
+## 🔄 Qualitätssicherung & CI/CD
 
-Die Plattform nutzt **GitHub Actions** (`.github/workflows/ci-cd.yml`) für kontinuierliche Qualitätssicherung und Zero-Downtime Deployments:
+Das Projekt nutzt **GitHub Actions** (`.github/workflows/ci-cd.yml`) für automatisierte Tests und Qualitätskontrolle:
 
-* **Automatisierte Tests**: Bei jedem Pull Request werden die Java- und Python-Tests auf GitHub Runners ausgeführt.
-* **Multi-Stage Docker Builds**: Erstellung schlanker Container-Images für Backend, AI-Gateway und OCC via `docker/build-push-action`.
-* **Workload Identity Federation (WIF)**: Sichere, schlüssellose Authentifizierung gegen Google Cloud.
-* **Continuous Delivery**: Automatischer Push in die Google Artifact Registry und Bereitstellung auf **Google Kubernetes Engine (GKE)** via Helm (Staging automatisch, Production nach manueller Freigabe).
+* **Automatisierte Tests**: Bei jedem Push und Pull Request werden sowohl die Java- als auch die Python-Tests vollständig in einer isolierten Test-Umgebung ausgeführt.
+* **Gleiche Tests lokal & remote**: Über `./devlocal test` lassen sich exakt dieselben Tests jederzeit lokal auf dem Entwicklungsrechner ausführen.
+* **Saubere Containerisierung**: Schlanke Dockerfiles für alle Komponenten ermöglichen einen schnellen und reproduzierbaren Betrieb.
