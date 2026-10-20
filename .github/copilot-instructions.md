@@ -10,7 +10,7 @@ This file contains custom instructions for GitHub Copilot when working with the 
   - `03_b2c-ai-gateway`: FastAPI AI Service (PyMuPDF, Google Gemini, Instructor, BackgroundTasks)
   - `04_ops-control-center`: Operations Dashboard (Static PWA via Caddy, Zero Dependencies)
   - `devlocal`: Central POSIX developer entrypoint (`setup`, `doctor`, `start`, `test`)
-- **Key Feature**: Automated contract analysis and chatbot engine with forced PostgreSQL Row-Level Security (RLS), multi-tenancy, and defense-in-depth object-level ownership checks.
+- **Key Feature**: Automated contract analysis and chatbot engine with forced PostgreSQL Row-Level Security (RLS), multi-tenancy, and controller-level ownership checks.
 
 ---
 

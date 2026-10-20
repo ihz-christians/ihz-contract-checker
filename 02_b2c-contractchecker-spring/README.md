@@ -62,8 +62,8 @@ Das Modul `02_b2c-contractchecker-spring` bildet den **zentralen Anwendungskern*
   SET app.current_user_id = '<user_uuid>';
   ```
 
-### 2. Defense-in-Depth: IDOR-Schutz
-Da alle B2C-Endkunden dem Standard-B2C-Mandanten zugeordnet sind, muss jeder Controller-Endpunkt zwingend die Besitzerschaft prüfen:
+### 2. Doppelte Absicherung: Eigentümer-Prüfung im Controller
+Da alle B2C-Endkunden dem Standard-B2C-Mandanten zugeordnet sind, prüft jeder Controller-Endpunkt zusätzlich die Besitzerschaft:
 ```java
 private void verifyContractOwner(Contract contract, CustomUserDetails userDetails) {
     if (!contract.getUser().getId().equals(userDetails.getUserId())) {

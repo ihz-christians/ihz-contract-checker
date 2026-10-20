@@ -2,27 +2,27 @@
 
 > 💡 **Status & Architektur-Kontext**: Dieses Modul ist als **interaktive UI-Konzeptstudie & PWA-Prototyp** konzipiert, um das zukünftige Betriebs- und Kontrollzentrum für Administratoren zu veranschaulichen. Es pollt reale Systemmetriken der Backends ab und demonstriert Pipeline-Überwachung, Interventions-Workflows und System-Simulationen.
 
-Dieses Verzeichnis enthält das **eigenständige Operations Control Center (OCC)** für den B2C Contract Checker. Es wurde nach dem **Zero-Trust-Prinzip** als isolierte Webanwendung konzipiert.
+Dieses Verzeichnis enthält das **eigenständige Operations Control Center (OCC)** für den B2C Contract Checker. Es wurde als eigenständige, vom Kunden-Portal getrennte Webanwendung konzipiert.
 
 ## 🚀 Warum ein eigenständiges System?
 
-1. **Sicherheit durch Isolation (Air-Gap)**: 
-   Sollte das öffentliche Kunden-Dashboard kompromittiert werden, bleibt das administrative Kontrollzentrum geschützt. Es nutzt keine geteilten Sessions, Passwörter oder Client-Bibliotheken mit dem Hauptportal.
-2. **Sicherer RLS-Bypass für globale Metriken**: 
-   Das B2C-Hauptportal isoliert Daten streng nach Mandanten (`TenantContext`). Ein globaler Operations Controller muss jedoch systemübergreifende Pipelines und Metriken einsehen können. Die OCC-App fragt dedizierte, durch ein M2M-Geheimnis (`X-Ops-Secret`) geschützte Endpunkte im Spring Boot Backend (`/api/admin/ops/metrics`) und AI-Gateway (`/api/v1/ops/llm-metrics`) ab. Im Backend wird der RLS-Bypass kontrolliert in einem `TenantContext.setBypassRls(true)`-Block mit striktem `try-finally`-Cleanup ausgeführt, ohne dass Datenbank-Credentials oder DB-Ports an den Browser exponiert werden.
+1. **Sicherheit durch getrennte Oberflächen**: 
+   Das administrative Kontrollzentrum nutzt keine geteilten Sessions oder Passwörter mit dem Kundenportal.
+2. **Sicherer Abruf globaler Metriken**: 
+   Das B2C-Hauptportal isoliert Daten streng nach Mandanten (`TenantContext`). Ein interner Administrator muss jedoch systemweite Metriken (z. B. Verarbeitungszeiten, Fehlerraten) einsehen können. Die OCC-App fragt dedizierte, durch ein internes Token (`X-Ops-Secret`) geschützte Endpunkte im Spring Boot Backend (`/api/admin/ops/metrics`) und AI-Gateway (`/api/v1/ops/llm-metrics`) ab. Im Backend wird dieser Zugriff kontrolliert in einem sauberen `TenantContext.setBypassRls(true)`-Block mit striktem `try-finally`-Cleanup ausgeführt.
 3. **Ausfallsicherheit**: 
-   Tritt ein Fehler auf der Hauptseite auf, läuft das Überwachungs- und Kontrollzentrum unberührt weiter und erlaubt manuelle Interventionen und Pipeline-Reparaturen.
+   Tritt ein Fehler auf der Kunden-Webseite auf, läuft das Überwachungs-Dashboard unberührt weiter und erlaubt das Einsehen von Systemzuständen.
 
 ---
 
 ## 🛠️ Technologie-Stack
 
-Um maximale Sicherheit gegen Supply-Chain-Angriffe zu gewährleisten, verwendet das OCC **keine Frameworks mit tiefen Abhängigkeitsbäumen** (kein React-Build-Prozess, kein Angular, kein Node-Laufzeit-Zwang im Frontend).
+Um maximale Einfachheit und Wartbarkeit zu gewährleisten, kommt das Dashboard **ohne schwere JavaScript-Build-Pipelines** aus:
 
-* **Vanilla Web Components (ESM)**: Native, vom Browser unterstützte wiederverwendbare Kapselung (Custom Elements) ohne Rendering-Frameworks.
-* **PWA (Progressive Web App)**: Service Worker, die ein Offline-Caching ermöglichen und die App auf Mobilgeräten oder Desktops nativ installierbar machen.
-* **Tailwind CSS (via CDN)**: Für eine moderne, performante und responsive Dark-Cyberpunk-Benutzeroberfläche.
-* **Zero Dependencies**: Keine `node_modules` nötig! Extrem wartungsfreundlich und immun gegen NPM-Schwachstellen.
+* **Vanilla Web Components (ESM)**: Native, vom Browser unterstützte Komponenten ohne Rendering-Frameworks.
+* **PWA (Progressive Web App)**: Einfache Web-App, die im Browser direkt läuft und installierbar ist.
+* **Tailwind CSS**: Für eine moderne und responsive Dark-Mode-Benutzeroberfläche.
+* **Keine externen NPM-Build-Tools**: Kein schwerer `node_modules`-Ordner nötig – sofort im Browser ausführbar.
 
 ---
 

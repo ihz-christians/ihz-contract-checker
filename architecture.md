@@ -19,9 +19,9 @@ graph TD
     subgraph "Core Backend (Java 21 / Spring Boot 3.3, Port 8080 & 8081)"
         Web["Thymeleaf MVC + HTMX<br/>(Dashboard, Upload, Chat)"]
         Sec["Spring Security 6<br/>(Form-Login / Firebase JWT, CSRF)"]
-        IDOR["Defense-in-Depth<br/>IDOR Ownership Validation"]
+        IDOR["Zusätzliche Eigentümer-<br/>Prüfung im Controller"]
         TaskMgr["Analysis Task Workflow<br/>& Outbox Scheduler"]
-        Rules["TCO Calculation & Rule Engine"]
+        Rules["Kostenberechnung &<br/>Tarif-Regeln"]
         PDFGen["OpenHTMLToPDF Engine<br/>(Rechtsschreiben & Reports)"]
         TenantDS["TenantAwareDataSource<br/>(RLS Context Injection)"]
         OpsCtrl["OpsMetricsController<br/>(X-Ops-Secret)"]
@@ -103,18 +103,18 @@ graph TD
 4. **Sicherer Callback**:
    * FastAPI sendet das validierte JSON-Ergebnis an `POST /api/v1/webhook/ai-callback` des Spring Boot Backends.
    * Der Callback wird über den Header `X-Internal-Secret` kryptografisch validiert.
-5. **Regel-Engine & TCO-Berechnung**:
-   * Spring Boot aktualisiert den Task-Status auf `COMPLETED`, speichert das JSON in `analysis_tasks.summary` (`jsonb`) und berechnet die Total Cost of Ownership (TCO) sowie Einsparpotenziale.
-6. **Rechtliche Aktionen & Outbox-Muster**:
+5. **Kostenberechnung & Tarifprüfung**:
+   * Spring Boot aktualisiert den Task-Status auf `COMPLETED`, speichert das JSON in `analysis_tasks.summary` (`jsonb`) und berechnet die monatlichen und jährlichen Gesamtkosten sowie mögliche Ersparnisse.
+6. **Kündigungsschreiben & Aufgaben-Warteschlange**:
    * Bei Bedarf generiert der Nutzer Kündigungsschreiben oder Widersprüche (`POST /contract/{id}/legal-action`).
-   * Ein Transaktions-Outbox-Eintrag wird in `legal_actions` angelegt.
-   * Der asynchrone `LegalActionOutboxWorker` holt offene Aktionen mit sicherem RLS-Bypass ab, generiert ein PDF via OpenHTMLToPDF und versendet dieses per E-Mail an den Anbieter.
+   * Ein Eintrag wird in der Tabelle `legal_actions` angelegt (Outbox-Muster).
+   * Der asynchrone `LegalActionOutboxWorker` holt offene Aktionen ab, generiert ein PDF via OpenHTMLToPDF und versendet dieses per E-Mail an den Anbieter.
 
 ---
 
-## 4. Multi-Tenancy & Defense-in-Depth Sicherheitsarchitektur
+## 4. Mandantentrennung & Mehrstufiges Sicherheitskonzept
 
-Das System setzt auf ein mehrschichtiges Sicherheitsmodell ("Defense-in-Depth"):
+Das System sichert Kundendaten auf mehreren Ebenen ab:
 
 1. **Ebene 1: PostgreSQL Row-Level Security (RLS)**:
    * Alle Mandantentabellen (`contracts`, `analysis_tasks`, `chunks`, `legal_actions`, `users`) erzwingen RLS (`FORCE ROW LEVEL SECURITY`).

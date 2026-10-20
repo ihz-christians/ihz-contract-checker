@@ -25,7 +25,7 @@ Das Modul `03_b2c-ai-gateway` ist ein hochperformanter, asynchroner Microservice
 ├── src/
 │   ├── main.py                 # FastAPI App, CORS, Routing & BackgroundTasks
 │   ├── models/                 # Pydantic Schemata für Vertragsextraktion & API
-│   │   └── contract_schema.py  # Typisiertes Schema (Vertragspartner, Fristen, TCO-Preise)
+│   │   └── contract_schema.py  # Typisiertes Schema (Vertragspartner, Fristen, Preise & Boni)
 │   └── services/
 │       ├── extractor.py        # PyMuPDF PDF-Text- & Tabellenextraktion
 │       ├── orchestrator.py     # End-to-End Analyse-Pipeline & Webhook-Callback

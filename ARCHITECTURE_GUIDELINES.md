@@ -66,17 +66,17 @@ Die lokale Entwicklung wird über das einfache, portable Skript `./devlocal` ges
 
 1. **Standard vor Speziallösung**: Verwende die offiziellen Best Practices der Ökosysteme (Maven für Java, `uv` für Python, Docker Compose für lokale Infrastruktur).
 2. **Keine unnötigen Abstraktionsschichten**: Vermeide Meta-Tools, proprietäre Zwischen-CLIs oder unausgereifte AST-Graphen.
-3. **Echtes Defense-in-Depth**: Sicherheit wird sowohl auf Datenbankebene (RLS) als auch in der Business-Logik (Service-/Controller-Layer) strikt und unabhängig verifiziert.
+3. **Doppelte Absicherung**: Sicherheit wird sowohl auf Datenbankebene (RLS) als auch in der Anwendungslogik (Controller-Eigentümerprüfung) unabhängig geprüft.
 4. **Deterministische Tests**: Tests müssen reproduzierbar, autark und ohne manuelle Umgebungseingriffe durchlaufen.
 
 ---
 
-## 6. Enterprise- & Cloud-Transformations-Zielbild
+## 6. Mögliche nächste Ausbaustufen für den Produktivbetrieb
 
 1. **Datenbank & Persistenz**: 
-   * Für lokale Entwicklung und kostengünstige Staging-Cluster nutzt das Setup Container-basierte PostgreSQL-Instanzen mit Persistent Volumes.
-   * Für den produktiven Enterprise-Betrieb ist die Migration auf eine voll gemanagte **Google Cloud SQL (PostgreSQL)** Instanz mit Hochverfügbarkeit (HA), automatischen Backups und privatem VPC-Peering vorgesehen.
-2. **DSGVO / PII-Datenschutz vor LLM-Verarbeitung**:
-   * Vor dem Senden von OCR-Dokumententexten an cloud-basierte LLM-Endpunkte empfiehlt sich in einer Enterprise-Produktionsumgebung eine vorgeschaltete **PII-Anonymisierungs-Pipeline** (z. B. via Microsoft Presidio), um personenbezogene Daten (IBAN, Adressen, Namen) zu maskieren oder zu tokenisieren.
+   * Für lokale Entwicklung und Tests nutzt das Setup container-basierte PostgreSQL-Instanzen.
+   * Für einen echten Produktivbetrieb empfiehlt sich die Nutzung einer gemanagten Datenbank-Instanz (z. B. Google Cloud SQL) mit automatischen Backups.
+2. **Datenschutz vor KI-Verarbeitung**:
+   * Vor dem Senden von Dokumententexten an externe KI-Dienste empfiehlt sich im Produktivbetrieb eine automatische Anonymisierung (z. B. via Presidio), um persönliche Daten wie IBAN oder Telefonnummern vorab zu maskieren.
 3. **Multi-Tenancy & Skalierung**:
    * Die strikte Mandantentrennung auf DB-Ebene (RLS) schützt vor Datenlecks bei Softwarefehlern. Bei horizontal skalierenden Microservices mit Connection Pooling sollte der Tenant-Kontext über Session-Hooks direkt bei der Transaktionsübernahme gesetzt werden.
