@@ -50,7 +50,7 @@ public class SecurityConfig {
                 )
             )
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+                .requestMatchers("/", "/css/**", "/js/**", "/images/**", "/webjars/**", "/assets/**", "/favicon.ico").permitAll()
                 .requestMatchers("/register", "/login", "/error", "/impressum", "/datenschutz", "/forgot-password", "/reset-password").permitAll()
                 .requestMatchers("/api/internal/webhooks/**").permitAll() // Webhooks von Python AI Gateway
                 .requestMatchers("/api/admin/ops/**").permitAll() // Ops Control Center M2M

@@ -185,7 +185,8 @@
                         <a href="/dashboard" class="bg-primary hover:bg-primary-hover text-primary-foreground px-4 py-2 rounded-xl text-xs font-bold shadow-md transition-all">
                             Zum Dashboard
                         </a>
-                        <form action="/logout" method="POST" class="inline">
+                        <form th:action="@{/logout}" method="POST" class="inline">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                             <button type="submit" class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 px-3 py-2 rounded-xl text-xs font-bold transition-colors">
                                 Abmelden
                             </button>

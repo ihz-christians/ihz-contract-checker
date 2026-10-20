@@ -76,7 +76,8 @@
                     Dashboard
                 </a>
                 <span class="text-white text-sm font-bold bg-primary-hover px-3 py-1.5 rounded-lg hidden sm:inline" th:text="${userEmail}">kunde@example.com</span>
-                <form action="/logout" method="POST" class="inline">
+                <form th:action="@{/logout}" method="POST" class="inline">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <button type="submit" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition-colors">
                         Abmelden
                     </button>
@@ -86,7 +87,8 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-        <form action="/profil/save" method="POST" class="contents">
+        <form th:action="@{/profil/save}" method="POST" class="contents">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <!-- Left: Profile Data -->
             <div class="space-y-6">
                 <div class="bg-card rounded-2xl shadow-card border border-border p-6 hover:shadow-card-hover transition-shadow">
