@@ -27,7 +27,7 @@ jobs:
       - name: Start Postgres for RLS Tests
         run: |
           docker run --name b2c_test_db -p 5433:5432 -e POSTGRES_PASSWORD=admin -d postgres:15-alpine
-          until docker exec b2c_test_db pg_isready -U postgres; do sleep 1; done
+          until docker exec b2c_test_db pg_isready -h 127.0.0.1 -U postgres; do sleep 1; done
           docker exec b2c_test_db psql -U postgres -c "CREATE DATABASE testdb;"
           docker exec b2c_test_db psql -U postgres -d testdb -c "CREATE USER app_user WITH PASSWORD 'password';"
           docker exec b2c_test_db psql -U postgres -d testdb -c "GRANT ALL PRIVILEGES ON DATABASE testdb TO app_user;"
