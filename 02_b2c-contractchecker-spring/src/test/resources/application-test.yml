@@ -8,6 +8,7 @@ spring:
       maximum-pool-size: 5
 
   jpa:
+    open-in-view: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: validate
@@ -19,7 +20,21 @@ spring:
     url: jdbc:postgresql://localhost:5433/testdb
     user: app_user
     password: password
+    init-sqls: "SET app.current_tenant_id = '11111111-1111-1111-1111-111111111111'; SET app.bypass_rls = 'true'"
 
 ihz:
   auth:
     provider: firebase
+
+app:
+  webhooks:
+    secret: my-super-secret-token
+
+ops:
+  control:
+    secret: super-secure-ops-token-2026
+
+ai:
+  gateway:
+    internal-secret: ai-internal-secret-test
+

@@ -1,10 +1,12 @@
 package de.ihrezuhauseberatung.contractchecker.controllers;
 
+import de.ihrezuhauseberatung.contractchecker.auth.IdentityProviderAdapter;
+import de.ihrezuhauseberatung.contractchecker.auth.SsoJwtAuthenticationConverter;
 import de.ihrezuhauseberatung.contractchecker.services.EmailWebhookService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
@@ -17,8 +19,8 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(EmailWebhookController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
 public class EmailWebhookControllerTest {
 
@@ -27,6 +29,12 @@ public class EmailWebhookControllerTest {
 
     @MockBean
     private EmailWebhookService emailWebhookService;
+
+    @MockBean
+    private IdentityProviderAdapter idpAdapter;
+
+    @MockBean
+    private SsoJwtAuthenticationConverter ssoJwtAuthenticationConverter;
 
     @Test
     void receiveEmail_missingToken_shouldReturnUnauthorized() throws Exception {

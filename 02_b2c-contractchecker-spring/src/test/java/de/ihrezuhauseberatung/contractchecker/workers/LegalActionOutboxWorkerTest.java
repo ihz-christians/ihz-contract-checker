@@ -31,12 +31,12 @@ class LegalActionOutboxWorkerTest {
         LegalAction action1 = LegalAction.builder().id(UUID.randomUUID()).build();
         LegalAction action2 = LegalAction.builder().id(UUID.randomUUID()).build();
         
-        when(legalActionRepository.findTop10ByStatusWithLock(LegalActionStatus.PENDING))
+        when(legalActionService.fetchPendingActionsWithLock())
                 .thenReturn(Arrays.asList(action1, action2));
 
         worker.processPendingActions();
 
-        verify(legalActionRepository, times(1)).findTop10ByStatusWithLock(LegalActionStatus.PENDING);
+        verify(legalActionService, times(1)).fetchPendingActionsWithLock();
         verify(legalActionService, times(1)).processPendingAction(action1);
         verify(legalActionService, times(1)).processPendingAction(action2);
     }
@@ -46,7 +46,7 @@ class LegalActionOutboxWorkerTest {
         LegalAction action1 = LegalAction.builder().id(UUID.randomUUID()).build();
         LegalAction action2 = LegalAction.builder().id(UUID.randomUUID()).build();
 
-        when(legalActionRepository.findTop10ByStatusWithLock(LegalActionStatus.PENDING))
+        when(legalActionService.fetchPendingActionsWithLock())
                 .thenReturn(Arrays.asList(action1, action2));
                 
         // action1 throws exception
@@ -61,12 +61,12 @@ class LegalActionOutboxWorkerTest {
 
     @Test
     void testProcessPendingActions_WhenNoActionsExist_ShouldDoNothing() {
-        when(legalActionRepository.findTop10ByStatusWithLock(LegalActionStatus.PENDING))
+        when(legalActionService.fetchPendingActionsWithLock())
                 .thenReturn(Collections.emptyList());
 
         worker.processPendingActions();
 
-        verify(legalActionRepository, times(1)).findTop10ByStatusWithLock(LegalActionStatus.PENDING);
-        verifyNoInteractions(legalActionService);
+        verify(legalActionService, times(1)).fetchPendingActionsWithLock();
+        verify(legalActionService, never()).processPendingAction(any());
     }
 }

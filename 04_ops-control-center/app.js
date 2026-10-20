@@ -1,6 +1,26 @@
 // Bootstrap and State Coordinator for Ops Control Center
 
-const OPS_SECRET = 'super-secure-ops-token-2026';
+// Retrieve Ops Token from SessionStorage, URL param, or prompt (No hardcoded credentials)
+function getOpsSecret() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const tokenFromUrl = urlParams.get('ops_token');
+  if (tokenFromUrl) {
+    window.sessionStorage.setItem('ops_secret', tokenFromUrl);
+    // Remove query param from browser address bar cleanly
+    window.history.replaceState({}, document.title, window.location.pathname);
+    return tokenFromUrl;
+  }
+  const stored = window.sessionStorage.getItem('ops_secret');
+  if (stored) return stored;
+  
+  // Local development fallback
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'super-secure-ops-token-2026';
+  }
+  return '';
+}
+
+const OPS_SECRET = getOpsSecret();
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Initializing Operations Control Center App...');

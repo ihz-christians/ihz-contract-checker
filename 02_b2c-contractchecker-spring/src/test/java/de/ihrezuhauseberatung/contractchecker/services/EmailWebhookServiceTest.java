@@ -53,7 +53,7 @@ public class EmailWebhookServiceTest {
         Tenant tenant = Tenant.builder().id(tenantId).name("Max").emailAlias("max-mueller").build();
         
         UUID userId = UUID.randomUUID();
-        User customer = User.builder().id(userId).email(fromAddress).build();
+        User customer = User.builder().id(userId).email(fromAddress).tenant(tenant).build();
 
         when(tenantRepository.findByEmailAlias("max-mueller")).thenReturn(Optional.of(tenant));
         when(userRepository.findByEmail(fromAddress)).thenReturn(Optional.of(customer));

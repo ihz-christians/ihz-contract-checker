@@ -1,22 +1,30 @@
 package de.ihrezuhauseberatung.contractchecker.controllers;
 
+import de.ihrezuhauseberatung.contractchecker.config.CustomUserDetails;
+import de.ihrezuhauseberatung.contractchecker.models.Contract;
+import de.ihrezuhauseberatung.contractchecker.repositories.ContractRepository;
 import de.ihrezuhauseberatung.contractchecker.services.ChatbotService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
 public class ChatbotController {
 
     private final ChatbotService chatbotService;
+    private final ContractRepository contractRepository;
 
-    public ChatbotController(ChatbotService chatbotService) {
+    public ChatbotController(ChatbotService chatbotService, ContractRepository contractRepository) {
         this.chatbotService = chatbotService;
+        this.contractRepository = contractRepository;
     }
 
     @PostMapping("/chatbot/query")
@@ -24,10 +32,22 @@ public class ChatbotController {
     public String handleChatbotQuery(
             @RequestParam("question") String question,
             @RequestParam(value = "contractId", required = false) UUID contractId,
-            @RequestParam(value = "contractType", defaultValue = "Vodafone Komplettpaket") String contractType) {
+            @RequestParam(value = "contractType", defaultValue = "Vodafone Komplettpaket") String contractType,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         if (question == null || question.trim().isEmpty()) {
             return "";
+        }
+
+        // IDOR Protection: verify contract ownership if a contractId is given
+        if (contractId != null) {
+            Optional<Contract> contractOpt = contractRepository.findById(contractId);
+            if (contractOpt.isPresent()) {
+                Contract contract = contractOpt.get();
+                if (contract.getUser() != null && userDetails != null && !contract.getUser().getId().equals(userDetails.getUserId())) {
+                    throw new AccessDeniedException("Zugriff verweigert: Vertrag gehört einem anderen Benutzer.");
+                }
+            }
         }
 
         // Generate dynamic bot answer using contract context if available
@@ -38,7 +58,11 @@ public class ChatbotController {
             try {
                 ObjectMapper mapper = new ObjectMapper();
                 JsonNode actionNode = mapper.readTree(botAnswerMarkdown);
-                String intent = actionNode.has("intent") ? actionNode.get("intent").asText() : "Aktion";
+                String rawIntent = actionNode.has("intent") ? actionNode.get("intent").asText() : "action";
+                String intent = switch (rawIntent.toLowerCase()) {
+                    case "cancellation", "revocation", "downgrade" -> rawIntent.toLowerCase();
+                    default -> "cancellation";
+                };
                 String provider = actionNode.has("provider") ? actionNode.get("provider").asText() : "";
                 String actionDate = actionNode.has("action_date") ? actionNode.get("action_date").asText() : "";
                 
@@ -59,7 +83,7 @@ public class ChatbotController {
                        "      <div class=\"flex justify-between text-xs\"><span class=\"text-slate-500\">Aktion:</span> <span class=\"font-semibold text-slate-800\">" + title + "</span></div>" +
                        "      <div class=\"flex justify-between text-xs\"><span class=\"text-slate-500\">Datum:</span> <span class=\"font-semibold text-slate-800\">" + escapeHtml(actionDate) + "</span></div>" +
                        "    </div>" +
-                       "    <button type=\"button\" hx-post=\"/contract/" + contractId + "/action/" + intent + "\" hx-target=\"#action-result\" class=\"w-full bg-primary hover:bg-primary/90 text-primary-foreground py-2.5 rounded-xl font-bold shadow-sm transition-colors mb-2 flex justify-center items-center gap-2\">" +
+                       "    <button type=\"button\" hx-post=\"/contract/" + contractId + "/action/" + escapeHtml(intent) + "\" hx-target=\"#action-result\" class=\"w-full bg-primary hover:bg-primary/90 text-primary-foreground py-2.5 rounded-xl font-bold shadow-sm transition-colors mb-2 flex justify-center items-center gap-2\">" +
                        "      " + emoji + " Jetzt verbindlich " + title.toLowerCase() +
                        "    </button>" +
                        "    <div id=\"action-result\" class=\"text-xs text-center text-slate-500\">Kostenfrei & Rechtssicher</div>" +

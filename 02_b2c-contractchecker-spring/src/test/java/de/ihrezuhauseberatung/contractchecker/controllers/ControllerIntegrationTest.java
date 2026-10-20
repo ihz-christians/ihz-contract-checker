@@ -44,6 +44,9 @@ class ControllerIntegrationTest {
     @MockBean
     private de.ihrezuhauseberatung.contractchecker.repositories.UserRepository userRepository;
 
+    @MockBean
+    private de.ihrezuhauseberatung.contractchecker.repositories.ContractRepository contractRepository;
+
     private CustomUserDetails customUserDetails;
     private UUID mockUserId;
     private UUID mockTenantId;

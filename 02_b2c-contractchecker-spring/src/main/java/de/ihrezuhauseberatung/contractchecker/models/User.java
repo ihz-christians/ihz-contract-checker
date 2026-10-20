@@ -37,6 +37,7 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @Column(name = "hashed_password")
     private String hashedPassword;
 

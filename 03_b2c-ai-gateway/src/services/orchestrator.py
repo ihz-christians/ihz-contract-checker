@@ -12,6 +12,11 @@ logger = logging.getLogger(__name__)
 class DocumentAnalysisOrchestrator:
     
     @staticmethod
+    def _get_headers() -> dict:
+        secret = os.environ.get("AI_GATEWAY_INTERNAL_SECRET", "")
+        return {"X-Internal-Secret": secret} if secret else {}
+
+    @staticmethod
     def _send_progress(task_id: str, callback_url: str, tenant_id: str, progress: int):
         payload = {
             "taskId": task_id,
@@ -21,7 +26,7 @@ class DocumentAnalysisOrchestrator:
         }
         try:
             with httpx.Client(timeout=5.0) as client:
-                client.post(callback_url, json=payload)
+                client.post(callback_url, json=payload, headers=DocumentAnalysisOrchestrator._get_headers())
         except Exception as e:
             logger.warning(f"Could not send progress update to Java: {e}")
         
@@ -84,7 +89,7 @@ class DocumentAnalysisOrchestrator:
             }
             
             with httpx.Client(timeout=30.0) as client:
-                response = client.post(callback_url, json=webhook_payload)
+                response = client.post(callback_url, json=webhook_payload, headers=DocumentAnalysisOrchestrator._get_headers())
                 response.raise_for_status()
                 
             logger.info(f"Pipeline finished successfully for task {task_id}. Webhook sent.")
@@ -101,7 +106,7 @@ class DocumentAnalysisOrchestrator:
             }
             try:
                 with httpx.Client(timeout=10.0) as client:
-                    client.post(callback_url, json=error_payload)
+                    client.post(callback_url, json=error_payload, headers=DocumentAnalysisOrchestrator._get_headers())
             except Exception as webhook_err:
                 logger.error(f"Failed to send FAILED webhook for task {task_id}: {str(webhook_err)}")
                 

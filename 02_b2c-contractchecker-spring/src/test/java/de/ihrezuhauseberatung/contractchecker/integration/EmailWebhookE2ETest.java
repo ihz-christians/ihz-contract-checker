@@ -61,17 +61,21 @@ public class EmailWebhookE2ETest {
 
     @BeforeEach
     void setUp() {
-        // Clean up before test
+        // Clean up before test with bypass
+        de.ihrezuhauseberatung.contractchecker.config.TenantContext.clear();
+        de.ihrezuhauseberatung.contractchecker.config.TenantContext.setBypassRls(true);
         analysisTaskRepository.deleteAll();
         contractRepository.deleteAll();
         userRepository.deleteAll();
 
         // Ensure we have a tenant with an email alias
+        UUID tenantId = UUID.randomUUID();
         testTenant = Tenant.builder()
+                .id(tenantId)
                 .name("E2E Test Tenant")
                 .emailAlias("e2e-test")
                 .build();
-        tenantRepository.save(testTenant);
+        testTenant = tenantRepository.saveAndFlush(testTenant);
         
         // Ensure the sender is already registered (whitelist rule)
         User existingUser = User.builder()
@@ -81,17 +85,21 @@ public class EmailWebhookE2ETest {
                 .lastName("Mustermann")
                 .tenant(testTenant)
                 .build();
-        userRepository.save(existingUser);
+        userRepository.saveAndFlush(existingUser);
+        de.ihrezuhauseberatung.contractchecker.config.TenantContext.clear();
     }
 
     @AfterEach
     void tearDown() {
+        de.ihrezuhauseberatung.contractchecker.config.TenantContext.clear();
+        de.ihrezuhauseberatung.contractchecker.config.TenantContext.setBypassRls(true);
         analysisTaskRepository.deleteAll();
         contractRepository.deleteAll();
         userRepository.deleteAll();
         if (testTenant != null) {
             tenantRepository.delete(testTenant);
         }
+        de.ihrezuhauseberatung.contractchecker.config.TenantContext.clear();
     }
 
     @Test
@@ -131,20 +139,26 @@ public class EmailWebhookE2ETest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo("Processed");
 
-        // Assert - Database state (User created and assigned to Tenant)
-        Optional<User> createdUserOpt = userRepository.findByEmail("neuer-kunde@example.com");
-        assertThat(createdUserOpt).isPresent();
-        
-        User createdUser = createdUserOpt.get();
-        assertThat(createdUser.getTenant().getId()).isEqualTo(testTenant.getId());
+        // Assert - Database state with admin bypass to read created entities
+        de.ihrezuhauseberatung.contractchecker.config.TenantContext.clear();
+        de.ihrezuhauseberatung.contractchecker.config.TenantContext.setBypassRls(true);
+        try {
+            Optional<User> createdUserOpt = userRepository.findByEmail("neuer-kunde@example.com");
+            assertThat(createdUserOpt).isPresent();
+            
+            User createdUser = createdUserOpt.get();
+            assertThat(createdUser.getTenant().getId()).isEqualTo(testTenant.getId());
 
-        // Assert - Database state (Contract created for the user)
-        List<Contract> contracts = contractRepository.findAll();
-        assertThat(contracts).hasSize(1);
-        
-        Contract contract = contracts.get(0);
-        assertThat(contract.getTenant().getId()).isEqualTo(testTenant.getId());
-        assertThat(contract.getUser().getId()).isEqualTo(createdUser.getId());
-        assertThat(contract.getFilename()).isEqualTo("vertrag.pdf");
+            // Assert - Database state (Contract created for the user)
+            List<Contract> contracts = contractRepository.findAll();
+            assertThat(contracts).hasSize(1);
+            
+            Contract contract = contracts.get(0);
+            assertThat(contract.getTenant().getId()).isEqualTo(testTenant.getId());
+            assertThat(contract.getUser().getId()).isEqualTo(createdUser.getId());
+            assertThat(contract.getFilename()).isEqualTo("vertrag.pdf");
+        } finally {
+            de.ihrezuhauseberatung.contractchecker.config.TenantContext.clear();
+        }
     }
 }

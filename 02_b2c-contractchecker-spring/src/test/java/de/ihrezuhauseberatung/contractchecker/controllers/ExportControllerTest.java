@@ -1,6 +1,8 @@
 package de.ihrezuhauseberatung.contractchecker.controllers;
 
 import de.ihrezuhauseberatung.contractchecker.config.CustomUserDetails;
+import de.ihrezuhauseberatung.contractchecker.models.Contract;
+import de.ihrezuhauseberatung.contractchecker.repositories.ContractRepository;
 import de.ihrezuhauseberatung.contractchecker.services.export.ExportOrchestratorService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.context.annotation.Import;
 
 import java.util.Locale;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,6 +34,9 @@ class ExportControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private ContractRepository contractRepository;
 
     @MockBean
     private ExportOrchestratorService exportOrchestratorService;
@@ -58,6 +65,14 @@ class ExportControllerTest {
         userModel.setEmail("testuser@test.de");
         
         CustomUserDetails mockUser = new CustomUserDetails(userModel);
+
+        Contract mockContract = Contract.builder()
+                .id(contractId)
+                .tenant(mockTenant)
+                .user(userModel)
+                .contractType("Internet")
+                .build();
+        when(contractRepository.findById(contractId)).thenReturn(Optional.of(mockContract));
 
         // Act & Assert
         mockMvc.perform(post("/contract/" + contractId + "/export")

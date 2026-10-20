@@ -42,7 +42,21 @@ public class UserService {
 
     @Transactional
     public User registerConsumerUser(String email, String password, String firstName, String lastName) {
-        if (userRepository.findByEmail(email).isPresent()) {
+        if (password == null || password.trim().length() < 8) {
+            throw new IllegalArgumentException("Das Passwort muss mindestens 8 Zeichen lang sein");
+        }
+
+        // Check globally across tenants for email collision
+        TenantContext.clear();
+        TenantContext.setBypassRls(true);
+        boolean exists;
+        try {
+            exists = userRepository.findByEmail(email).isPresent();
+        } finally {
+            TenantContext.clear();
+        }
+
+        if (exists) {
             throw new IllegalArgumentException("E-Mail-Adresse wird bereits verwendet");
         }
 

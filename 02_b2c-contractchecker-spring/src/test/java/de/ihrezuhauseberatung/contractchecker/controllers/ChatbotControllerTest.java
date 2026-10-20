@@ -31,6 +31,9 @@ class ChatbotControllerTest {
     @MockBean
     private ChatbotService chatbotService;
 
+    @MockBean
+    private de.ihrezuhauseberatung.contractchecker.repositories.ContractRepository contractRepository;
+
     // Security Mocks, damit der ApplicationContext sauber lädt
     @MockBean
     private IdentityProviderAdapter idpAdapter;

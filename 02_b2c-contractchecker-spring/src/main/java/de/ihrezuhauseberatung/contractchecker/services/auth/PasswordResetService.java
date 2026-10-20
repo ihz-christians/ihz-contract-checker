@@ -88,6 +88,10 @@ public class PasswordResetService {
 
     @Transactional
     public void resetPassword(String token, String newPassword) {
+        if (newPassword == null || newPassword.trim().length() < 8) {
+            throw new IllegalArgumentException("Das Passwort muss mindestens 8 Zeichen lang sein");
+        }
+
         TenantContext.clear();
         TenantContext.setBypassRls(true);
         PasswordResetToken resetToken;

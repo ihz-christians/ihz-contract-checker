@@ -24,7 +24,6 @@ public class EmailWebhookService {
     private final UserRepository userRepository;
     private final ContractService contractService;
 
-    @Transactional
     public void processIncomingEmail(String toAddress, String fromAddress, String filename, byte[] pdfContent) {
         String alias = extractAlias(toAddress);
         if (alias == null) {
@@ -45,15 +44,13 @@ public class EmailWebhookService {
         }
 
         // Set TenantContext for RLS before accessing any tenant-scoped data
+        TenantContext.clear();
+        TenantContext.setBypassRls(true);
+        User customer;
         try {
-            TenantContext.setCurrentTenant(tenant.getId());
-            
-            // SECURITY REQUIREMENT: Only allow known users (Whitelist)
-            User customer = userRepository.findByEmail(fromAddress).orElse(null);
-            
-            if (customer == null) {
-                // Return silently for the Webhook Provider, but log explicitly for OPS Monitoring
-                log.warn("Unregistered sender attempted to submit document via Webhook", 
+            Optional<User> userOpt = userRepository.findByEmail(fromAddress);
+            if (userOpt.isEmpty() || userOpt.get().getTenant() == null || !userOpt.get().getTenant().getId().equals(tenant.getId())) {
+                log.warn("Unregistered or non-matching sender attempted to submit document via Webhook", 
                         kv("event", "OPS_ALERT_WEBHOOK_REJECTED"),
                         kv("fromAddress", fromAddress),
                         kv("toAddress", toAddress),
@@ -61,9 +58,14 @@ public class EmailWebhookService {
                         kv("reason", "USER_NOT_IN_WHITELIST"));
                 return;
             }
+            customer = userOpt.get();
+        } finally {
+            TenantContext.clear();
+        }
 
-            TenantContext.setCurrentUser(customer.getId());
-
+        TenantContext.setCurrentTenant(tenant.getId());
+        TenantContext.setCurrentUser(customer.getId());
+        try {
             contractService.saveAndStartAnalysis(filename, pdfContent, null, null, "UNKNOWN", customer);
             
             log.info("Successfully processed incoming email and started analysis", 
@@ -76,9 +78,9 @@ public class EmailWebhookService {
             log.error("Failed to process webhook analysis", 
                     kv("event", "OPS_ALERT_WEBHOOK_ERROR"),
                     kv("fromAddress", fromAddress),
-                    kv("tenantId", tenant != null ? tenant.getId() : "UNKNOWN"),
+                    kv("tenantId", tenant.getId()),
                     kv("error", e.getMessage()), e);
-            throw e; // rethrow to let controller catch and return 200 to provider
+            throw e;
         } finally {
             TenantContext.clear();
         }

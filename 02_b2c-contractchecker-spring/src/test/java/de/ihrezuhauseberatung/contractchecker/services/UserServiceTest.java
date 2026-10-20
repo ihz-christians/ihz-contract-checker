@@ -103,11 +103,18 @@ class UserServiceTest {
         when(userRepository.findByEmail(email)).thenReturn(Optional.of(new User()));
 
         // Act & Assert
-        assertThatThrownBy(() -> userService.registerConsumerUser(email, "pass", "A", "B"))
+        assertThatThrownBy(() -> userService.registerConsumerUser(email, "password123", "A", "B"))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("E-Mail-Adresse wird bereits verwendet");
 
         verify(userRepository, times(1)).findByEmail(email);
         verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    void registerConsumerUser_ShortPassword_ThrowsException() {
+        assertThatThrownBy(() -> userService.registerConsumerUser("new@example.com", "short", "A", "B"))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("mindestens 8 Zeichen");
     }
 }

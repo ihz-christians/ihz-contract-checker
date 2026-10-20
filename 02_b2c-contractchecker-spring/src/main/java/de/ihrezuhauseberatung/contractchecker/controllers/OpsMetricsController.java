@@ -22,12 +22,11 @@ import java.util.Map;
 @RequestMapping("/api/admin/ops")
 @RequiredArgsConstructor
 @Slf4j
-@org.springframework.web.bind.annotation.CrossOrigin(origins = "*", allowedHeaders = "*")
 public class OpsMetricsController {
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Value("${ops.control.secret:super-secure-ops-token-2026}")
+    @Value("${ops.control.secret:}")
     private String opsControlSecret;
 
     @GetMapping("/metrics")
@@ -35,7 +34,7 @@ public class OpsMetricsController {
             @RequestHeader(value = "X-Ops-Secret", required = false) String incomingSecret) {
 
         // 1. Secure authorization check (M2M API Key)
-        if (incomingSecret == null || !incomingSecret.equals(opsControlSecret)) {
+        if (opsControlSecret == null || opsControlSecret.isBlank() || incomingSecret == null || !incomingSecret.equals(opsControlSecret)) {
             log.warn("Unauthorized access attempt to Ops metrics from external source.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", "Unauthorized: Invalid or missing X-Ops-Secret header."));

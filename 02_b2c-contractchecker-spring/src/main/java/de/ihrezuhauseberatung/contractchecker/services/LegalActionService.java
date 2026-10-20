@@ -1,5 +1,6 @@
 package de.ihrezuhauseberatung.contractchecker.services;
 
+import de.ihrezuhauseberatung.contractchecker.config.TenantContext;
 import de.ihrezuhauseberatung.contractchecker.models.*;
 import de.ihrezuhauseberatung.contractchecker.repositories.LegalActionRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,10 +49,23 @@ public class LegalActionService {
     }
 
     @Transactional
+    public List<LegalAction> fetchPendingActionsWithLock() {
+        return legalActionRepository.findTop10ByStatusWithLock(LegalActionStatus.PENDING);
+    }
+
+    @Transactional
     public void processPendingAction(LegalAction action) {
         log.info("Processing LegalAction {} of type {}", action.getId(), action.getActionType());
         
         try {
+            // Restore tenant and user context for this specific action
+            if (action.getTenant() != null) {
+                TenantContext.setCurrentTenant(action.getTenant().getId());
+            }
+            if (action.getUser() != null) {
+                TenantContext.setCurrentUser(action.getUser().getId());
+            }
+
             // 1. Mark as GENERATING to prevent other workers from picking it up
             action.setStatus(LegalActionStatus.GENERATING);
             legalActionRepository.saveAndFlush(action);
@@ -85,6 +99,8 @@ public class LegalActionService {
                     kv("error", e.getMessage()), e);
             action.setStatus(LegalActionStatus.FAILED);
             action.setErrorMessage(e.getMessage());
+        } finally {
+            TenantContext.clear();
         }
         
         legalActionRepository.save(action);

@@ -21,7 +21,7 @@ public class EmailWebhookController {
 
     private final EmailWebhookService emailWebhookService;
 
-    @Value("${app.webhooks.secret:my-super-secret-token}")
+    @Value("${app.webhooks.secret:}")
     private String webhookSecret;
 
     @PostMapping("/email")
@@ -31,7 +31,7 @@ public class EmailWebhookController {
             @RequestParam("to") String toAddress,
             @RequestParam(value = "attachment", required = false) MultipartFile attachment) {
 
-        if (token == null || !token.equals(webhookSecret)) {
+        if (webhookSecret == null || webhookSecret.isBlank() || token == null || !token.equals(webhookSecret)) {
             log.warn("Unauthorized webhook access attempt", 
                     kv("event", "OPS_ALERT_WEBHOOK_UNAUTHORIZED"),
                     kv("fromAddress", fromAddress),
