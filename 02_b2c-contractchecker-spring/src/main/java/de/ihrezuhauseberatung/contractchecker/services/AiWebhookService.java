@@ -53,7 +53,15 @@ public class AiWebhookService {
         }
 
         UUID taskId = UUID.fromString(taskIdStr);
-        Optional<AnalysisTask> taskOpt = taskRepository.findById(taskId);
+
+        // System/Internal Webhook: Temporarily bypass RLS to lookup the task
+        TenantContext.setBypassRls(true);
+        Optional<AnalysisTask> taskOpt;
+        try {
+            taskOpt = taskRepository.findById(taskId);
+        } finally {
+            TenantContext.setBypassRls(false);
+        }
 
         if (taskOpt.isEmpty()) {
             log.error("Received webhook for unknown task ID: {}", taskId);

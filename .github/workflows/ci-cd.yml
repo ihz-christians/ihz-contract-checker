@@ -25,13 +25,21 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Start Postgres for RLS Tests
+        run: |
+          docker run --name b2c_test_db -p 5433:5432 -e POSTGRES_PASSWORD=admin -d postgres:15-alpine
+          sleep 4
+          docker exec b2c_test_db psql -U postgres -c "CREATE DATABASE testdb;"
+          docker exec b2c_test_db psql -U postgres -d testdb -c "CREATE USER app_user WITH PASSWORD 'password';"
+          docker exec b2c_test_db psql -U postgres -d testdb -c "GRANT ALL PRIVILEGES ON DATABASE testdb TO app_user;"
+          docker exec b2c_test_db psql -U postgres -d testdb -c "ALTER SCHEMA public OWNER TO app_user;"
         
       - name: Install Nix
         uses: cachix/install-nix-action@v30
         
       # Führt exakt eure lokale Nix-Umgebung aus! (Inkl. korrektem headless Java 21)
       - name: Run Tests via Nix
-        working-directory: ./01_b2c_module
         run: nix develop --command bash -c "cd 02_b2c-contractchecker-spring && ./mvnw test"
 
   test-aigateway:
@@ -46,7 +54,6 @@ jobs:
         
       # Nutzt exakt Python 3.11 und das uv aus der flake.nix
       - name: Install and Run Tests via Nix
-        working-directory: ./01_b2c_module
         run: nix develop --command bash -c "cd 03_b2c-ai-gateway && uv sync && uv run --package b2c-ai-gateway pytest"
 
   build-and-push:

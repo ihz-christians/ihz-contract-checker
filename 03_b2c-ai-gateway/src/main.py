@@ -15,11 +15,14 @@ logger = logging.getLogger(__name__)
 
 from fastapi.middleware.cors import CORSMiddleware
 
+# Enable OpenAPI/Swagger UI in development mode for our Wissensgraph
+is_dev = os.environ.get("ENV", "dev") == "dev"
+
 app = FastAPI(
     title="B2C AI Gateway",
-    docs_url=None,       # Disable Swagger UI in production
-    redoc_url=None,      # Disable ReDoc in production
-    openapi_url=None     # Disable OpenAPI schema in production
+    docs_url="/docs" if is_dev else None,       # Enable Swagger UI only in dev
+    redoc_url="/redoc" if is_dev else None,     # Enable ReDoc only in dev
+    openapi_url="/openapi.json" if is_dev else None  # Enable OpenAPI schema only in dev
 )
 
 app.add_middleware(

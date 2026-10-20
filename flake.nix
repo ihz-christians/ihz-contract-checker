@@ -15,7 +15,10 @@
     {
       devShells = forEachSystem (system:
         let
-          pkgs = import nixpkgs { inherit system; };
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
         in
         {
           default = pkgs.mkShell {
@@ -37,16 +40,18 @@
 
               # --- Datenbank, DevOps & CI Tools ---
               postgresql_16 # Liefert 'psql' für DB-Abfragen / RLS Tests
+              surrealdb     # Dokumenten- und Graphdatenbank für unser AGDD-Wissensnetzwerk
               kubernetes-helm # Notwendig für 'helm lint' in devlocal.sh
               lsof          # Wird in devlocal.sh für Port-Cleanup benötigt
               jq            # JSON-Parser für Shell-Skripte (nützlich für APIs)
               git           # Versionskontrolle (notwendig in der Shell)
+              watchexec     # File-Watcher für Hot-Reloading in Java/Spring
             ];
 
             # Dieser Hook wird beim Betreten der Shell ausgeführt
             shellHook = ''
               # Java Home setzen (wichtig für Maven und Spring)
-              export JAVA_HOME=''${pkgs.jdk21_headless}
+              export JAVA_HOME=${pkgs.jdk21_headless}
 
               # WICHTIG FÜR MAC: Testcontainers (Java) mitteilen, wo der Docker Socket liegt
               if [ "$(uname)" = "Darwin" ]; then
@@ -76,7 +81,7 @@
               printf "''${YELLOW}🛠️  Verfügbare Tools (Deterministisch & Isoliert):''${NC}\n"
               printf "  %-12s %-20s %-12s %-20s\n" "☕ Java:" "$(java -version 2>&1 | awk -F '\"' '/version/ {print $2}')" "🐍 Python:" "$(python3 --version | awk '{print $2}')"
               printf "  %-12s %-20s %-12s %-20s\n" "🏗️  Maven:" "$(mvn --version | head -n 1 | awk '{print $3}')" "📦 uv:" "$(uv --version | awk '{print $2}')"
-              printf "  %-12s %-20s %-12s %-20s\n" "🐘 psql:" "$(psql --version | awk '{print $3}')" "🐹 Go:" "$(go version | awk '{print $3}')"
+              printf "  %-12s %-20s %-12s %-20s\n" "🐘 psql:" "$(psql --version | awk '{print $3}')" "🌀 Surreal:" "$(surreal version 2>&1 | head -n 1 | awk '{print $2}')"
               printf "  %-12s %-20s %-12s %-20s\n" "⛵ Helm:" "$(helm version --short | sed 's/v//')" "🛡️  Caddy:" "$(caddy version | awk '{print $1}')"
               echo ""
               

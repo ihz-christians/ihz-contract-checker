@@ -84,9 +84,9 @@ if [ -f "$ENV_PATH" ]; then
     info "Lokale .env-Konfiguration gefunden. Secrets wurden erfolgreich vorausgefüllt!"
 fi
 
-# Staging Database & LLM Secrets (Pre-populated with your real Langfuse keys - XP Dynamisierung)
-DEFAULT_LF_SECRET="YOUR_LANGFUSE_SECRET_KEY"
-DEFAULT_LF_PUBLIC="YOUR_LANGFUSE_PUBLIC_KEY"
+# Staging Database & LLM Secrets
+DEFAULT_LF_SECRET="${LANGFUSE_SECRET_KEY:-}"
+DEFAULT_LF_PUBLIC="${LANGFUSE_PUBLIC_KEY:-}"
 
 read -sp "Gib den Gemini API-Key für STAGING ein [Standard: $DETECTED_GEMINI]: " GEMINI_KEY_STAGE; echo ""
 GEMINI_KEY_STAGE=${GEMINI_KEY_STAGE:-$DETECTED_GEMINI}
