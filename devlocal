@@ -1,7 +1,9 @@
 #!/bin/bash
 # ==============================================================================
-# B2C Contract Checker - Central Developer Entrypoint
+# B2C Contract Checker - Central Developer Entrypoint (Clean & Pragmatic)
 # ==============================================================================
+
+set -e
 
 # Farben für Output
 GREEN='\033[0;32m'
@@ -15,27 +17,25 @@ ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$ROOT_DIR"
 
 # ------------------------------------------------------------------------------
-# 1. System-Prüfung (Nix & Docker)
+# 1. System-Prüfungen
 # ------------------------------------------------------------------------------
-ensure_nix() {
-    if ! command -v nix &> /dev/null; then
-        if [ -f "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh" ]; then
-            source "/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
-        else
-            echo -e "${RED}❌ Nix Paketmanager nicht gefunden!${NC}"
-            echo -e "Damit dieses Projekt garantiert ohne Versions-Konflikte läuft, nutzen wir Nix."
-            echo -e "Bitte installiere Nix (dauert 1 Minute) mit folgendem Befehl:\n"
-            echo -e "  ${CYAN}curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install${NC}\n"
-            exit 1
-        fi
-    fi
-}
-
 ensure_docker() {
     if ! docker info > /dev/null 2>&1; then
         echo -e "${RED}⚠️  FEHLER: Docker läuft nicht!${NC}"
         echo -e "Bitte starte Docker Desktop (oder OrbStack/Colima), bevor du fortfährst.\n"
         exit 1
+    fi
+}
+
+check_tool() {
+    local tool=$1
+    local name=$2
+    if command -v "$tool" &> /dev/null; then
+        echo -e "${GREEN}✅ $name gefunden: $(command -v "$tool")${NC}"
+        return 0
+    else
+        echo -e "${YELLOW}⚠️  $name ('$tool') nicht im PATH gefunden.${NC}"
+        return 1
     fi
 }
 
@@ -47,44 +47,134 @@ COMMAND=$1
 case "$COMMAND" in
     "setup")
         echo -e "${BLUE}🔧 Führe Ersteinrichtung (Onboarding) durch...${NC}"
-        ensure_nix
         ensure_docker
-        
-        # Check .env File für AI-Gateway
+
+        # AI-Gateway .env prüfen
         if [ ! -f "03_b2c-ai-gateway/.env" ]; then
-            echo -e "${YELLOW}Erstelle 03_b2c-ai-gateway/.env aus Template...${NC}"
-            echo "GEMINI_API_KEY=YOUR_GEMINI_API_KEY" > 03_b2c-ai-gateway/.env
-            echo "LOG_LEVEL=INFO" >> 03_b2c-ai-gateway/.env
+            if [ -f "03_b2c-ai-gateway/.env.example" ]; then
+                echo -e "${YELLOW}Erstelle 03_b2c-ai-gateway/.env aus .env.example...${NC}"
+                cp 03_b2c-ai-gateway/.env.example 03_b2c-ai-gateway/.env
+            else
+                echo -e "${YELLOW}Erstelle 03_b2c-ai-gateway/.env Minimal-Vorlage...${NC}"
+                echo "GEMINI_API_KEY=YOUR_GEMINI_API_KEY" > 03_b2c-ai-gateway/.env
+                echo "LOG_LEVEL=INFO" >> 03_b2c-ai-gateway/.env
+            fi
             echo -e "${RED}WICHTIG: Bitte trage deinen echten GEMINI_API_KEY in 03_b2c-ai-gateway/.env ein!${NC}"
         else
             echo -e "${GREEN}✅ .env Datei für AI-Gateway existiert bereits.${NC}"
         fi
 
-        echo -e "${GREEN}✅ Setup abgeschlossen! Führe finalen System-Check aus...${NC}"
-        nix develop --command go run tools/b2c-cli/main.go doctor
+        # Python Dependencies synchronisieren falls uv installiert ist
+        if command -v uv &> /dev/null; then
+            echo -e "${CYAN}🐍 Synchronisiere Python-Abhängigkeiten via uv...${NC}"
+            (cd 03_b2c-ai-gateway && uv sync)
+        fi
+
+        echo -e "${GREEN}✅ Setup abgeschlossen!${NC}"
         ;;
-        
+
+    "doctor")
+        echo -e "${CYAN}\n🩺 Starte System-Diagnose...${NC}"
+        ensure_docker
+        echo -e "${GREEN}✅ Docker Daemon ist erreichbar.${NC}"
+        check_tool "java" "Java (JDK 21 empfohlen)"
+        check_tool "uv" "Astral uv (Python Package Manager)" || check_tool "python3" "Python 3"
+
+        if [ -f "03_b2c-ai-gateway/.env" ]; then
+            echo -e "${GREEN}✅ AI-Gateway Environment File (.env) vorhanden.${NC}"
+        else
+            echo -e "${YELLOW}⚠️  03_b2c-ai-gateway/.env fehlt (kopiere aus .env.example).${NC}"
+        fi
+        echo ""
+        ;;
+
     "start"|"dev")
-        ensure_nix
         ensure_docker
-        echo -e "${GREEN}🚀 Übergebe an Go CLI: Starte die lokale Entwicklungsumgebung...${NC}"
-        # Startet den Go-Runner innerhalb der Nix-Umgebung
-        nix develop --command go run tools/b2c-cli/main.go dev
+        echo -e "${CYAN}\n🚀 Starte B2C Contract Checker Entwicklungsumgebung...${NC}"
+
+        # 1. Infrastruktur starten (Postgres, MinIO etc.)
+        echo -e "${CYAN}🐳 Starte Docker-Infrastruktur (Postgres, MinIO)...${NC}"
+        DOCKER_ENV_ARG=""
+        if [ -f "03_b2c-ai-gateway/.env" ]; then
+            DOCKER_ENV_ARG="--env-file 03_b2c-ai-gateway/.env"
+        fi
+        docker compose -f docker-compose.yml -f docker-compose.dev.yml $DOCKER_ENV_ARG up -d db minio minio-setup
+
+        # 2. Cleanup-Trap für sauberes Beenden
+        cleanup() {
+            echo -e "${YELLOW}\n\n🛑 Beende Services...${NC}"
+            if [ -n "$AI_PID" ] && kill -0 "$AI_PID" 2>/dev/null; then
+                kill "$AI_PID" 2>/dev/null || true
+            fi
+            exit 0
+        }
+        trap cleanup SIGINT SIGTERM
+
+        # 3. AI Gateway starten (im Hintergrund falls uv/python vorhanden)
+        AI_PID=""
+        if command -v uv &> /dev/null; then
+            echo -e "${CYAN}🐍 Starte FastAPI AI-Gateway (Port 8000)...${NC}"
+            (cd 03_b2c-ai-gateway && uv run uvicorn src.main:app --host 0.0.0.0 --port 8000) &
+            AI_PID=$!
+        fi
+
+        # 4. Spring Boot Backend starten
+        echo -e "${CYAN}☕ Starte Spring Boot Backend (Port 8080)...${NC}"
+        (cd 02_b2c-contractchecker-spring && ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev)
+
+        cleanup
         ;;
-        
+
     "test")
-        ensure_nix
         ensure_docker
-        echo -e "${GREEN}🧪 Übergebe an Go CLI: Führe Integrationstests aus...${NC}"
-        nix develop --command go run tools/b2c-cli/main.go test
+        echo -e "${CYAN}\n🧪 Starte isolierte CI/CD Tests...${NC}"
+
+        # 1. Test-PostgreSQL hochfahren
+        echo -e "${YELLOW}🐘 Starte temporäre Test-Datenbank auf Port 5433...${NC}"
+        docker rm -f b2c_test_db >/dev/null 2>&1 || true
+
+        docker run --name b2c_test_db -p 5433:5432 -e POSTGRES_PASSWORD=admin -d postgres:15-alpine >/dev/null
+
+        # Cleanup-Trap
+        cleanup_test_db() {
+            echo -e "${YELLOW}\n🧹 Räume Test-Datenbank auf...${NC}"
+            docker rm -f b2c_test_db >/dev/null 2>&1 || true
+        }
+        trap cleanup_test_db EXIT
+
+        # Warten bis Postgres bereit ist
+        echo -n -e "${YELLOW}⏳ Warte auf PostgreSQL${NC}"
+        for i in {1..15}; do
+            if docker exec b2c_test_db pg_isready -U postgres >/dev/null 2>&1; then
+                break
+            fi
+            echo -n "."
+            sleep 1
+        done
+        echo ""
+
+        # Test-Schema & Test-User anlegen
+        echo -e "${YELLOW}🔧 Konfiguriere Test-Datenbank (testdb / app_user)...${NC}"
+        docker exec b2c_test_db psql -U postgres -c "CREATE DATABASE testdb;" >/dev/null 2>&1 || true
+        docker exec b2c_test_db psql -U postgres -d testdb -c "CREATE USER app_user WITH PASSWORD 'password';" >/dev/null 2>&1 || true
+        docker exec b2c_test_db psql -U postgres -d testdb -c "GRANT ALL PRIVILEGES ON DATABASE testdb TO app_user;" >/dev/null 2>&1 || true
+        docker exec b2c_test_db psql -U postgres -d testdb -c "ALTER SCHEMA public OWNER TO app_user;" >/dev/null 2>&1 || true
+
+        # 2. Java Spring Boot Tests
+        echo -e "${CYAN}\n☕ Führe Java Spring Boot Tests aus...${NC}"
+        (cd 02_b2c-contractchecker-spring && ./mvnw clean test)
+        echo -e "${GREEN}✅ Java Tests erfolgreich abgeschlossen!${NC}"
+
+        # 3. Python AI Gateway Tests
+        if command -v uv &> /dev/null; then
+            echo -e "${CYAN}\n🐍 Führe Python AI-Gateway Tests aus...${NC}"
+            (cd 03_b2c-ai-gateway && uv sync && uv run --package b2c-ai-gateway pytest)
+            echo -e "${GREEN}✅ Python Tests erfolgreich abgeschlossen!${NC}"
+        fi
+
+        echo -e "${GREEN}\n🎉 Alle Tests wurden erfolgreich bestanden!${NC}"
         ;;
-        
-    "shell")
-        ensure_nix
-        echo -e "${GREEN}💻 Lade interaktive Nix-Shell...${NC}"
-        nix develop
-        ;;
-        
+
     *)
         echo -e "${CYAN}====================================================${NC}"
         echo -e "${CYAN}🚀 B2C Contract Checker - Central Dev Tool 🚀${NC}"
@@ -92,17 +182,10 @@ case "$COMMAND" in
         echo -e "Verwendung: ${YELLOW}./devlocal [command]${NC}"
         echo ""
         echo -e "Befehle:"
-        echo -e "  ${GREEN}setup${NC}   Ersteinrichtung (Nur am ersten Tag benötigt)"
-        echo -e "          ${NC}Prüft Tools, richtet Docker ein & erstellt .env Files${NC}"
-        echo ""
-        echo -e "  ${GREEN}start${NC}   Startet das komplette System"
-        echo -e "          ${NC}Fährt Postgres, Spring Boot und FastAPI AI-Gateway hoch${NC}"
-        echo ""
-        echo -e "  ${GREEN}test${NC}    Führt die isolierten CI-Tests (Java & Python) aus"
-        echo -e "          ${NC}Zieht eine saubere Test-DB hoch und prüft die RLS Policies${NC}"
-        echo ""
-        echo -e "  ${GREEN}shell${NC}   Öffnet die isolierte Entwickler-Konsole"
-        echo -e "          ${NC}Hiermit bekommst du direkten Terminalzugriff auf Java/uv/Helm${NC}"
+        echo -e "  ${GREEN}setup${NC}    Ersteinrichtung (.env Vorlagen erstellen, Dependencies synchronisieren)"
+        echo -e "  ${GREEN}doctor${NC}   System-Diagnose (Docker, JDK, Python/uv prüfen)"
+        echo -e "  ${GREEN}start${NC}    Startet Docker-Infrastruktur, AI-Gateway und Spring Boot"
+        echo -e "  ${GREEN}test${NC}     Führt die Tests (Java & Python) mit sauberer Test-DB aus"
         echo ""
         ;;
 esac

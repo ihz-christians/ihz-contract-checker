@@ -52,11 +52,6 @@ dependency-reduced-pom.xml
 minio-data/
 postgres-data/
 *.db
-.surrealdb/
-
-# Binaries & Tooling
-b2c
-tools/b2c-cli/b2c
 
 # Secrets & Credentials
 .secrets/
