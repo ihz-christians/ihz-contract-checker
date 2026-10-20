@@ -58,7 +58,7 @@ services:
       db:
         condition: service_healthy
 
-  # 4. Ops Control Center PWA Service (Static unprivileged Nginx)
+  # 4. Ops Control Center PWA Service (Static unprivileged Caddy)
   opscontrol:
     build:
       context: .
@@ -67,7 +67,7 @@ services:
     container_name: cc_ops_control
     restart: always
     ports:
-      - "8090:8080"
+      - "8090:8090"
     depends_on:
       - backend
       - aigateway

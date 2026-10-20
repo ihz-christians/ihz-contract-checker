@@ -55,6 +55,8 @@ class LlmExtractionService:
                 "</STRICT_RULES>"
             )
 
+            # Enterprise / GDPR Notice: In an enterprise production roll-out, an upstream PII-scrubbing
+            # pipeline (e.g. Microsoft Presidio) anonymizes consumer names, IBANs, and addresses before sending to cloud LLMs.
             agent1_response: Agent1Facts = self.instructor_client.chat.completions.create(
                 response_model=Agent1Facts,
                 messages=[

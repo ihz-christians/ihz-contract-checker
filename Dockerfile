@@ -38,8 +38,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 COPY 03_b2c-ai-gateway/pyproject.toml 03_b2c-ai-gateway/uv.lock ./
-# Pre-install CPU-only torch to avoid downloading multi-gigabyte CUDA binaries
-RUN uv pip install --system --no-cache torch torchvision --index-url https://download.pytorch.org/whl/cpu
 RUN uv pip install --system --no-cache .
 COPY 03_b2c-ai-gateway/src/ ./src/
 RUN chown -R appuser:appuser /app

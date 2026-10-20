@@ -16,7 +16,7 @@ import java.util.UUID;
 public interface LegalActionRepository extends JpaRepository<LegalAction, UUID> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT l FROM LegalAction l WHERE l.status = :status ORDER BY l.createdAt ASC LIMIT 10")
+    @Query("SELECT l FROM LegalAction l JOIN FETCH l.user JOIN FETCH l.contract JOIN FETCH l.tenant WHERE l.status = :status ORDER BY l.createdAt ASC LIMIT 10")
     List<LegalAction> findTop10ByStatusWithLock(@Param("status") LegalActionStatus status);
 
     List<LegalAction> findByContractIdOrderByCreatedAtDesc(UUID contractId);

@@ -1,41 +1,41 @@
-# B2C Go-to-Market (GTM) Strategy & Feedback
+# 💼 B2C Contract Checker — Go-to-Market (GTM) Strategy
 
-This file captures the strategic business context provided in the prompt to ensure tech decisions align with the business goals.
+Dieses Dokument fasst die Go-to-Market-Strategie und Zielgruppen-Positionierung für die **B2C Contract Checker Plattform** zusammen. Ergänzende Details zum quantitativen ROI finden sich in [`BUSINESS_CASE_AND_TRANSFORMATION.md`](./BUSINESS_CASE_AND_TRANSFORMATION.md).
 
-## Core Truths
-1. **Focus is the biggest risk**, not technology.
-2. The product has massive potential (LMS, LiveKit, Observability, RLS, AI), but pitching it all at once will kill sales.
-3. The real value for High-Volume Sales Agencies (D2D, Cold Calling, Telesales): "Get salespeople ready in < 24-48h (Recruiting Self-Filtering + Video Training)."
+---
 
-## Target ICP (Phase 1 LMS & Recruiting)
-**Gemeinsames Pain-Profil:** High-Volume, skriptgetriebene Vertriebsorganisationen (DACH · 5–50 Reps/Agents; B2B-Käufer: Agenturinhaber)
-* **D2D- & Vor-Ort-Direktvertrieb (ca. 7.500 Einheiten):** Glasfaser, Energie, Telekommunikation, Solar/PV, Face-to-Face Promotion/Fundraising
-* **Outbound Telesales & Callcenter (ca. 3.500 Standorte):** Aktiver Telefonvertrieb, B2C/B2B-Tarifwechsel, Abo-/Vertragsteams
-* **B2B Cold Calling & SDR-Agenturen (ca. 3.000 Agenturen):** Appointment Setting, Kaltakquise für Agenturen/B2B-Dienstleister
-* **Gemeinsamer Nenner:** 40–80 % Fluktuation in den ersten 60 Tagen, Inhaber verbrennt 15h+/Woche im Coaching, teures Verbrennen von Leads/Türen.
-* **Marktdimensionen (DACH):**
-  * **TAM:** > 25 Mrd. € Handelsvolumen, > 18.000 vertriebsorganisierte Betriebe (~75 Mio. € Software-TAM).
-  * **SAM:** 14.000 Zielagenturen mit 5–50 Reps $\rightarrow$ **50–65 Mio. € B2B-SaaS-SAM** (bei ø 350 €/Mo bzw. 4.200 € ARR).
-  * **SOM:** 100 Agenturen = **420k € ARR** (Breakeven bei nur **0,7 %** SAM-Marktdurchdringung); Series-A Korridor: 1.000 Agenturen = 4,2 Mio. € SaaS-ARR.
-* **Wedge-Hebel:** Kein CRM-/Dialer-Wechsel nötig. Kandidaten filtern sich vor Tag 1 über Video-Checks selbst aus.
+## 1. Value Proposition & Zielgruppen (Ideal Customer Profiles)
 
-## Rollout Phases (Crucial for Tech Priorities)
+### B2B2C Hebel: Beratungs- und Vergleichsportale, Makler & Stadtwerke
+* **Zielgruppe:** Energieberater, Maklerpools, Verbraucherportale und regionale Stadtwerke.
+* **Kernproblem:** Hohe Absprungraten bei Tarifwechseln aufgrund komplizierter Vertragsklauseln und zeitaufwendiger manueller Dokumentenprüfung.
+* **Nutzenversprechen:** 
+  * Sofortige Dunkelverarbeitung von PDF-Verträgen in unter 30 Sekunden.
+  * Steigerung der Abschluss- und Wechselquote um bis zu 40 %.
+  * Revisionssichere Fristenüberwachung und automatisierte Kündigungsgenerierung.
 
-### Phase 1: The Core (Sell this NOW)
-*   Trainee & Admin Onboarding
-*   Video Uploads & Viewing
-*   Recruiting Integration (Leads directly into LMS)
-*   *Tech focus:* Stability, clean UI, bulletproof DB (RLS).
+### B2C Direktkanal: Der smarte Vertragsassistent für Verbraucher
+* **Zielgruppe:** Verbraucher mit mehreren laufenden Verträgen (Energie, Telco, Versicherungen).
+* **Kernproblem:** Ungewollte automatische Vertragsverlängerungen und verpasste Sparpotenziale durch intransparente Preiserhöhungen.
+* **Nutzenversprechen:** 
+  * Volle Kostentransparenz und TCO-Vergleich über die gesamte Vertragslaufzeit.
+  * Interaktiver KI-Chatbot für konkrete Rückfragen zum eigenen Vertrag.
+  * Rechtssichere Kündigung oder Widerspruch mit einem Klick.
 
-### Phase 2: Performance Layer
-*   Tracking & Analytics
-*   Gamification
+---
 
-### Phase 3: The "Moat" (Trust Layer & AI)
-*   NFC ID for salespeople
-*   Customer scans NFC -> verifies identity -> leaves review.
-*   Reviews feed back into LMS for team leader visibility.
-*   *Tech focus:* Privacy (GDPR), Fraud prevention, Virtual Live-Customers, AI extraction.
+## 2. Marktpotenzial & Business Metrics (DACH)
 
-## Pitching Rule
-Never pitch the architecture (S3, Observability, AI-native, Multitenant). Pitch the outcome: **"Less onboarding time, more sales control, transparent door-to-door sales."**
+* **Gesamtmarkt:** Über 120 Millionen aktive Energie- und Telekommunikationsverträge in der DACH-Region.
+* **Wechselvolumen:** Jährlich wechseln mehr als 8 Millionen Haushalte ihren Strom- oder Gasanbieter; das Potenzial für automatisierte Prüfung und Wechseloptimierung ist signifikant.
+* **Monetarisierungsmodelle:**
+  * **SaaS B2B-Lizenz:** Monatliche Grundgebühr pro Tenant/Agentur für das Portal und Monitoring.
+  * **Pay-per-Check:** Transaktionsbasierte Abrechnung pro analysiertem Dokument bei API-Integration.
+  * **Erfolgsbasierte Vermittlungsprovision:** Provision bei vermitteltem Tarifwechsel.
+
+---
+
+## 3. Positionierung & Consulting-Leitsatz
+
+> **Consulting-Fokus:** *Technologie ist der Enabler, nicht das Produkt.* Kunden kaufen keine Vektordatenbanken oder Kubernetes-Cluster, sondern **Zeitersparnis, Rechtssicherheit, Kostensenkung und signifikant höhere Konversionsraten**.
+

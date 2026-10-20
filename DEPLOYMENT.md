@@ -16,7 +16,7 @@ Die Plattform wird als Container-Microservices auf GKE in isolierten Namespaces 
   * FastAPI Asynchroner Worker (Port 8000)
   * Horizontal Pod Autoscaling (HPA) basierend auf CPU/Memory
 * **Ops Control Center (`04_ops-control-center`)**:
-  * Statische PWA ausgeliefert via Caddy/Nginx (Port 80)
+  * Statische PWA ausgeliefert via Caddy (Container-Port 8090 / Service-Port 80)
 * **Ingress & TLS**:
   * Nginx-Ingress / GCE Ingress mit automatischen Let's Encrypt TLS-Zertifikaten (cert-manager)
 

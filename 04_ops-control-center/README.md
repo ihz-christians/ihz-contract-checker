@@ -1,13 +1,15 @@
 # 🛡️ Operations Control Center (OCC) — Isolated PWA
 
-Dieses Verzeichnis enthält das **eigenständige, hochsichere Operations Control Center (OCC)** für den B2C Contract Checker. Es wurde nach dem **Zero-Trust-Prinzip** als vollständig isoliertes System konzipiert.
+> 💡 **Status & Architektur-Kontext**: Dieses Modul ist als **interaktive UI-Konzeptstudie & PWA-Prototyp** konzipiert, um das zukünftige Betriebs- und Kontrollzentrum für Administratoren zu veranschaulichen. Es pollt reale Systemmetriken der Backends ab und demonstriert Pipeline-Überwachung, Interventions-Workflows und System-Simulationen.
+
+Dieses Verzeichnis enthält das **eigenständige Operations Control Center (OCC)** für den B2C Contract Checker. Es wurde nach dem **Zero-Trust-Prinzip** als isolierte Webanwendung konzipiert.
 
 ## 🚀 Warum ein eigenständiges System?
 
 1. **Sicherheit durch Isolation (Air-Gap)**: 
    Sollte das öffentliche Kunden-Dashboard kompromittiert werden, bleibt das administrative Kontrollzentrum geschützt. Es nutzt keine geteilten Sessions, Passwörter oder Client-Bibliotheken mit dem Hauptportal.
-2. **Bypass der Row-Level Security (RLS)**: 
-   Das B2C-Hauptportal isoliert Daten streng nach Mandanten (`TenantContext`). Ein globaler Operations Controller muss jedoch systemübergreifende Pipelines einsehen können. Die OCC-App verbindet sich daher über einen speziellen administrativen Datenbank-Kanal (`ops_superuser`), der die RLS-Policies sicher umgeht.
+2. **Sicherer RLS-Bypass für globale Metriken**: 
+   Das B2C-Hauptportal isoliert Daten streng nach Mandanten (`TenantContext`). Ein globaler Operations Controller muss jedoch systemübergreifende Pipelines und Metriken einsehen können. Die OCC-App fragt dedizierte, durch ein M2M-Geheimnis (`X-Ops-Secret`) geschützte Endpunkte im Spring Boot Backend (`/api/admin/ops/metrics`) und AI-Gateway (`/api/v1/ops/llm-metrics`) ab. Im Backend wird der RLS-Bypass kontrolliert in einem `TenantContext.setBypassRls(true)`-Block mit striktem `try-finally`-Cleanup ausgeführt, ohne dass Datenbank-Credentials oder DB-Ports an den Browser exponiert werden.
 3. **Ausfallsicherheit**: 
    Tritt ein Fehler auf der Hauptseite auf, läuft das Überwachungs- und Kontrollzentrum unberührt weiter und erlaubt manuelle Interventionen und Pipeline-Reparaturen.
 
@@ -38,17 +40,29 @@ Um maximale Sicherheit gegen Supply-Chain-Angriffe zu gewährleisten, verwendet 
 
 Da die App vollständig statisch ist, kann sie mit jedem einfachen Webserver gestartet werden.
 
-### Option 1: Python HTTP Server (Standard)
+### Option 1: Docker Compose / Caddy (Empfohlen)
+Im Monorepo-Root ausführen:
+```bash
+docker compose up -d opscontrol
+```
+Öffnen Sie anschließend **http://localhost:8090** in Ihrem Browser.
+
+### Option 2: Python HTTP Server (Minimal)
 Führen Sie in diesem Verzeichnis einfach Folgendes aus:
 ```bash
 python3 -m http.server 8090
 ```
 Öffnen Sie anschließend **http://localhost:8090** in Ihrem Browser.
 
-### Option 2: Node.js (Static Server)
+### Option 3: Node.js (Static Server)
 ```bash
-npx serve .
+npx serve -l 8090 .
 ```
+
+### 🔑 Authentifizierung (Ops Secret)
+Die Anwendung benötigt ein Authentifizierungs-Token zur Kommunikation mit den Backend-Endpunkten:
+* **Entwicklung (`localhost`)**: Verwendet automatisch das Standard-Entwicklungs-Secret (`super-secure-ops-token-2026`).
+* **Manuelle Übergabe via URL-Parameter**: `http://localhost:8090/?ops_token=<DEIN_GEHEIMES_TOKEN>`. Der Parameter wird automatisch in der `sessionStorage` gespeichert und sauber aus der URL-Leiste entfernt.
 
 ### 📱 Als App installieren (PWA)
 1. Öffnen Sie die Seite in Chrome, Edge oder Safari.

@@ -34,11 +34,9 @@ public class AiWebhookController {
             @RequestBody Map<String, Object> payload) {
         log.info("Received AI webhook payload for task: {}", payload.get("task_id"));
 
-        if (internalSecret != null && !internalSecret.isBlank()) {
-            if (incomingSecret == null || !incomingSecret.equals(internalSecret)) {
-                log.warn("Unauthorized AI webhook attempt: invalid or missing X-Internal-Secret");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
-            }
+        if (internalSecret == null || internalSecret.isBlank() || incomingSecret == null || !incomingSecret.equals(internalSecret)) {
+            log.warn("Unauthorized AI webhook attempt: invalid or missing X-Internal-Secret");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
         }
         
         // Asynchrone oder synchrone Übergabe an den Service

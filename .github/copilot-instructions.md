@@ -5,9 +5,12 @@ This file contains custom instructions for GitHub Copilot when working with the 
 ---
 
 ## 1. Project Overview & Scope
-- **Directory**: `01_b2c-contractchecker-java-spring`
-- **Application Type**: Spring Boot 3 B2C Web Application (Thymeleaf MVC + Spring Security 6)
-- **Key Feature**: Automated contract analysis and chatbot engine with forced PostgreSQL Row-Level Security (RLS) and multi-tenancy.
+- **Monorepo Directory**: `01_b2c_module/`
+  - `02_b2c-contractchecker-spring`: Core Spring Boot 3 Web Application (Thymeleaf MVC, HTMX, Spring Security 6, PostgreSQL RLS, Outbox Worker)
+  - `03_b2c-ai-gateway`: FastAPI AI Service (PyMuPDF, Google Gemini, Instructor, BackgroundTasks)
+  - `04_ops-control-center`: Operations Dashboard (Static PWA via Caddy, Zero Dependencies)
+  - `devlocal`: Central POSIX developer entrypoint (`setup`, `doctor`, `start`, `test`)
+- **Key Feature**: Automated contract analysis and chatbot engine with forced PostgreSQL Row-Level Security (RLS), multi-tenancy, and defense-in-depth object-level ownership checks.
 
 ---
 
@@ -81,8 +84,16 @@ All persistent models under `de.ihrezuhauseberatung.contractchecker.models` foll
 ---
 
 ## 5. Web, Controller, & Security Guidelines
-- **MVC Architecture**: The application uses Thymeleaf MVC controllers. Use `@Controller` instead of `@RestController`.
-- **Thymeleaf Interaction**: Return view names as strings (e.g. `"redirect:/dashboard"`, `"dashboard"`). Use the `Model` object to pass attributes to Thymeleaf templates.
+- **MVC Architecture**: The application uses Thymeleaf MVC controllers. Use `@Controller` instead of `@RestController` for web UI endpoints.
+- **Thymeleaf & HTMX**: Return view names as strings (e.g. `"redirect:/dashboard"`, `"dashboard"`). Use the `Model` object to pass attributes. HTMX requests automatically include the `X-XSRF-TOKEN` cookie via `CookieCsrfTokenRepository.withHttpOnlyFalse()`.
+- **IDOR Protection (Defense-in-Depth)**: In addition to PostgreSQL RLS, every controller method accessing a contract resource must verify that the authenticated user owns that resource:
+  ```java
+  private void verifyContractOwner(Contract contract, CustomUserDetails userDetails) {
+      if (!contract.getUser().getId().equals(userDetails.getUserId())) {
+          throw new AccessDeniedException("Zugriff verweigert: Vertrag gehört einem anderen Benutzer.");
+      }
+  }
+  ```
 - **Authentication Principal**: Access authenticated user details via `@AuthenticationPrincipal CustomUserDetails userDetails` in controller methods:
   ```java
   @PostMapping("/contract/upload")
@@ -95,6 +106,10 @@ All persistent models under `de.ihrezuhauseberatung.contractchecker.models` foll
       // ...
   }
   ```
+- **Internal Webhooks & M2M Authentication**:
+  - `AiWebhookController` requires the `X-Internal-Secret` header matching `${ai.webhook.secret}`.
+  - `OpsMetricsController` requires the `X-Ops-Secret` header matching `${ops.control.secret}`.
+  - External static assets (CSS, JS, images) are served under `/assets/**` and `/images/**` without authentication.
 
 ---
 
@@ -116,7 +131,7 @@ All Flyway migration scripts under `src/main/resources/db/migration/` must respe
 ## 7. Quality, Tests, & Performance Guidelines
 - **Unit & Integration Tests**:
   - Tests are placed under `src/test/java/`.
-  - Use `com.h2database:h2` as the in-memory test database.
+  - Tests run against PostgreSQL on port 5433 (via `./devlocal test` or CI/CD test container) to accurately validate PostgreSQL Row-Level Security (RLS) policies and native JSONB columns.
   - Use `@SpringBootTest` and `@ActiveProfiles("test")` where appropriate.
   - Mock external services (e.g., AI and file storage) to keep tests fast and deterministic.
 - **Loom/Virtual Threads Compatibility**: Avoid pinning carrier threads by minimizing synchronization blocks; use `ReentrantLock` if mutual exclusion is necessary.

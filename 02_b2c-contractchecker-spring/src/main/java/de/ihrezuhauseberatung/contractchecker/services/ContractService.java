@@ -121,13 +121,13 @@ public class ContractService {
             );
 
             if (!accepted) {
-                System.err.println("WARNUNG: AI Gateway hat den Task nicht akzeptiert (kein HTTP 202)!");
+                log.warn("AI Gateway hat den Task {} nicht akzeptiert (kein HTTP 202)!", savedTask.getId());
                 savedTask.setStatus("error");
                 savedTask.setErrorMessage("AI Gateway lehnte den Task ab.");
                 taskRepository.save(savedTask);
             }
         } catch (Exception e) {
-            System.err.println("FEHLER beim Aufruf des AI Gateways: " + e.getMessage());
+            log.error("Fehler beim Aufruf des AI Gateways für Task {}: {}", savedTask.getId(), e.getMessage(), e);
             savedTask.setStatus("error");
             savedTask.setErrorMessage("Python AI-Gateway nicht erreichbar: " + e.getMessage());
             taskRepository.save(savedTask);

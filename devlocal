@@ -142,10 +142,10 @@ case "$COMMAND" in
         }
         trap cleanup_test_db EXIT
 
-        # Warten bis Postgres bereit ist
+        # Warten bis Postgres echt bereit ist
         echo -n -e "${YELLOW}⏳ Warte auf PostgreSQL${NC}"
-        for i in {1..15}; do
-            if docker exec b2c_test_db pg_isready -U postgres >/dev/null 2>&1; then
+        for i in {1..20}; do
+            if docker exec b2c_test_db psql -U postgres -c "SELECT 1;" >/dev/null 2>&1; then
                 break
             fi
             echo -n "."
@@ -155,10 +155,12 @@ case "$COMMAND" in
 
         # Test-Schema & Test-User anlegen
         echo -e "${YELLOW}🔧 Konfiguriere Test-Datenbank (testdb / app_user)...${NC}"
-        docker exec b2c_test_db psql -U postgres -c "CREATE DATABASE testdb;" >/dev/null 2>&1 || true
-        docker exec b2c_test_db psql -U postgres -d testdb -c "CREATE USER app_user WITH PASSWORD 'password';" >/dev/null 2>&1 || true
-        docker exec b2c_test_db psql -U postgres -d testdb -c "GRANT ALL PRIVILEGES ON DATABASE testdb TO app_user;" >/dev/null 2>&1 || true
-        docker exec b2c_test_db psql -U postgres -d testdb -c "ALTER SCHEMA public OWNER TO app_user;" >/dev/null 2>&1 || true
+        docker exec b2c_test_db psql -U postgres -tc "SELECT 1 FROM pg_database WHERE datname = 'testdb'" | grep -q 1 || \
+            docker exec b2c_test_db psql -U postgres -c "CREATE DATABASE testdb;"
+        docker exec b2c_test_db psql -U postgres -d testdb -tc "SELECT 1 FROM pg_roles WHERE rolname = 'app_user'" | grep -q 1 || \
+            docker exec b2c_test_db psql -U postgres -d testdb -c "CREATE USER app_user WITH PASSWORD 'password';"
+        docker exec b2c_test_db psql -U postgres -d testdb -c "GRANT ALL PRIVILEGES ON DATABASE testdb TO app_user;"
+        docker exec b2c_test_db psql -U postgres -d testdb -c "ALTER SCHEMA public OWNER TO app_user;"
 
         # 2. Java Spring Boot Tests
         echo -e "${CYAN}\n☕ Führe Java Spring Boot Tests aus...${NC}"

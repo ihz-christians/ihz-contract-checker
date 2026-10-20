@@ -33,6 +33,8 @@ Das System ist in klare, entkoppelte Komponenten unterteilt:
   * PostgreSQL mit Flyway-Migrationen (`src/main/resources/db/migration/`).
   * PostgreSQL Row-Level Security (RLS) mit `TenantAwareDataSource` und `TenantContext`.
   * Transaktionales Outbox-Muster (`LegalActionOutboxWorker`) für asynchrone Folgeprozesse.
+  * PDF-Generierung für Kündigungsschreiben und Exportberichte via OpenHTMLToPDF (CSS3/HTML5).
+  * Gesicherter Administrations- und Monitoring-Endpunkt (`/api/admin/ops/metrics`) mit `X-Ops-Secret`.
 
 ---
 
@@ -66,3 +68,15 @@ Die lokale Entwicklung wird über das einfache, portable Skript `./devlocal` ges
 2. **Keine unnötigen Abstraktionsschichten**: Vermeide Meta-Tools, proprietäre Zwischen-CLIs oder unausgereifte AST-Graphen.
 3. **Echtes Defense-in-Depth**: Sicherheit wird sowohl auf Datenbankebene (RLS) als auch in der Business-Logik (Service-/Controller-Layer) strikt und unabhängig verifiziert.
 4. **Deterministische Tests**: Tests müssen reproduzierbar, autark und ohne manuelle Umgebungseingriffe durchlaufen.
+
+---
+
+## 6. Enterprise- & Cloud-Transformations-Zielbild
+
+1. **Datenbank & Persistenz**: 
+   * Für lokale Entwicklung und kostengünstige Staging-Cluster nutzt das Setup Container-basierte PostgreSQL-Instanzen mit Persistent Volumes.
+   * Für den produktiven Enterprise-Betrieb ist die Migration auf eine voll gemanagte **Google Cloud SQL (PostgreSQL)** Instanz mit Hochverfügbarkeit (HA), automatischen Backups und privatem VPC-Peering vorgesehen.
+2. **DSGVO / PII-Datenschutz vor LLM-Verarbeitung**:
+   * Vor dem Senden von OCR-Dokumententexten an cloud-basierte LLM-Endpunkte empfiehlt sich in einer Enterprise-Produktionsumgebung eine vorgeschaltete **PII-Anonymisierungs-Pipeline** (z. B. via Microsoft Presidio), um personenbezogene Daten (IBAN, Adressen, Namen) zu maskieren oder zu tokenisieren.
+3. **Multi-Tenancy & Skalierung**:
+   * Die strikte Mandantentrennung auf DB-Ebene (RLS) schützt vor Datenlecks bei Softwarefehlern. Bei horizontal skalierenden Microservices mit Connection Pooling sollte der Tenant-Kontext über Session-Hooks direkt bei der Transaktionsübernahme gesetzt werden.

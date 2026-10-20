@@ -17,12 +17,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.springframework.test.context.TestPropertySource;
+
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AiWebhookController.class)
 @AutoConfigureMockMvc(addFilters = false) // Security für den Test deaktivieren
+@TestPropertySource(properties = "ai.gateway.internal-secret=ai-internal-secret-test")
 class AiWebhookControllerTest {
 
     @Autowired
@@ -73,8 +77,9 @@ class AiWebhookControllerTest {
                 }
                 """;
 
-        // ACT: Senden des Webhooks an den Controller
+        // ACT: Senden des Webhooks an den Controller mit gültigem Secret
         mockMvc.perform(post("/api/internal/webhooks/ai-result")
+                        .header("X-Internal-Secret", "ai-internal-secret-test")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(webhookPayload))
                 // ASSERT: Controller muss mit 200 OK antworten
@@ -98,5 +103,25 @@ class AiWebhookControllerTest {
         assertThat(extractedData.getProvider()).isEqualTo("MusterCom GmbH");
         assertThat(extractedData.getComponents()).hasSize(1);
         assertThat(extractedData.getComponents().get(0).getCategory()).isEqualTo("Haupttarif");
+    }
+
+    @Test
+    void shouldRejectWebhookWhenSecretIsMissingOrInvalid() throws Exception {
+        String payload = "{\"task_id\": \"123e4567-e89b-12d3-a456-426614174000\"}";
+
+        // Fehlender Header -> 401 Unauthorized
+        mockMvc.perform(post("/api/internal/webhooks/ai-result")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(payload))
+                .andExpect(status().isUnauthorized());
+
+        // Falscher Header -> 401 Unauthorized
+        mockMvc.perform(post("/api/internal/webhooks/ai-result")
+                        .header("X-Internal-Secret", "wrong-secret")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(payload))
+                .andExpect(status().isUnauthorized());
+
+        verify(aiWebhookService, never()).processAiResult(org.mockito.ArgumentMatchers.any());
     }
 }
