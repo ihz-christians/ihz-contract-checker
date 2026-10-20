@@ -69,13 +69,18 @@ public class ContractController {
     }
 
     @GetMapping("/contract/status/{contractId}")
-    public String analysisStatus(@PathVariable("contractId") UUID contractId, Model model) {
+    public String analysisStatus(@PathVariable("contractId") UUID contractId, 
+                                 @AuthenticationPrincipal CustomUserDetails userDetails, 
+                                 Model model) {
         Optional<Contract> contractOpt = contractService.getContractById(contractId);
         if (contractOpt.isEmpty()) {
             return "redirect:/dashboard";
         }
 
-        model.addAttribute("contract", contractOpt.get());
+        Contract contract = contractOpt.get();
+        verifyContractOwner(contract, userDetails);
+
+        model.addAttribute("contract", contract);
         Optional<AnalysisTask> taskOpt = contractService.getTaskByContractId(contractId);
         
         int progress = 0;
@@ -93,7 +98,12 @@ public class ContractController {
 
 // HTMX Polling endpoint for analysis progress bar
     @GetMapping("/contract/status/{contractId}/progress")
-    public String getAnalysisProgressHtml(@PathVariable("contractId") UUID contractId, Model model) {
+    public String getAnalysisProgressHtml(@PathVariable("contractId") UUID contractId, 
+                                          @AuthenticationPrincipal CustomUserDetails userDetails, 
+                                          Model model) {
+        Optional<Contract> contractOpt = contractService.getContractById(contractId);
+        contractOpt.ifPresent(c -> verifyContractOwner(c, userDetails));
+
         Optional<AnalysisTask> taskOpt = contractService.getTaskByContractId(contractId);
         
         int progress = 0;
@@ -123,13 +133,17 @@ public class ContractController {
     }
 
     @GetMapping("/contract/{contractId}")
-    public String viewContractAnalysis(@PathVariable("contractId") UUID contractId, Model model) {
+    public String viewContractAnalysis(@PathVariable("contractId") UUID contractId, 
+                                       @AuthenticationPrincipal CustomUserDetails userDetails, 
+                                       Model model) {
         Optional<Contract> contractOpt = contractService.getContractById(contractId);
         if (contractOpt.isEmpty()) {
             return "redirect:/dashboard";
         }
 
         Contract contract = contractOpt.get();
+        verifyContractOwner(contract, userDetails);
+
         model.addAttribute("contract", contract);
         model.addAttribute("analysis", contract.getSummary());
 
@@ -137,13 +151,20 @@ public class ContractController {
     }
 
     @PostMapping("/contract/delete/{contractId}")
-    public String deleteContract(@PathVariable("contractId") UUID contractId) {
+    public String deleteContract(@PathVariable("contractId") UUID contractId,
+                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Optional<Contract> contractOpt = contractService.getContractById(contractId);
+        contractOpt.ifPresent(c -> verifyContractOwner(c, userDetails));
         contractService.deleteContract(contractId);
         return "redirect:/dashboard";
     }
 
     @GetMapping("/{contractId}/switch-modal")
-    public String getSwitchModal(@PathVariable("contractId") UUID contractId, Model model) {
+    public String getSwitchModal(@PathVariable("contractId") UUID contractId, 
+                                 @AuthenticationPrincipal CustomUserDetails userDetails, 
+                                 Model model) {
+        Optional<Contract> contractOpt = contractService.getContractById(contractId);
+        contractOpt.ifPresent(c -> verifyContractOwner(c, userDetails));
         model.addAttribute("contractId", contractId);
         return "fragments/switch_modal";
     }
@@ -151,9 +172,18 @@ public class ContractController {
     @PostMapping("/{contractId}/trigger-switch")
     public String triggerSwitchProcess(@PathVariable("contractId") UUID contractId, 
                                        @RequestParam(value="hasExtended", defaultValue="false") boolean hasExtended, 
+                                       @AuthenticationPrincipal CustomUserDetails userDetails,
                                        Model model) {
+        Optional<Contract> contractOpt = contractService.getContractById(contractId);
+        contractOpt.ifPresent(c -> verifyContractOwner(c, userDetails));
         model.addAttribute("contractId", contractId);
         model.addAttribute("hasExtended", hasExtended);
         return "fragments/switch_success";
+    }
+
+    private void verifyContractOwner(Contract contract, CustomUserDetails userDetails) {
+        if (contract.getUser() != null && userDetails != null && !contract.getUser().getId().equals(userDetails.getUserId())) {
+            throw new org.springframework.security.access.AccessDeniedException("Zugriff verweigert: Vertrag gehört einem anderen Benutzer.");
+        }
     }
 }

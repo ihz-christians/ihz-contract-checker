@@ -30,10 +30,16 @@ public class PasswordResetService {
 
     @Transactional
     public void initiatePasswordReset(String email, String baseUrl, Locale locale) {
-        // Clear TenantContext because we need to search users globally by email
+        // Temporarily bypass TenantContext/RLS because we need to search users globally by email
         TenantContext.clear();
-        
-        Optional<User> userOpt = userRepository.findByEmail(email);
+        TenantContext.setBypassRls(true);
+        Optional<User> userOpt;
+        try {
+            userOpt = userRepository.findByEmail(email);
+        } finally {
+            TenantContext.clear();
+        }
+
         if (userOpt.isEmpty()) {
             log.warn("Password reset requested for non-existent email",
                     kv("event", "OPS_METRIC_PASSWORD_RESET_UNKNOWN_EMAIL"),
@@ -64,8 +70,15 @@ public class PasswordResetService {
 
     @Transactional
     public boolean validatePasswordResetToken(String token) {
-        TenantContext.clear(); // Token lookup is global
-        Optional<PasswordResetToken> tokenOpt = tokenRepository.findByToken(token);
+        TenantContext.clear();
+        TenantContext.setBypassRls(true);
+        Optional<PasswordResetToken> tokenOpt;
+        try {
+            tokenOpt = tokenRepository.findByToken(token);
+        } finally {
+            TenantContext.clear();
+        }
+
         if (tokenOpt.isEmpty()) {
             return false;
         }
@@ -75,9 +88,15 @@ public class PasswordResetService {
 
     @Transactional
     public void resetPassword(String token, String newPassword) {
-        TenantContext.clear(); // Global lookup
-        PasswordResetToken resetToken = tokenRepository.findByToken(token)
-                .orElseThrow(() -> new IllegalArgumentException("Ungültiger oder abgelaufener Token"));
+        TenantContext.clear();
+        TenantContext.setBypassRls(true);
+        PasswordResetToken resetToken;
+        try {
+            resetToken = tokenRepository.findByToken(token)
+                    .orElseThrow(() -> new IllegalArgumentException("Ungültiger oder abgelaufener Token"));
+        } finally {
+            TenantContext.clear();
+        }
 
         if (resetToken.getExpiryDate().isBefore(OffsetDateTime.now())) {
             throw new IllegalArgumentException("Token ist abgelaufen");

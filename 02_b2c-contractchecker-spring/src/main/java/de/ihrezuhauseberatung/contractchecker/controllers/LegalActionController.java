@@ -33,6 +33,13 @@ public class LegalActionController {
             // Find contract strictly scoped to the tenant
             Contract contract = contractRepository.findById(contractId)
                 .orElseThrow(() -> new IllegalArgumentException("Vertrag nicht gefunden"));
+
+            // IDOR Protection: Ensure contract belongs to authenticated user
+            if (contract.getUser() != null && userDetails != null && !contract.getUser().getId().equals(userDetails.getUserId())) {
+                log.warn("IDOR violation: User {} attempted to act on contract {} owned by {}",
+                        userDetails.getUserId(), contractId, contract.getUser().getId());
+                throw new org.springframework.security.access.AccessDeniedException("Zugriff verweigert: Vertrag gehört einem anderen Benutzer");
+            }
                 
             LegalActionType actionType = switch (intent.toLowerCase()) {
                 case "cancellation" -> LegalActionType.CANCELLATION;

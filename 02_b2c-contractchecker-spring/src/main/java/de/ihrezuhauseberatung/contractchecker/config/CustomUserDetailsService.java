@@ -20,12 +20,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // Temporarily clear TenantContext to allow locating the user across tenants during login
+        // Authentication phase: We must bypass RLS because the user's tenant is not yet known!
         TenantContext.clear();
-        
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
-                
-        return new CustomUserDetails(user);
+        TenantContext.setBypassRls(true);
+        try {
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+                    
+            return new CustomUserDetails(user);
+        } finally {
+            TenantContext.clear();
+        }
     }
 }
